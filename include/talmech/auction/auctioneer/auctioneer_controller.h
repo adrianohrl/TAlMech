@@ -2,7 +2,7 @@
 #define _TALMECH_AUCTION_AUCTIONEER_CONTROLLER_H_
 
 #include "../../machine_controller.h"
-#include <boost/shared_ptr.hpp>
+#include "auctioneer_state.h"
 
 namespace talmech
 {
@@ -10,24 +10,14 @@ namespace auction
 {
 namespace auctioneer
 {
-namespace states
-{
-  enum States {
-    AwaitingNewTask,
-    AnnouncingTask,
-    AwaitingAuctionDeadline,
-    SelectingWinner,
-    RenewingContract
-  };
-}
-typedef states::States States;
 class AuctioneerController : public MachineController
 {
 public:
   typedef boost::shared_ptr<AuctioneerController> Ptr;
   typedef boost::shared_ptr<const AuctioneerController> ConstPtr;
-  AuctioneerController() {}
+  AuctioneerController() : MachineController::MachineController() {}
   virtual ~AuctioneerController() {}
+  void addState(State id, const AuctioneerStatePtr& state);
   virtual void init();
 };
 }

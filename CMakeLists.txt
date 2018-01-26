@@ -29,6 +29,12 @@ set(CPP_FILES
   src/talmech/auction/auctioneer/awaiting_new_task.cpp
   src/talmech/auction/auctioneer/renewing_contract.cpp
   src/talmech/auction/auctioneer/selecting_winner.cpp
+  src/talmech/auction/bidder/awaiting_auction_close.cpp
+  src/talmech/auction/bidder/awaiting_contract_renewal.cpp
+  src/talmech/auction/bidder/awaiting_new_auction.cpp
+  src/talmech/auction/bidder/bidder_controller.cpp
+  src/talmech/auction/bidder/bidder_state.cpp
+  src/talmech/auction/bidder/evaluating_metrics.cpp
   src/talmech/exception.cpp
   src/talmech/machine_controller.cpp
   src/talmech/machine_state.cpp
@@ -42,6 +48,12 @@ set(H_FILES
   include/talmech/auction/auctioneer/awaiting_auction_deadline.h
   include/talmech/auction/auctioneer/renewing_contract.h
   include/talmech/auction/auctioneer/selecting_winner.h
+  include/talmech/auction/bidder/awaiting_auction_close.h
+  include/talmech/auction/bidder/awaiting_contract_renewal.h
+  include/talmech/auction/bidder/awaiting_new_auction.h
+  include/talmech/auction/bidder/bidder_controller.h
+  include/talmech/auction/bidder/bidder_state.h
+  include/talmech/auction/bidder/evaluating_metrics.h
   include/talmech/exception.h
   include/talmech/machine_controller.h
   include/talmech/machine_state.h
@@ -63,7 +75,8 @@ target_link_libraries(${PROJECT_NAME}
 
 if(CATKIN_ENABLE_TESTING)
   catkin_add_gtest(${PROJECT_NAME}_test
-    test/talmech/auction/auctioneer/controller_test.cpp
+    test/talmech/auction/auctioneer_controller_test.cpp
+    test/talmech/auction/bidder_controller_test.cpp
     test/talmech/talmech_test.cpp
     ${CPP_FILES}
   )

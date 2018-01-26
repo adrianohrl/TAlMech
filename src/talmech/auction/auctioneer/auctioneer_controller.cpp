@@ -5,12 +5,19 @@
 #include "talmech/auction/auctioneer/renewing_contract.h"
 #include "talmech/auction/auctioneer/selecting_winner.h"
 
+#include <ros/console.h>
+
 namespace talmech
 {
 namespace auction
 {
 namespace auctioneer
 {
+void AuctioneerController::addState(State id, const AuctioneerStatePtr& state)
+{
+  MachineController::addState(id, state);
+}
+
 void AuctioneerController::init()
 {
   AnnouncingTaskPtr announcing_task(new AnnouncingTask());
@@ -19,17 +26,11 @@ void AuctioneerController::init()
   AwaitingNewTaskPtr awaiting_new_task(new AwaitingNewTask());
   RenewingContractPtr renewing_contract(new RenewingContract());
   SelectingWinnerPtr selecting_winner(new SelectingWinner());
-  addState(states::AnnouncingTask,
-           boost::dynamic_pointer_cast<MachineState>(announcing_task));
-  addState(
-      states::AwaitingAuctionDeadline,
-      boost::dynamic_pointer_cast<MachineState>(awaiting_auction_deadline));
-  addState(states::AwaitingNewTask,
-           boost::dynamic_pointer_cast<MachineState>(awaiting_new_task));
-  addState(states::RenewingContract,
-           boost::dynamic_pointer_cast<MachineState>(renewing_contract));
-  addState(states::SelectingWinner,
-           boost::dynamic_pointer_cast<MachineState>(selecting_winner));
+  addState(states::AnnouncingTask, announcing_task);
+  addState(states::AwaitingAuctionDeadline, awaiting_auction_deadline);
+  addState(states::AwaitingNewTask, awaiting_new_task);
+  addState(states::RenewingContract, renewing_contract);
+  addState(states::SelectingWinner, selecting_winner);
   setCurrentState(states::AwaitingNewTask);
 }
 }

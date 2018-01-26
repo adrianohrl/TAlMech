@@ -1,5 +1,5 @@
-#include "talmech/auction/auctioneer/selecting_winner.h"
 #include "talmech/auction/auctioneer/auctioneer_controller.h"
+#include "talmech/auction/auctioneer/selecting_winner.h"
 
 namespace talmech
 {

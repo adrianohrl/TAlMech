@@ -9,7 +9,6 @@ TEST(Auctioneer, Controller)
 {
   AuctioneerControllerPtr controller(new AuctioneerController());
   int counter(0);
-  ROS_INFO_STREAM("Auctioneer state (" << counter << "): " << controller->str());
   while (counter++ < 100)
   {
     controller->process();

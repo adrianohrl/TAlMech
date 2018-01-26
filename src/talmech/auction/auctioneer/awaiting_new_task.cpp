@@ -1,5 +1,5 @@
-#include "talmech/auction/auctioneer/awaiting_new_task.h"
 #include "talmech/auction/auctioneer/auctioneer_controller.h"
+#include "talmech/auction/auctioneer/awaiting_new_task.h"
 
 namespace talmech
 {

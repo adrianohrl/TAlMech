@@ -1,5 +1,5 @@
-#include "talmech/auction/auctioneer/renewing_contract.h"
 #include "talmech/auction/auctioneer/auctioneer_controller.h"
+#include "talmech/auction/auctioneer/renewing_contract.h"
 
 namespace talmech
 {

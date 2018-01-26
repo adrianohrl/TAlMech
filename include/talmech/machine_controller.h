@@ -19,7 +19,7 @@ private:
   typedef boost::shared_ptr<MachineState> StatePtr;
 protected:
   MachineController() {}
-  void addState(int id, StatePtr state);
+  void addState(int id, const StatePtr &state);
   void setCurrentState(int state);
 private:
   typedef std::map<int, StatePtr> StateMap;

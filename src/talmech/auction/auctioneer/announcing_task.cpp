@@ -8,7 +8,7 @@ namespace auction
 namespace auctioneer
 {
 AnnouncingTask::AnnouncingTask()
-  : AuctioneerState(states::AnnouncingTask)
+  : AuctioneerState::AuctioneerState(states::AnnouncingTask)
 {}
 
 int AnnouncingTask::getNext() const

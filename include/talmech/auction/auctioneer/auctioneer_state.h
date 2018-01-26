@@ -10,13 +10,29 @@ namespace auction
 {
 namespace auctioneer
 {
+namespace states
+{
+  enum State
+  {
+    AwaitingNewTask,
+    AnnouncingTask,
+    AwaitingAuctionDeadline,
+    SelectingWinner,
+    RenewingContract
+  };
+}
+typedef states::State State;
 class AuctioneerState : public MachineState
 {
 public:
+  typedef boost::shared_ptr<AuctioneerState> Ptr;
+  typedef boost::shared_ptr<const AuctioneerState> ConstPtr;
   virtual ~AuctioneerState() {}
 protected:
-  AuctioneerState(int id);
+  AuctioneerState(State state);
 };
+typedef AuctioneerState::Ptr AuctioneerStatePtr;
+typedef AuctioneerState::ConstPtr AuctioneerStateConstPtr;
 }
 }
 }

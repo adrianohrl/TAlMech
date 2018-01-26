@@ -6,8 +6,8 @@ namespace auction
 {
 namespace auctioneer
 {
-AuctioneerState::AuctioneerState(int id)
-  : MachineState::MachineState(id)
+AuctioneerState::AuctioneerState(State state)
+  : MachineState::MachineState(state)
 {}
 }
 }
