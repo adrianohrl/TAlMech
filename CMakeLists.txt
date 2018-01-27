@@ -22,6 +22,9 @@ include_directories(
 )
 
 set(CPP_FILES
+  src/talmech/auction/auction.cpp
+  src/talmech/auction/auction_evaluator.cpp
+  src/talmech/auction/auctioneer.cpp
   src/talmech/auction/auctioneer/announcing_task.cpp
   src/talmech/auction/auctioneer/auctioneer_controller.cpp
   src/talmech/auction/auctioneer/auctioneer_state.cpp
@@ -29,18 +32,28 @@ set(CPP_FILES
   src/talmech/auction/auctioneer/awaiting_new_task.cpp
   src/talmech/auction/auctioneer/renewing_contract.cpp
   src/talmech/auction/auctioneer/selecting_winner.cpp
+  src/talmech/auction/bid.cpp
+  src/talmech/auction/bidder.cpp
   src/talmech/auction/bidder/awaiting_auction_close.cpp
   src/talmech/auction/bidder/awaiting_contract_renewal.cpp
   src/talmech/auction/bidder/awaiting_new_auction.cpp
   src/talmech/auction/bidder/bidder_controller.cpp
   src/talmech/auction/bidder/bidder_state.cpp
   src/talmech/auction/bidder/evaluating_metrics.cpp
+  src/talmech/agent.cpp
   src/talmech/exception.cpp
   src/talmech/machine_controller.cpp
   src/talmech/machine_state.cpp
+  src/talmech/resource.cpp
+  src/talmech/robot.cpp
+  src/talmech/role.cpp
+  src/talmech/task.cpp
 )
 
 set(H_FILES
+  include/talmech/auction/auction.h
+  include/talmech/auction/auction_evaluator.h
+  include/talmech/auction/auctioneer.h
   include/talmech/auction/auctioneer/announcing_task.h
   include/talmech/auction/auctioneer/auctioneer_controller.h
   include/talmech/auction/auctioneer/auctioneer_state.h
@@ -48,15 +61,23 @@ set(H_FILES
   include/talmech/auction/auctioneer/awaiting_auction_deadline.h
   include/talmech/auction/auctioneer/renewing_contract.h
   include/talmech/auction/auctioneer/selecting_winner.h
+  include/talmech/auction/bid.h
+  include/talmech/auction/bidder.h
   include/talmech/auction/bidder/awaiting_auction_close.h
   include/talmech/auction/bidder/awaiting_contract_renewal.h
   include/talmech/auction/bidder/awaiting_new_auction.h
   include/talmech/auction/bidder/bidder_controller.h
   include/talmech/auction/bidder/bidder_state.h
   include/talmech/auction/bidder/evaluating_metrics.h
+  include/talmech/agent.h
+  include/talmech/comparator.h
   include/talmech/exception.h
   include/talmech/machine_controller.h
   include/talmech/machine_state.h
+  include/talmech/resource.h
+  include/talmech/robot.h
+  include/talmech/role.h
+  include/talmech/task.h
 )
 
 add_library(${PROJECT_NAME}
