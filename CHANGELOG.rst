@@ -10,6 +10,12 @@ Changelog for package talmech
 
 Forthcoming
 -----------
+* implemeted auction related classes
+* created bidder controller related classes
+* created auctioneer machine state related classes
+* added UML diagrams
+* Contributors: adrianohrl
+
 * created bidder controller related classes
 * created auctioneer machine state related classes
 * added UML diagrams
