@@ -8,8 +8,8 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
-Forthcoming
------------
+0.0.3 (2018-01-26)
+------------------
 * implemeted auction related classes
 * created bidder controller related classes
 * created auctioneer machine state related classes
