@@ -8,8 +8,8 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
-Forthcoming
------------
+0.0.4 (2018-01-29)
+------------------
 * changed role controllers
 * Contributors: adrianohrl
 
