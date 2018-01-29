@@ -1,5 +1,5 @@
 #include "talmech/auction/auctioneer/announcing_task.h"
-#include "talmech/auction/auctioneer/auctioneer_controller.h"
+#include "talmech/auction/auctioneer/auction_controller.h"
 
 namespace talmech
 {
@@ -8,7 +8,7 @@ namespace auction
 namespace auctioneer
 {
 AnnouncingTask::AnnouncingTask()
-  : AuctioneerState::AuctioneerState(states::AnnouncingTask)
+  : AuctionState::AuctionState(states::AnnouncingTask)
 {}
 
 int AnnouncingTask::getNext() const

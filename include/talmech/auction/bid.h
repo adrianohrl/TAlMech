@@ -32,6 +32,11 @@ public:
   bool operator!=(const Bid& bid) const { return !(*this == bid); }
   bool operator>=(const Bid& bid) const { return amount_ >= bid.amount_; }
   bool operator>(const Bid& bid) const { return amount_ > bid.amount_; }
+  friend std::ostream& operator<<(std::ostream& out, const Bid& bid)
+  {
+    out << bid.str();
+    return out;
+  }
 private:
   double amount_;
   ros::Time timestamp_;

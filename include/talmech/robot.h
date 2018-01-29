@@ -10,7 +10,7 @@ class Robot : public Agent
 public:
   typedef boost::shared_ptr<Robot> Ptr;
   typedef boost::shared_ptr<const Robot> ConstPtr;
-  Robot();
+  Robot(const std::string& id, const RolePtr& role = RolePtr());
   virtual ~Robot() {}
 };
 typedef Robot::Ptr RobotPtr;

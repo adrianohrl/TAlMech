@@ -20,6 +20,11 @@ public:
   void reset();
   virtual std::string str() const;
   const char* c_str() const { return str().c_str(); }
+  friend std::ostream& operator<<(std::ostream& out, const MachineState& state)
+  {
+    out << state.str();
+    return out;
+  }
 protected:
   MachineState(int id);
 private:

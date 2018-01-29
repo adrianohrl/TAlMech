@@ -2,7 +2,8 @@
 #define _TALMECH_AUCTION_AUCTIONEER_CONTROLLER_H_
 
 #include "../../machine_controller.h"
-#include "auctioneer_state.h"
+#include "../auction.h"
+#include "auction_state.h"
 
 namespace talmech
 {
@@ -10,19 +11,25 @@ namespace auction
 {
 namespace auctioneer
 {
-class AuctioneerController : public MachineController
+class AuctionController : public MachineController
 {
 public:
-  typedef boost::shared_ptr<AuctioneerController> Ptr;
-  typedef boost::shared_ptr<const AuctioneerController> ConstPtr;
-  AuctioneerController() : MachineController::MachineController() {}
-  virtual ~AuctioneerController() {}
-  void addState(State id, const AuctioneerStatePtr& state);
+  typedef boost::shared_ptr<AuctionController> Ptr;
+  typedef boost::shared_ptr<const AuctionController> ConstPtr;
+  AuctionController(const ros::NodeHandlePtr& nh, const AuctionPtr& auction)
+      : MachineController::MachineController(nh), auction_(auction)
+  {
+  }
+  virtual ~AuctionController() {}
+  void addState(State id, const AuctionStatePtr& state);
   virtual void init();
+  AuctionPtr getAuction() const { return auction_; }
+private:
+  AuctionPtr auction_;
 };
+typedef auctioneer::AuctionController::Ptr AuctionControllerPtr;
+typedef auctioneer::AuctionController::ConstPtr AuctionControllerConstPtr;
 }
-typedef auctioneer::AuctioneerController::Ptr AuctioneerControllerPtr;
-typedef auctioneer::AuctioneerController::ConstPtr AuctioneerControllerConstPtr;
 }
 }
 

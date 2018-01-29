@@ -1,7 +1,7 @@
 #ifndef _TALMECH_AUCTION_AWAITING_NEW_TASK_H_
 #define _TALMECH_AUCTION_AWAITING_NEW_TASK_H_
 
-#include "auctioneer_state.h"
+#include "auction_state.h"
 
 namespace talmech
 {
@@ -9,18 +9,18 @@ namespace auction
 {
 namespace auctioneer
 {
-class AwaitingNewTask : public AuctioneerState
+class AwaitingDisposal : public AuctionState
 {
 public:
-  typedef boost::shared_ptr<AwaitingNewTask> Ptr;
-  typedef boost::shared_ptr<const AwaitingNewTask> ConstPtr;
-  AwaitingNewTask();
-  virtual ~AwaitingNewTask() {}
+  typedef boost::shared_ptr<AwaitingDisposal> Ptr;
+  typedef boost::shared_ptr<const AwaitingDisposal> ConstPtr;
+  AwaitingDisposal();
+  virtual ~AwaitingDisposal() {}
   virtual int getNext() const;
   virtual std::string str() const;
 };
-typedef AwaitingNewTask::Ptr AwaitingNewTaskPtr;
-typedef AwaitingNewTask::ConstPtr AwaitingNewTaskConstPtr;
+typedef AwaitingDisposal::Ptr AwaitingDisposalPtr;
+typedef AwaitingDisposal::ConstPtr AwaitingDisposalConstPtr;
 }
 }
 }

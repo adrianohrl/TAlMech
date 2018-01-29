@@ -1,7 +1,7 @@
 #ifndef _TALMECH_AUCTION_RENEWING_CONTRACT_H_
 #define _TALMECH_AUCTION_RENEWING_CONTRACT_H_
 
-#include "auctioneer_state.h"
+#include "auction_state.h"
 
 namespace talmech
 {
@@ -9,7 +9,7 @@ namespace auction
 {
 namespace auctioneer
 {
-class RenewingContract : public AuctioneerState
+class RenewingContract : public AuctionState
 {
 public:
   typedef boost::shared_ptr<RenewingContract> Ptr;

@@ -1,4 +1,4 @@
-#include "talmech/auction/auctioneer/auctioneer_state.h"
+#include "talmech/auction/auctioneer/auction_state.h"
 
 namespace talmech
 {
@@ -6,7 +6,7 @@ namespace auction
 {
 namespace auctioneer
 {
-AuctioneerState::AuctioneerState(State state)
+AuctionState::AuctionState(State state)
   : MachineState::MachineState(state)
 {}
 }

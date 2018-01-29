@@ -1,5 +1,5 @@
-#include "talmech/auction/auctioneer/auctioneer_controller.h"
-#include "talmech/auction/auctioneer/awaiting_new_task.h"
+#include "talmech/auction/auctioneer/auction_controller.h"
+#include "talmech/auction/auctioneer/awaiting_disposal.h"
 
 namespace talmech
 {
@@ -7,18 +7,18 @@ namespace auction
 {
 namespace auctioneer
 {
-AwaitingNewTask::AwaitingNewTask()
-  : AuctioneerState::AuctioneerState(states::AwaitingNewTask)
+AwaitingDisposal::AwaitingDisposal()
+  : AuctionState::AuctionState(states::AwaitingDisposal)
 {}
 
-int AwaitingNewTask::getNext() const
+int AwaitingDisposal::getNext() const
 {
   return states::AnnouncingTask;
 }
 
-std::string AwaitingNewTask::str() const
+std::string AwaitingDisposal::str() const
 {
-  return "Awaiting New Task";
+  return "Awaiting Disposal";
 }
 }
 }

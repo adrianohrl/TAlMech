@@ -15,7 +15,10 @@ class BidderController : public MachineController
 public:
   typedef boost::shared_ptr<BidderController> Ptr;
   typedef boost::shared_ptr<const BidderController> ConstPtr;
-  BidderController() : MachineController::MachineController() {}
+  BidderController(const ros::NodeHandlePtr& nh)
+    : MachineController::MachineController(nh)
+  {
+  }
   virtual ~BidderController() {}
   void addState(State id, const BidderStatePtr& state);
   virtual void init();

@@ -24,11 +24,9 @@ public:
   typedef boost::shared_ptr<Auction> Ptr;
   typedef boost::shared_ptr<const Auction> ConstPtr;
   Auction(const std::string& id, const TaskPtr& task,
-          const ros::Duration& duration = ros::Duration(1.5),
-          const ros::Rate& renewal_rate = ros::Rate(2),
-          const AuctionEvaluatorPtr& evaluator =
-              AuctionEvaluatorPtr(new AuctionEvaluator()),
-          bool sorted_insertion = true, bool reallocation = true);
+          const ros::Duration& duration, const ros::Rate& renewal_rate,
+          bool sorted_insertion, bool reallocation, bool bid_update,
+          const AuctionEvaluatorPtr& evaluator);
   virtual ~Auction() {}
   virtual void selectWinner();
   std::string getId() const { return id_; }
@@ -52,30 +50,21 @@ public:
   {
     start_timestamp_ = timestamp;
   }
-  void setDuration(const ros::Duration& duration) { duration_ = duration; }
-  void setcloseTimestamp(const ros::Time& timestamp)
+  void setCloseTimestamp(const ros::Time& timestamp)
   {
     close_timestamp_ = timestamp;
   }
-  void setRenewalRate(const ros::Rate& rate) { renewal_rate_ = rate; }
-  void setRenewalDeadline(const ros::Time& timestamp)
-  {
-    renewal_deadline_ = timestamp;
-  }
   void addBid(const BidPtr& bid);
   void setWinner(const RobotPtr& winner) { winner_ = winner; }
-  void setSortedInsertion(bool sorted_insertion)
-  {
-    sorted_insertion_ = sorted_insertion;
-  }
-  void setBidUpdate(bool bid_update)
-  {
-    bid_update_ = bid_update;
-  }
   std::string str() const { return id_; }
   const char* c_str() const { return str().c_str(); }
   bool operator==(const Auction& auction) const { return id_ == auction.id_; }
   bool operator!=(const Auction& auction) const { return !(*this == auction); }
+  friend std::ostream& operator<<(std::ostream& out, const Auction& auction)
+  {
+    out << auction.str();
+    return out;
+  }
 private:
   std::string id_;
   TaskPtr task_;

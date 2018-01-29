@@ -8,6 +8,11 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
+Forthcoming
+-----------
+* changed role controllers
+* Contributors: adrianohrl
+
 0.0.3 (2018-01-26)
 ------------------
 * implemeted auction related classes

@@ -11,4 +11,9 @@ Agent::Agent(const std::string &id, const RolePtr &role)
     throw Exception("The agent's id must not be empty.");
   }
 }
+
+void Agent::process()
+{
+  role_->process();
+}
 }

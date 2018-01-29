@@ -1,4 +1,4 @@
-#include "talmech/auction/auctioneer/auctioneer_controller.h"
+#include "talmech/auction/auctioneer/auction_controller.h"
 #include "talmech/auction/auctioneer/renewing_contract.h"
 
 namespace talmech
@@ -8,14 +8,14 @@ namespace auction
 namespace auctioneer
 {
 RenewingContract::RenewingContract()
-  : AuctioneerState::AuctioneerState(states::RenewingContract)
+  : AuctionState::AuctionState(states::RenewingContract)
 {}
 
 int RenewingContract::getNext() const
 {
   //return states::AnnouncingTask;
   //return states::RenewingContract;
-  return states::AwaitingNewTask;
+  return states::AwaitingDisposal;
 }
 
 std::string RenewingContract::str() const

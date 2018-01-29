@@ -18,6 +18,11 @@ public:
   const char* c_str() const { return str().c_str(); }
   bool operator==(const Resource& resource) const { return id_ == resource.id_; }
   bool operator!=(const Resource& resource) const { return !(*this == resource); }
+  friend std::ostream& operator<<(std::ostream& out, const Resource& resource)
+  {
+    out << resource.str();
+    return out;
+  }
 private:
   std::string id_;
 };

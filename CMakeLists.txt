@@ -26,10 +26,10 @@ set(CPP_FILES
   src/talmech/auction/auction_evaluator.cpp
   src/talmech/auction/auctioneer.cpp
   src/talmech/auction/auctioneer/announcing_task.cpp
-  src/talmech/auction/auctioneer/auctioneer_controller.cpp
-  src/talmech/auction/auctioneer/auctioneer_state.cpp
+  src/talmech/auction/auctioneer/auction_controller.cpp
+  src/talmech/auction/auctioneer/auction_state.cpp
   src/talmech/auction/auctioneer/awaiting_auction_deadline.cpp
-  src/talmech/auction/auctioneer/awaiting_new_task.cpp
+  src/talmech/auction/auctioneer/awaiting_disposal.cpp
   src/talmech/auction/auctioneer/renewing_contract.cpp
   src/talmech/auction/auctioneer/selecting_winner.cpp
   src/talmech/auction/bid.cpp
@@ -55,10 +55,10 @@ set(H_FILES
   include/talmech/auction/auction_evaluator.h
   include/talmech/auction/auctioneer.h
   include/talmech/auction/auctioneer/announcing_task.h
-  include/talmech/auction/auctioneer/auctioneer_controller.h
-  include/talmech/auction/auctioneer/auctioneer_state.h
-  include/talmech/auction/auctioneer/awaiting_new_task.h
+  include/talmech/auction/auctioneer/auction_controller.h
+  include/talmech/auction/auctioneer/auction_state.h
   include/talmech/auction/auctioneer/awaiting_auction_deadline.h
+  include/talmech/auction/auctioneer/awaiting_disposal.h
   include/talmech/auction/auctioneer/renewing_contract.h
   include/talmech/auction/auctioneer/selecting_winner.h
   include/talmech/auction/bid.h
@@ -71,6 +71,7 @@ set(H_FILES
   include/talmech/auction/bidder/evaluating_metrics.h
   include/talmech/agent.h
   include/talmech/comparator.h
+  include/talmech/controller.h
   include/talmech/exception.h
   include/talmech/machine_controller.h
   include/talmech/machine_state.h

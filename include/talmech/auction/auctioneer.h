@@ -3,33 +3,49 @@
 
 #include "../role.h"
 #include "auction.h"
+#include <ros/node_handle.h>
+#include "auctioneer/auction_controller.h"
 
 namespace talmech
 {
 namespace auction
 {
-typedef std::list<AuctionPtr> AuctionList;
-typedef AuctionList::iterator AuctionListIt;
-typedef AuctionList::const_iterator AuctionListConstIt;
 class Auctioneer : public Role
 {
 public:
   typedef boost::shared_ptr<Auctioneer> Ptr;
   typedef boost::shared_ptr<const Auctioneer> ConstPtr;
-  Auctioneer(const AuctionEvaluatorPtr& evaluator =
+  Auctioneer(const ros::NodeHandlePtr& nh,
+             const ros::Duration& auction_duration = ros::Duration(1.5),
+             const ros::Rate& renewal_rate = ros::Rate(2),
+             bool sorted_insertion = true, bool reallocation = true,
+             bool bid_update = false,
+             const AuctionEvaluatorPtr& evaluator =
                  AuctionEvaluatorPtr(new AuctionEvaluator()));
   virtual ~Auctioneer() {}
+  bool auction(const TaskPtr& task);
+  bool isSortedInsertion() const { return sorted_insertion_; }
+  bool isRealloctionAllowed() const { return reallocation_; }
+  bool isBidUpdateAllowed() const { return bid_update_; }
   AuctionEvaluatorPtr getEvaluator() const { return evaluator_; }
-  bool empty() const { return auctions_.empty(); }
-  std::size_t size() const { return auctions_.size(); }
-  AuctionListIt begin() { return auctions_.begin(); }
-  AuctionListConstIt begin() const { return auctions_.begin(); }
-  AuctionListIt end() { return auctions_.end(); }
-  AuctionListConstIt end() const { return auctions_.end(); }
-  void auction();
+  void setAuctionDuration(const ros::Duration& duration)
+  {
+    auction_duration_ = duration;
+  }
+  void setRenewalRate(const ros::Rate& rate) { renewal_rate_ = rate; }
+  void setSortedInsertion(bool sorted_insertion)
+  {
+    sorted_insertion_ = sorted_insertion;
+  }
+  void setBidUpdate(bool bid_update) { bid_update_ = bid_update; }
   void setEvaluator(const AuctionEvaluatorPtr& evaluator);
 private:
-  AuctionList auctions_;
+  ros::NodeHandlePtr nh_;
+  ros::Duration auction_duration_;
+  ros::Rate renewal_rate_;
+  bool sorted_insertion_;
+  bool reallocation_;
+  bool bid_update_;
   AuctionEvaluatorPtr evaluator_;
 };
 typedef Auctioneer::Ptr AuctioneerPtr;

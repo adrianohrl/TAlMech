@@ -14,25 +14,25 @@ namespace states
 {
   enum State
   {
-    AwaitingNewTask,
     AnnouncingTask,
     AwaitingAuctionDeadline,
     SelectingWinner,
-    RenewingContract
+    RenewingContract,
+    AwaitingDisposal
   };
 }
 typedef states::State State;
-class AuctioneerState : public MachineState
+class AuctionState : public MachineState
 {
 public:
-  typedef boost::shared_ptr<AuctioneerState> Ptr;
-  typedef boost::shared_ptr<const AuctioneerState> ConstPtr;
-  virtual ~AuctioneerState() {}
+  typedef boost::shared_ptr<AuctionState> Ptr;
+  typedef boost::shared_ptr<const AuctionState> ConstPtr;
+  virtual ~AuctionState() {}
 protected:
-  AuctioneerState(State state);
+  AuctionState(State state);
 };
-typedef AuctioneerState::Ptr AuctioneerStatePtr;
-typedef AuctioneerState::ConstPtr AuctioneerStateConstPtr;
+typedef AuctionState::Ptr AuctionStatePtr;
+typedef AuctionState::ConstPtr AuctionStateConstPtr;
 }
 }
 }

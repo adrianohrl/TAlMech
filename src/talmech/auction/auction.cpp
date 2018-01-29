@@ -7,11 +7,11 @@ namespace auction
 {
 Auction::Auction(const std::string& id, const TaskPtr& task,
                  const ros::Duration& duration, const ros::Rate& renewal_rate,
-                 const AuctionEvaluatorPtr& evaluator, bool sorted_insertion,
-                 bool reallocation)
+                 bool sorted_insertion, bool reallocation, bool bid_update,
+                 const AuctionEvaluatorPtr& evaluator)
     : id_(id), task_(task), duration_(duration), renewal_rate_(renewal_rate),
-      evaluator_(evaluator), sorted_insertion_(sorted_insertion),
-      reallocation_(reallocation)
+      sorted_insertion_(sorted_insertion), reallocation_(reallocation),
+      bid_update_(bid_update), evaluator_(evaluator)
 {
   if (id_.empty())
   {
@@ -21,9 +21,9 @@ Auction::Auction(const std::string& id, const TaskPtr& task,
 
 void Auction::selectWinner()
 {
-  BidPtr bid;/*(sorted_insertion_
-                 ? evaluator_->evaluate(bids_.begin(), bids_.end())
-                 : bids_.front());*/
+  BidPtr bid; /*(sorted_insertion_
+                  ? evaluator_->evaluate(bids_.begin(), bids_.end())
+                  : bids_.front());*/
   /*if (sorted_insertion_)
   {
     bid = evaluator_->evaluate(bids_.begin(), bids_.end());

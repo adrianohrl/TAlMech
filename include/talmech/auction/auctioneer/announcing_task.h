@@ -1,7 +1,8 @@
 #ifndef _TALMECH_AUCTION_ANNOUNING_TASK_H_
 #define _TALMECH_AUCTION_ANNOUNING_TASK_H_
 
-#include "auctioneer_state.h"
+#include "auction_state.h"
+#include <ros/publisher.h>
 
 namespace talmech
 {
@@ -9,7 +10,7 @@ namespace auction
 {
 namespace auctioneer
 {
-class AnnouncingTask : public AuctioneerState
+class AnnouncingTask : public AuctionState
 {
 public:
   typedef boost::shared_ptr<AnnouncingTask> Ptr;
