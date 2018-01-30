@@ -7,8 +7,8 @@ namespace auction
 {
 namespace bidder
 {
-EvaluatingMetrics::EvaluatingMetrics()
-  : BidderState::BidderState(states::EvaluatingMetrics)
+EvaluatingMetrics::EvaluatingMetrics(const BidderControllerPtr &controller)
+  : BidderState::BidderState(controller, states::EvaluatingMetrics)
 {}
 
 int EvaluatingMetrics::getNext() const

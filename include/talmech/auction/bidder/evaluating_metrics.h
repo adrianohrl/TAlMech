@@ -14,7 +14,7 @@ class EvaluatingMetrics : public BidderState
 public:
   typedef boost::shared_ptr<EvaluatingMetrics> Ptr;
   typedef boost::shared_ptr<const EvaluatingMetrics> ConstPtr;
-  EvaluatingMetrics();
+  EvaluatingMetrics(const BidderControllerPtr& controller);
   virtual ~EvaluatingMetrics() {}
   virtual int getNext() const;
   virtual std::string str() const;

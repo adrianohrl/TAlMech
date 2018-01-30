@@ -14,7 +14,7 @@ class AwaitingAuctionClose : public BidderState
 public:
   typedef boost::shared_ptr<AwaitingAuctionClose> Ptr;
   typedef boost::shared_ptr<const AwaitingAuctionClose> ConstPtr;
-  AwaitingAuctionClose();
+  AwaitingAuctionClose(const BidderControllerPtr& controller);
   virtual ~AwaitingAuctionClose() {}
   virtual int getNext() const;
   virtual std::string str() const;

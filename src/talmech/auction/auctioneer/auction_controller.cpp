@@ -5,8 +5,6 @@
 #include "talmech/auction/auctioneer/renewing_contract.h"
 #include "talmech/auction/auctioneer/selecting_winner.h"
 
-#include <ros/console.h>
-
 namespace talmech
 {
 namespace auction
@@ -20,12 +18,12 @@ void AuctionController::addState(State id, const AuctionStatePtr& state)
 
 void AuctionController::init()
 {
-  AnnouncingTaskPtr announcing_task(new AnnouncingTask());
+  AnnouncingTaskPtr announcing_task(new AnnouncingTask(shared_from_this()));
   AwaitingAuctionDeadlinePtr awaiting_auction_deadline(
-      new AwaitingAuctionDeadline());
-  AwaitingDisposalPtr awaiting_disposal(new AwaitingDisposal());
-  RenewingContractPtr renewing_contract(new RenewingContract());
-  SelectingWinnerPtr selecting_winner(new SelectingWinner());
+      new AwaitingAuctionDeadline(shared_from_this()));
+  AwaitingDisposalPtr awaiting_disposal(new AwaitingDisposal(shared_from_this()));
+  RenewingContractPtr renewing_contract(new RenewingContract(shared_from_this()));
+  SelectingWinnerPtr selecting_winner(new SelectingWinner(shared_from_this()));
   addState(states::AnnouncingTask, announcing_task);
   addState(states::AwaitingAuctionDeadline, awaiting_auction_deadline);
   addState(states::AwaitingDisposal, awaiting_disposal);

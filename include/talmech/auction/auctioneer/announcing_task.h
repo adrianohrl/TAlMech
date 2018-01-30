@@ -15,7 +15,7 @@ class AnnouncingTask : public AuctionState
 public:
   typedef boost::shared_ptr<AnnouncingTask> Ptr;
   typedef boost::shared_ptr<const AnnouncingTask> ConstPtr;
-  AnnouncingTask();
+  AnnouncingTask(const AuctionControllerPtr& controller);
   virtual ~AnnouncingTask() {}
   virtual int getNext() const;
   virtual std::string str() const;

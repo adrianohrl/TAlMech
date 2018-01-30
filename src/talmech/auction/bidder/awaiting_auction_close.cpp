@@ -7,14 +7,13 @@ namespace auction
 {
 namespace bidder
 {
-AwaitingAuctionClose::AwaitingAuctionClose()
-  : BidderState::BidderState(states::AwaitingAuctionClose)
-{}
-
-int AwaitingAuctionClose::getNext() const
+AwaitingAuctionClose::AwaitingAuctionClose(
+    const BidderControllerPtr& controller)
+    : BidderState::BidderState(controller, states::AwaitingAuctionClose)
 {
-  return states::EvaluatingMetrics;
 }
+
+int AwaitingAuctionClose::getNext() const { return states::EvaluatingMetrics; }
 
 std::string AwaitingAuctionClose::str() const
 {

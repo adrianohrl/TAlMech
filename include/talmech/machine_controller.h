@@ -1,6 +1,7 @@
 #ifndef _TALMECH_MACHINE_CONTROLLER_H_
 #define _TALMECH_MACHINE_CONTROLLER_H_
 
+#include <boost/enable_shared_from_this.hpp>
 #include <map>
 #include <ros/node_handle.h>
 #include "controller.h"

@@ -10,7 +10,8 @@ namespace auction
 {
 namespace bidder
 {
-class BidderController : public MachineController
+class BidderController : public MachineController,
+    public boost::enable_shared_from_this<BidderController>
 {
 public:
   typedef boost::shared_ptr<BidderController> Ptr;

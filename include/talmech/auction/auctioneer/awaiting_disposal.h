@@ -14,7 +14,7 @@ class AwaitingDisposal : public AuctionState
 public:
   typedef boost::shared_ptr<AwaitingDisposal> Ptr;
   typedef boost::shared_ptr<const AwaitingDisposal> ConstPtr;
-  AwaitingDisposal();
+  AwaitingDisposal(const AuctionControllerPtr& controller);
   virtual ~AwaitingDisposal() {}
   virtual int getNext() const;
   virtual std::string str() const;

@@ -7,8 +7,8 @@ namespace auction
 {
 namespace bidder
 {
-AwaitingNewAuction::AwaitingNewAuction()
-  : BidderState::BidderState(states::AwaitingNewAuction)
+AwaitingNewAuction::AwaitingNewAuction(const BidderControllerPtr &controller)
+  : BidderState::BidderState(controller, states::AwaitingNewAuction)
 {}
 
 int AwaitingNewAuction::getNext() const

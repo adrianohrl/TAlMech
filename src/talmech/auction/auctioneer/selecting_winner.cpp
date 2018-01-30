@@ -7,8 +7,8 @@ namespace auction
 {
 namespace auctioneer
 {
-SelectingWinner::SelectingWinner()
-  : AuctionState::AuctionState(states::SelectingWinner)
+SelectingWinner::SelectingWinner(const AuctionControllerPtr &controller)
+  : AuctionState::AuctionState(controller, states::SelectingWinner)
 {}
 
 int SelectingWinner::getNext() const

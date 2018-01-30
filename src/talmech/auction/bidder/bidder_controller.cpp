@@ -19,10 +19,10 @@ void BidderController::addState(State id, const BidderStatePtr& state)
 
 void BidderController::init()
 {
-  AwaitingAuctionClosePtr awaiting_auction_close(new AwaitingAuctionClose());
-  AwaitingContractRenewalPtr awaiting_contract_renewal(new AwaitingContractRenewal());
-  AwaitingNewAuctionPtr awaiting_new_auction(new AwaitingNewAuction());
-  EvaluatingMetricsPtr evaluating_metrics(new EvaluatingMetrics());
+  AwaitingAuctionClosePtr awaiting_auction_close(new AwaitingAuctionClose(shared_from_this()));
+  AwaitingContractRenewalPtr awaiting_contract_renewal(new AwaitingContractRenewal(shared_from_this()));
+  AwaitingNewAuctionPtr awaiting_new_auction(new AwaitingNewAuction(shared_from_this()));
+  EvaluatingMetricsPtr evaluating_metrics(new EvaluatingMetrics(shared_from_this()));
   addState(states::AwaitingAuctionClose, awaiting_auction_close);
   addState(states::AwaitingContractRenewal, awaiting_contract_renewal);
   addState(states::AwaitingNewAuction, awaiting_new_auction);

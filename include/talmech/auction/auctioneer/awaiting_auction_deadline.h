@@ -14,7 +14,7 @@ class AwaitingAuctionDeadline : public AuctionState
 public:
   typedef boost::shared_ptr<AwaitingAuctionDeadline> Ptr;
   typedef boost::shared_ptr<const AwaitingAuctionDeadline> ConstPtr;
-  AwaitingAuctionDeadline();
+  AwaitingAuctionDeadline(const AuctionControllerPtr& controller);
   virtual ~AwaitingAuctionDeadline() {}
   virtual int getNext() const;
   virtual std::string str() const;

@@ -7,8 +7,8 @@ namespace auction
 {
 namespace auctioneer
 {
-AnnouncingTask::AnnouncingTask()
-  : AuctionState::AuctionState(states::AnnouncingTask)
+AnnouncingTask::AnnouncingTask(const AuctionControllerPtr &controller)
+  : AuctionState::AuctionState(controller, states::AnnouncingTask)
 {}
 
 int AnnouncingTask::getNext() const

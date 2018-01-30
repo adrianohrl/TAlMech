@@ -7,8 +7,8 @@ namespace auction
 {
 namespace auctioneer
 {
-AwaitingAuctionDeadline::AwaitingAuctionDeadline()
-  : AuctionState::AuctionState(states::AwaitingAuctionDeadline)
+AwaitingAuctionDeadline::AwaitingAuctionDeadline(const AuctionControllerPtr &controller)
+  : AuctionState::AuctionState(controller, states::AwaitingAuctionDeadline)
 {}
 
 int AwaitingAuctionDeadline::getNext() const

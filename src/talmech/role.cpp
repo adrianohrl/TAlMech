@@ -1,5 +1,6 @@
 #include "talmech/exception.h"
 #include "talmech/role.h"
+#include <ros/console.h>
 
 namespace talmech
 {
@@ -14,6 +15,7 @@ void Role::process()
       it = controllers_.erase(it);
       continue;
     }
+    ROS_INFO_STREAM("[Role] processing ");
     controller->process();
     it++;
   }

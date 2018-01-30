@@ -14,7 +14,7 @@ class RenewingContract : public AuctionState
 public:
   typedef boost::shared_ptr<RenewingContract> Ptr;
   typedef boost::shared_ptr<const RenewingContract> ConstPtr;
-  RenewingContract();
+  RenewingContract(const AuctionControllerPtr& controller);
   virtual ~RenewingContract() {}
   virtual int getNext() const;
   virtual std::string str() const;

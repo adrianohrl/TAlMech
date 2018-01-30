@@ -7,8 +7,8 @@ namespace auction
 {
 namespace auctioneer
 {
-AwaitingDisposal::AwaitingDisposal()
-  : AuctionState::AuctionState(states::AwaitingDisposal)
+AwaitingDisposal::AwaitingDisposal(const AuctionControllerPtr &controller)
+  : AuctionState::AuctionState(controller, states::AwaitingDisposal)
 {}
 
 int AwaitingDisposal::getNext() const

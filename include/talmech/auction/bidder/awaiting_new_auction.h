@@ -14,7 +14,7 @@ class AwaitingNewAuction : public BidderState
 public:
   typedef boost::shared_ptr<AwaitingNewAuction> Ptr;
   typedef boost::shared_ptr<const AwaitingNewAuction> ConstPtr;
-  AwaitingNewAuction();
+  AwaitingNewAuction(const BidderControllerPtr& controller);
   virtual ~AwaitingNewAuction() {}
   virtual int getNext() const;
   virtual std::string str() const;

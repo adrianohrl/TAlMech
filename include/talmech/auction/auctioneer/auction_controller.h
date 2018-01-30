@@ -1,8 +1,8 @@
 #ifndef _TALMECH_AUCTION_AUCTIONEER_CONTROLLER_H_
 #define _TALMECH_AUCTION_AUCTIONEER_CONTROLLER_H_
 
-#include "../../machine_controller.h"
 #include "../auction.h"
+#include "../../machine_controller.h"
 #include "auction_state.h"
 
 namespace talmech
@@ -11,7 +11,9 @@ namespace auction
 {
 namespace auctioneer
 {
-class AuctionController : public MachineController
+class AuctionController
+    : public MachineController,
+      public boost::enable_shared_from_this<AuctionController>
 {
 public:
   typedef boost::shared_ptr<AuctionController> Ptr;

@@ -14,7 +14,7 @@ class SelectingWinner : public AuctionState
 public:
   typedef boost::shared_ptr<SelectingWinner> Ptr;
   typedef boost::shared_ptr<const SelectingWinner> ConstPtr;
-  SelectingWinner();
+  SelectingWinner(const AuctionControllerPtr& controller);
   virtual ~SelectingWinner() {}
   virtual int getNext() const;
   virtual std::string str() const;

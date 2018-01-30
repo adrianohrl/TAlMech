@@ -21,14 +21,20 @@ namespace states
   };
 }
 typedef states::State State;
+class BidderController;
+typedef boost::shared_ptr<BidderController> BidderControllerPtr;
 class BidderState : public MachineState
 {
 public:
   typedef boost::shared_ptr<BidderState> Ptr;
   typedef boost::shared_ptr<const BidderState> ConstPtr;
   virtual ~BidderState() {}
+  virtual BidderControllerPtr getController() const
+  {
+    return boost::dynamic_pointer_cast<BidderController>(controller_);
+  }
 protected:
-  BidderState(State state);
+  BidderState(const BidderControllerPtr& controller, State state);
 };
 typedef BidderState::Ptr BidderStatePtr;
 typedef BidderState::ConstPtr BidderStateConstPtr;

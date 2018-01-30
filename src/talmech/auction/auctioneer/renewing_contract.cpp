@@ -7,8 +7,8 @@ namespace auction
 {
 namespace auctioneer
 {
-RenewingContract::RenewingContract()
-  : AuctionState::AuctionState(states::RenewingContract)
+RenewingContract::RenewingContract(const AuctionControllerPtr &controller)
+  : AuctionState::AuctionState(controller, states::RenewingContract)
 {}
 
 int RenewingContract::getNext() const

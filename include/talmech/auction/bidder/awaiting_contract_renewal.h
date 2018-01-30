@@ -14,7 +14,7 @@ class AwaitingContractRenewal : public BidderState
 public:
   typedef boost::shared_ptr<AwaitingContractRenewal> Ptr;
   typedef boost::shared_ptr<const AwaitingContractRenewal> ConstPtr;
-  AwaitingContractRenewal();
+  AwaitingContractRenewal(const BidderControllerPtr& controller);
   virtual ~AwaitingContractRenewal() {}
   virtual int getNext() const;
   virtual std::string str() const;

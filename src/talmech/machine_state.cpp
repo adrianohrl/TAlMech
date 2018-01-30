@@ -1,11 +1,14 @@
 #include <sstream>
 #include "talmech/machine_state.h"
+#include "talmech/machine_controller.h"
 
 namespace talmech
 {
-MachineState::MachineState(int id)
-  : id_(id), pre_processed_(false), processed_(false), post_processed_(false)
-{}
+MachineState::MachineState(const MachineControllerPtr& controller, int id)
+    : controller_(controller), id_(id), pre_processed_(false),
+      processed_(false), post_processed_(false)
+{
+}
 
 bool MachineState::preProcess()
 {

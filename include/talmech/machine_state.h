@@ -2,6 +2,7 @@
 #define _TALMECH_MACHINE_STATE_H_
 
 #include <string>
+#include "machine_controller.h"
 
 namespace talmech
 {
@@ -26,7 +27,8 @@ public:
     return out;
   }
 protected:
-  MachineState(int id);
+  MachineControllerPtr controller_;
+  MachineState(const MachineControllerPtr& controller, int id);
 private:
   int id_;
   bool pre_processed_;
