@@ -8,8 +8,8 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
-Forthcoming
------------
+0.0.5 (2018-01-31)
+------------------
 * fixed auction submission algorithm
 * implemented AwaitingDisposal state
 * implemented AwaitingAuctionDeadline state
