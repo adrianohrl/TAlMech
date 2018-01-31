@@ -8,6 +8,14 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
+Forthcoming
+-----------
+* fixed auction submission algorithm
+* implemented AwaitingDisposal state
+* implemented AwaitingAuctionDeadline state
+* there is an instance of the machine controller available for use inside each machine state
+* Contributors: adrianohrl
+
 0.0.4 (2018-01-29)
 ------------------
 * changed role controllers
