@@ -8,8 +8,8 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
-Forthcoming
------------
+0.0.6 (2018-01-31)
+------------------
 * implemented RenewingContract state
 * Contributors: adrianohrl
 
