@@ -10,16 +10,6 @@ namespace auctioneer
 AwaitingDisposal::AwaitingDisposal(const AuctionControllerPtr &controller)
   : AuctionState::AuctionState(controller, states::AwaitingDisposal)
 {}
-
-int AwaitingDisposal::getNext() const
-{
-  return states::AnnouncingTask;
-}
-
-std::string AwaitingDisposal::str() const
-{
-  return "Awaiting Disposal";
-}
 }
 }
 }

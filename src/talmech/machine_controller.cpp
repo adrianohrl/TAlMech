@@ -23,6 +23,7 @@ void MachineController::process()
   if (current_->isPreProcessed() && !current_->isProcessed())
   {
     current_->process();
+    ROS_INFO_STREAM("[MachineController] processed");
   }
   if (current_->isProcessed() && !current_->isPostProcessed())
   {

@@ -2,6 +2,8 @@
 #define _TALMECH_AUCTION_AWAITING_AUCTION_DEADLINE_H_
 
 #include "auction_state.h"
+#include <ros/subscriber.h>
+#include <talmech_msgs/Bid.h>
 
 namespace talmech
 {
@@ -15,9 +17,16 @@ public:
   typedef boost::shared_ptr<AwaitingAuctionDeadline> Ptr;
   typedef boost::shared_ptr<const AwaitingAuctionDeadline> ConstPtr;
   AwaitingAuctionDeadline(const AuctionControllerPtr& controller);
-  virtual ~AwaitingAuctionDeadline() {}
+  virtual ~AwaitingAuctionDeadline() { submission_sub_.shutdown(); }
+  virtual bool preProcess();
+  virtual bool process();
+  virtual bool postProcess() { submission_sub_.shutdown(); }
   virtual int getNext() const;
-  virtual std::string str() const;
+  virtual std::string str() const { return "Awaiting Auction Deadline"; }
+private:
+  ros::Time deadline_;
+  ros::Subscriber submission_sub_;
+  void submissionCallback(const talmech_msgs::Bid& msg);
 };
 typedef AwaitingAuctionDeadline::Ptr AwaitingAuctionDeadlinePtr;
 typedef AwaitingAuctionDeadline::ConstPtr AwaitingAuctionDeadlineConstPtr;

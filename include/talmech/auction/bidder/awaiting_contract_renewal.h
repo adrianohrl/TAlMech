@@ -17,7 +17,7 @@ public:
   AwaitingContractRenewal(const BidderControllerPtr& controller);
   virtual ~AwaitingContractRenewal() {}
   virtual int getNext() const;
-  virtual std::string str() const;
+  virtual std::string str() const { return "Awaiting Contract Renewal"; }
 };
 typedef AwaitingContractRenewal::Ptr AwaitingContractRenewalPtr;
 typedef AwaitingContractRenewal::ConstPtr AwaitingContractRenewalConstPtr;

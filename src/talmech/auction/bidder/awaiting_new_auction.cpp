@@ -16,11 +16,6 @@ int AwaitingNewAuction::getNext() const
   //return states::AwaitingNewAuction;
   return states::AwaitingContractRenewal;
 }
-
-std::string AwaitingNewAuction::str() const
-{
-  return "Awaiting New Auction";
-}
 }
 }
 }

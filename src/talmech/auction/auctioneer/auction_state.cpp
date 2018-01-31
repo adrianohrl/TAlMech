@@ -8,7 +8,8 @@ namespace auction
 namespace auctioneer
 {
 AuctionState::AuctionState(const AuctionControllerPtr& controller, State state)
-    : MachineState::MachineState(controller, state)
+    : MachineState::MachineState(controller, state),
+      auction_(controller->getAuction())
 {
 }
 }

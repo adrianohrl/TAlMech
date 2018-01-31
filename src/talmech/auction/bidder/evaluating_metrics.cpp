@@ -16,11 +16,6 @@ int EvaluatingMetrics::getNext() const
   //return states::AwaitingNewAuction;
   return states::AwaitingAuctionClose;
 }
-
-std::string EvaluatingMetrics::str() const
-{
-  return "Evaluating Metrics";
-}
 }
 }
 }

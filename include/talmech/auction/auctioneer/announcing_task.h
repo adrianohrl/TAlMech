@@ -3,6 +3,7 @@
 
 #include "auction_state.h"
 #include <ros/publisher.h>
+#include <talmech_msgs/Auction.h>
 
 namespace talmech
 {
@@ -16,9 +17,13 @@ public:
   typedef boost::shared_ptr<AnnouncingTask> Ptr;
   typedef boost::shared_ptr<const AnnouncingTask> ConstPtr;
   AnnouncingTask(const AuctionControllerPtr& controller);
-  virtual ~AnnouncingTask() {}
-  virtual int getNext() const;
-  virtual std::string str() const;
+  virtual ~AnnouncingTask() { auction_pub_.shutdown(); }
+  virtual bool preProcess();
+  virtual bool process();
+  virtual int getNext() const { return states::AwaitingAuctionDeadline; }
+  virtual std::string str() const { return "Announcing Task"; }
+private:
+  ros::Publisher auction_pub_;
 };
 typedef AnnouncingTask::Ptr AnnouncingTaskPtr;
 typedef AnnouncingTask::ConstPtr AnnouncingTaskConstPtr;

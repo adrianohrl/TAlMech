@@ -12,13 +12,6 @@ AwaitingAuctionClose::AwaitingAuctionClose(
     : BidderState::BidderState(controller, states::AwaitingAuctionClose)
 {
 }
-
-int AwaitingAuctionClose::getNext() const { return states::EvaluatingMetrics; }
-
-std::string AwaitingAuctionClose::str() const
-{
-  return "Awaiting Auction Close";
-}
 }
 }
 }

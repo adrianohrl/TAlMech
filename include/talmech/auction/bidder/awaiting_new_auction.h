@@ -17,7 +17,7 @@ public:
   AwaitingNewAuction(const BidderControllerPtr& controller);
   virtual ~AwaitingNewAuction() {}
   virtual int getNext() const;
-  virtual std::string str() const;
+  virtual std::string str() const { return "Awaiting New Auction"; }
 };
 typedef AwaitingNewAuction::Ptr AwaitingNewAuctionPtr;
 typedef AwaitingNewAuction::ConstPtr AwaitingNewAuctionConstPtr;

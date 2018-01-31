@@ -1,6 +1,7 @@
 #ifndef _TALMECH_AUCTION_AUCTIONEER_STATE_H_
 #define _TALMECH_AUCTION_AUCTIONEER_STATE_H_
 
+#include "../auction.h"
 #include "../../machine_state.h"
 
 namespace talmech
@@ -35,6 +36,7 @@ public:
   }
 protected:
   AuctionState(const AuctionControllerPtr& controller, State state);
+  AuctionPtr auction_;
 };
 typedef AuctionState::Ptr AuctionStatePtr;
 typedef AuctionState::ConstPtr AuctionStateConstPtr;

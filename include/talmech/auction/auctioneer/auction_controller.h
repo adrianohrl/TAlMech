@@ -18,10 +18,7 @@ class AuctionController
 public:
   typedef boost::shared_ptr<AuctionController> Ptr;
   typedef boost::shared_ptr<const AuctionController> ConstPtr;
-  AuctionController(const ros::NodeHandlePtr& nh, const AuctionPtr& auction)
-      : MachineController::MachineController(nh), auction_(auction)
-  {
-  }
+  AuctionController(const ros::NodeHandlePtr& nh, const AuctionPtr& auction);
   virtual ~AuctionController() {}
   void addState(State id, const AuctionStatePtr& state);
   virtual void init();

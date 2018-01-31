@@ -18,11 +18,6 @@ int AwaitingContractRenewal::getNext() const
   // return states::AwaitingContractRenewal;
   return states::AwaitingNewAuction;
 }
-
-std::string AwaitingContractRenewal::str() const
-{
-  return "Awaiting Contract Renewal";
-}
 }
 }
 }

@@ -16,8 +16,8 @@ public:
   typedef boost::shared_ptr<const SelectingWinner> ConstPtr;
   SelectingWinner(const AuctionControllerPtr& controller);
   virtual ~SelectingWinner() {}
-  virtual int getNext() const;
-  virtual std::string str() const;
+  virtual int getNext() const { return states::RenewingContract; }
+  virtual std::string str() const { return "Selecting Winner"; }
 };
 typedef SelectingWinner::Ptr SelectingWinnerPtr;
 typedef SelectingWinner::ConstPtr SelectingWinnerConstPtr;

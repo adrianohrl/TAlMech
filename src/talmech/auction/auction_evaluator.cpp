@@ -14,10 +14,10 @@ AuctionEvaluator::AuctionEvaluator(const Comparator<Bid>::Ptr& comparator)
   }
 }
 
-BidConstPtr AuctionEvaluator::evaluate(const BidListConstIt& begin,
-                                       const BidListConstIt& end) const
+BidConstPtr AuctionEvaluator::evaluate(const BidsConstIt &begin,
+                                       const BidsConstIt &end) const
 {
-  BidListConstIt it(begin);
+  BidsConstIt it(begin);
   BidConstPtr winner(*it);
   for (it++; it != end; it++)
   {

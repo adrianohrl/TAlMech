@@ -8,9 +8,9 @@ namespace talmech
 {
 namespace auction
 {
-typedef std::list<BidPtr> BidList;
-typedef BidList::iterator BidListIt;
-typedef BidList::const_iterator BidListConstIt;
+typedef std::list<BidPtr> Bids;
+typedef Bids::iterator BidsIt;
+typedef Bids::const_iterator BidsConstIt;
 class AuctionEvaluator
 {
 public:
@@ -19,8 +19,8 @@ public:
   AuctionEvaluator(
       const Comparator<Bid>::Ptr& comparator = HighestBidPtr(new HighestBid()));
   virtual ~AuctionEvaluator() {}
-  virtual BidConstPtr evaluate(const BidListConstIt& begin,
-                               const BidListConstIt& end) const;
+  virtual BidConstPtr evaluate(const BidsConstIt& begin,
+                               const BidsConstIt& end) const;
   Comparator<Bid>::Ptr getComparator() const { return comparator_; }
   void setComparator(const Comparator<Bid>::Ptr& comparator);
 

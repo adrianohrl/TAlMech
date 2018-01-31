@@ -16,8 +16,8 @@ public:
   typedef boost::shared_ptr<const AwaitingAuctionClose> ConstPtr;
   AwaitingAuctionClose(const BidderControllerPtr& controller);
   virtual ~AwaitingAuctionClose() {}
-  virtual int getNext() const;
-  virtual std::string str() const;
+  virtual int getNext() const { return states::EvaluatingMetrics; }
+  virtual std::string str() const { return "Awaiting Auction Close"; }
 };
 typedef AwaitingAuctionClose::Ptr AwaitingAuctionClosePtr;
 typedef AwaitingAuctionClose::ConstPtr AwaitingAuctionCloseConstPtr;

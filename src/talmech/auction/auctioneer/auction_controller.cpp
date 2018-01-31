@@ -4,6 +4,7 @@
 #include "talmech/auction/auctioneer/awaiting_disposal.h"
 #include "talmech/auction/auctioneer/renewing_contract.h"
 #include "talmech/auction/auctioneer/selecting_winner.h"
+#include "talmech/exception.h"
 
 namespace talmech
 {
@@ -11,6 +12,15 @@ namespace auction
 {
 namespace auctioneer
 {
+AuctionController::AuctionController(const ros::NodeHandlePtr &nh, const AuctionPtr &auction)
+  : MachineController::MachineController(nh), auction_(auction)
+{
+  if (!auction_)
+  {
+    throw Exception("The controller auction must not be null.");
+  }
+}
+
 void AuctionController::addState(State id, const AuctionStatePtr& state)
 {
   MachineController::addState(id, state);

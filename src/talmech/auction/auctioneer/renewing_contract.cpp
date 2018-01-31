@@ -17,11 +17,6 @@ int RenewingContract::getNext() const
   //return states::RenewingContract;
   return states::AwaitingDisposal;
 }
-
-std::string RenewingContract::str() const
-{
-  return "Renewing Contract";
-}
 }
 }
 }

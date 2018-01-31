@@ -17,7 +17,7 @@ public:
   EvaluatingMetrics(const BidderControllerPtr& controller);
   virtual ~EvaluatingMetrics() {}
   virtual int getNext() const;
-  virtual std::string str() const;
+  virtual std::string str() const { return "Evaluating Metrics"; }
 };
 typedef EvaluatingMetrics::Ptr EvaluatingMetricsPtr;
 typedef EvaluatingMetrics::ConstPtr EvaluatingMetricsConstPtr;

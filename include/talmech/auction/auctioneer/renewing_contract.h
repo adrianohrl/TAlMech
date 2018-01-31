@@ -17,7 +17,7 @@ public:
   RenewingContract(const AuctionControllerPtr& controller);
   virtual ~RenewingContract() {}
   virtual int getNext() const;
-  virtual std::string str() const;
+  virtual std::string str() const { return "Renewing Contract"; }
 };
 typedef RenewingContract::Ptr RenewingContractPtr;
 typedef RenewingContract::ConstPtr RenewingContractConstPtr;

@@ -9,16 +9,21 @@ namespace auctioneer
 {
 AnnouncingTask::AnnouncingTask(const AuctionControllerPtr &controller)
   : AuctionState::AuctionState(controller, states::AnnouncingTask)
-{}
-
-int AnnouncingTask::getNext() const
 {
-  return states::AwaitingAuctionDeadline;
+  ros::NodeHandlePtr nh(getController()->getNodeHandle());
+  auction_pub_ = nh->advertise<talmech_msgs::Auction>("/auction/announcement", 1);
 }
 
-std::string AnnouncingTask::str() const
+bool AnnouncingTask::preProcess()
 {
-  return "Announcing Task";
+  auction_->start();
+  return MachineState::preProcess();
+}
+
+bool AnnouncingTask::process()
+{
+  auction_pub_.publish(auction_->toMsg());
+  return MachineState::process();
 }
 }
 }

@@ -12,11 +12,13 @@ void Role::process()
     ControllerPtr controller(*it);
     if (controller->isDisposed())
     {
+      ROS_INFO_STREAM("[Role] Disposing...");
       it = controllers_.erase(it);
       continue;
     }
-    ROS_INFO_STREAM("[Role] processing ");
+    ROS_INFO_STREAM("[Role] Processing...");
     controller->process();
+    ROS_INFO_STREAM("[Role] Processed...");
     it++;
   }
 }

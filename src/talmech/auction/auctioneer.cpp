@@ -24,7 +24,9 @@ Auctioneer::Auctioneer(const ros::NodeHandlePtr& nh,
 
 bool Auctioneer::auction(const TaskPtr& task)
 {
-  AuctionPtr auction(new Auction(task->getId(), task, auction_duration_,
+  std::stringstream ss;
+  ss << task->getId() << "-" << ros::Time::now();
+  AuctionPtr auction(new Auction(ss.str(), task, auction_duration_,
                                  renewal_rate_, sorted_insertion_,
                                  reallocation_, bid_update_, evaluator_));
   ControllerPtr controller(new auctioneer::AuctionController(nh_, auction));
