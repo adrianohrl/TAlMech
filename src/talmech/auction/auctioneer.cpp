@@ -6,12 +6,13 @@ namespace talmech
 {
 namespace auction
 {
-Auctioneer::Auctioneer(const ros::NodeHandlePtr& nh,
+Auctioneer::Auctioneer(const std::string& id, const ros::NodeHandlePtr& nh,
                        const ros::Duration& auction_duration,
                        const ros::Rate& renewal_rate, bool sorted_insertion,
                        bool reallocation, bool bid_update,
+                       const std::size_t& max_size,
                        const AuctionEvaluatorPtr& evaluator)
-    : Role::Role(), nh_(nh), auction_duration_(auction_duration),
+    : Role::Role(id, max_size), nh_(nh), auction_duration_(auction_duration),
       renewal_rate_(renewal_rate), evaluator_(evaluator),
       sorted_insertion_(sorted_insertion), reallocation_(reallocation),
       bid_update_(bid_update)
@@ -25,7 +26,7 @@ Auctioneer::Auctioneer(const ros::NodeHandlePtr& nh,
 bool Auctioneer::auction(const TaskPtr& task)
 {
   std::stringstream ss;
-  ss << task->getId() << "-" << ros::Time::now();
+  ss << id_ << "-" << ros::Time::now();
   AuctionPtr auction(new Auction(ss.str(), task, auction_duration_,
                                  renewal_rate_, sorted_insertion_,
                                  reallocation_, bid_update_, evaluator_));

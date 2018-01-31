@@ -21,6 +21,7 @@ TEST(Auctioneer, Controller)
   Bid bid3("auction1", "bidder3", 6.0);
   Bid bid4("auction1", "bidder1", 17.0);
   Bid bid5("auction1", "bidder4", 15.0);
+  auction->start();
   ROS_INFO_STREAM("[bids: " << auction->size() << "] Submiting " << bid1
                             << "...");
   auction->submit(bid1);
@@ -37,4 +38,7 @@ TEST(Auctioneer, Controller)
                             << "...");
   auction->submit(bid5);
   ROS_INFO_STREAM("[bids: " << auction->size() << "] Submitted all...");
+  auction->close();
+  auction->selectWinner();
+  ROS_WARN_STREAM("Winner: " << auction->getWinner());
 }

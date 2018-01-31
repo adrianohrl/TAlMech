@@ -17,7 +17,7 @@ public:
   typedef boost::shared_ptr<AwaitingAuctionDeadline> Ptr;
   typedef boost::shared_ptr<const AwaitingAuctionDeadline> ConstPtr;
   AwaitingAuctionDeadline(const AuctionControllerPtr& controller);
-  virtual ~AwaitingAuctionDeadline() { submission_sub_.shutdown(); }
+  virtual ~AwaitingAuctionDeadline() { subscriber_.shutdown(); }
   virtual bool preProcess();
   virtual bool process();
   virtual bool postProcess();
@@ -25,8 +25,8 @@ public:
   virtual std::string str() const { return "Awaiting Auction Deadline"; }
 private:
   ros::Time deadline_;
-  ros::Subscriber submission_sub_;
-  void submissionCallback(const talmech_msgs::Bid& msg);
+  ros::Subscriber subscriber_;
+  void callback(const talmech_msgs::Bid& msg);
 };
 typedef AwaitingAuctionDeadline::Ptr AwaitingAuctionDeadlinePtr;
 typedef AwaitingAuctionDeadline::ConstPtr AwaitingAuctionDeadlineConstPtr;

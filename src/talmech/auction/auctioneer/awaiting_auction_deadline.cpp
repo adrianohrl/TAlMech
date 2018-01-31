@@ -18,9 +18,8 @@ bool AwaitingAuctionDeadline::preProcess()
   auction_->clear();
   deadline_ = auction_->getStartTimestamp() + auction_->getDuration();
   ros::NodeHandlePtr nh(getController()->getNodeHandle());
-  submission_sub_ =
-      nh->subscribe("/auction/submission", 100,
-                    &AwaitingAuctionDeadline::submissionCallback, this);
+  subscriber_ = nh->subscribe("/auction/submission", 100,
+                              &AwaitingAuctionDeadline::callback, this);
   return MachineState::preProcess();
 }
 
@@ -36,23 +35,24 @@ bool AwaitingAuctionDeadline::postProcess()
   {
     auction_->abort();
   }
-   submission_sub_.shutdown();
-   return MachineState::postProcess();
+  subscriber_.shutdown();
+  return MachineState::postProcess();
 }
 
 int AwaitingAuctionDeadline::getNext() const
 {
-  return auction_->empty() ? states::AwaitingDisposal : states::SelectingWinner;
+  return auction_->hasCandidates() ? states::SelectingWinner
+                                   : states::AwaitingDisposal;
 }
 
-void AwaitingAuctionDeadline::submissionCallback(const talmech_msgs::Bid& msg)
+void AwaitingAuctionDeadline::callback(const talmech_msgs::Bid& msg)
 {
-  ROS_WARN_STREAM("[AwaitingAuctionDeadline] submissionCallback...");
+  ROS_WARN_STREAM("[AwaitingAuctionDeadline] callback for " << msg.bidder);
   if (msg.auction != auction_->getId())
   {
     return;
   }
-  ROS_WARN_STREAM("[AwaitingAuctionDeadline] submiting...");
+  ROS_WARN_STREAM("[AwaitingAuctionDeadline] callback for " << msg.bidder);
   Bid bid(msg);
   auction_->submit(bid);
 }

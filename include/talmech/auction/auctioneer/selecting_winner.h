@@ -2,6 +2,7 @@
 #define _TALMECH_AUCTION_SELECTING_WINNER_H_
 
 #include "auction_state.h"
+#include <ros/publisher.h>
 
 namespace talmech
 {
@@ -15,9 +16,12 @@ public:
   typedef boost::shared_ptr<SelectingWinner> Ptr;
   typedef boost::shared_ptr<const SelectingWinner> ConstPtr;
   SelectingWinner(const AuctionControllerPtr& controller);
-  virtual ~SelectingWinner() {}
+  virtual ~SelectingWinner() { publisher_.shutdown(); }
+  virtual bool process();
   virtual int getNext() const { return states::RenewingContract; }
   virtual std::string str() const { return "Selecting Winner"; }
+private:
+  ros::Publisher publisher_;
 };
 typedef SelectingWinner::Ptr SelectingWinnerPtr;
 typedef SelectingWinner::ConstPtr SelectingWinnerConstPtr;

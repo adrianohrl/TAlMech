@@ -14,7 +14,7 @@ class Bidder : public Role
 public:
   typedef boost::shared_ptr<Bidder> Ptr;
   typedef boost::shared_ptr<const Bidder> ConstPtr;
-  Bidder(const ros::NodeHandlePtr& nh, const MetricsEvaluatorPtr& evaluator);
+  Bidder(const std::string& id, const ros::NodeHandlePtr& nh, const MetricsEvaluatorPtr& evaluator, const std::size_t& max_size = 1);
   virtual ~Bidder() {}
   MetricsEvaluatorPtr getEvaluator() const { return evaluator_; }
   void setEvaluator(const MetricsEvaluatorPtr& evaluator);

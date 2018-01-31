@@ -1,5 +1,6 @@
 #include "talmech/auction/auctioneer/announcing_task.h"
 #include "talmech/auction/auctioneer/auction_controller.h"
+#include <talmech_msgs/Auction.h>
 
 namespace talmech
 {
@@ -10,26 +11,15 @@ namespace auctioneer
 AnnouncingTask::AnnouncingTask(const AuctionControllerPtr &controller)
   : AuctionState::AuctionState(controller, states::AnnouncingTask)
 {
-  ros::NodeHandlePtr nh(getController()->getNodeHandle());
-  auction_pub_ = nh->advertise<talmech_msgs::Auction>("/auction/announcement", 1);
-}
-
-bool AnnouncingTask::preProcess()
-{
-  auction_->start();
-  return MachineState::preProcess();
+  ros::NodeHandlePtr nh(controller->getNodeHandle());
+  publisher_ = nh->advertise<talmech_msgs::Auction>("/auction/announcement", 1);
 }
 
 bool AnnouncingTask::process()
 {
-  auction_pub_.publish(auction_->toMsg());
+  auction_->start();
+  publisher_.publish(auction_->toMsg());
   return MachineState::process();
-}
-
-bool AnnouncingTask::postProcess()
-{
-  auction_pub_.shutdown();
-  return MachineState::postProcess();
 }
 }
 }

@@ -5,9 +5,9 @@ namespace talmech
 {
 namespace auction
 {
-Bidder::Bidder(const ros::NodeHandlePtr& nh,
-               const MetricsEvaluatorPtr& evaluator)
-    : Role::Role(), nh_(nh),
+Bidder::Bidder(const std::string& id, const ros::NodeHandlePtr& nh,
+               const MetricsEvaluatorPtr& evaluator, const std::size_t& max_size)
+    : Role::Role(id, max_size), nh_(nh),
       evaluator_(evaluator)
 {
 }

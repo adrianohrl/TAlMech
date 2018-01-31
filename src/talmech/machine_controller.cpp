@@ -18,17 +18,17 @@ void MachineController::process()
   }
   if (!current_->isPreProcessed())
   {
-    ROS_INFO_STREAM("[MachineController] pre processing " << current_->str() << "...");
+    ROS_INFO_STREAM_ONCE("[MachineController] pre processing " << current_->str() << "...");
     current_->preProcess();
   }
   else if (!current_->isProcessed())
   {
-    ROS_INFO_STREAM("[MachineController] processing " << current_->str() << "...");
+    ROS_INFO_STREAM_ONCE("[MachineController] processing " << current_->str() << "...");
     current_->process();
   }
   else if (!current_->isPostProcessed())
   {
-    ROS_INFO_STREAM("[MachineController] post processing " << current_->str() << "...");
+    ROS_INFO_STREAM_ONCE("[MachineController] post processing " << current_->str() << "...");
     current_->postProcess();
   }
   else

@@ -15,11 +15,12 @@ class Auctioneer : public Role
 public:
   typedef boost::shared_ptr<Auctioneer> Ptr;
   typedef boost::shared_ptr<const Auctioneer> ConstPtr;
-  Auctioneer(const ros::NodeHandlePtr& nh,
+  Auctioneer(const std::string& id, const ros::NodeHandlePtr& nh,
              const ros::Duration& auction_duration = ros::Duration(1.5),
              const ros::Rate& renewal_rate = ros::Rate(2),
              bool sorted_insertion = true, bool reallocation = true,
              bool bid_update = false,
+             const std::size_t& max_size = 1,
              const AuctionEvaluatorPtr& evaluator =
                  AuctionEvaluatorPtr(new AuctionEvaluator()));
   virtual ~Auctioneer() {}
@@ -39,6 +40,7 @@ public:
   }
   void setBidUpdate(bool bid_update) { bid_update_ = bid_update; }
   void setEvaluator(const AuctionEvaluatorPtr& evaluator);
+
 private:
   ros::NodeHandlePtr nh_;
   ros::Duration auction_duration_;

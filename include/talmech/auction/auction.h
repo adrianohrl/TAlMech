@@ -17,6 +17,16 @@ namespace talmech
 {
 namespace auction
 {
+namespace status
+{
+enum Status
+{
+  Ongoing,
+  Concluded,
+  Aborted
+};
+}
+typedef status::Status ContractStatus;
 class Auction : public ToMsg<talmech_msgs::Auction>
 {
 public:
@@ -37,6 +47,11 @@ public:
   virtual void abort();
   virtual void conclude();
   virtual void selectWinner();
+  bool hasCandidates() const { return !bids_.empty(); }
+  bool hasRenewalExpired() const { return ros::Time::now() > renewal_deadline_; }
+  bool hasAborted() const { return !abortion_timestamp_.isZero(); }
+  bool hasConcluded() const { return !conclusion_timestamp_.isZero(); }
+  bool isOngoing() const;
   std::string getId() const { return id_; }
   ros::Time getStartTimestamp() const { return start_timestamp_; }
   ros::Duration getDuration() const { return duration_; }
@@ -50,7 +65,7 @@ public:
   BidsConstIt begin() const { return bids_.begin(); }
   BidsIt end() { return bids_.end(); }
   BidsConstIt end() const { return bids_.end(); }
-  RobotPtr getWinner() const { return winner_; }
+  std::string getWinner() const { return winner_; }
   bool isSortedInsertion() const { return sorted_insertion_; }
   bool isReauctionAllowed() const { return reauction_; }
   bool isBidUpdateAllowed() const { return bid_update_; }
@@ -61,6 +76,7 @@ public:
     talmech_msgs::Auction msg;
     msg.id = id_;
     msg.task = task_->toMsg();
+    msg.expected_close = start_timestamp_ + duration_;
     return msg;
   }
   bool operator==(const Auction& auction) const { return id_ == auction.id_; }
@@ -81,17 +97,19 @@ protected:
   {
     close_timestamp_ = timestamp;
   }
-  void setWinner(const RobotPtr& winner) { winner_ = winner; }
+  void setWinner(const std::string& winner) { winner_ = winner; }
 private:
   std::string id_;
   TaskPtr task_;
   ros::Time start_timestamp_;
   ros::Duration duration_;
   ros::Time close_timestamp_;
+  Bids bids_;
+  std::string winner_;
   ros::Rate renewal_rate_;
   ros::Time renewal_deadline_;
-  Bids bids_;
-  RobotPtr winner_; // Multiple Robots????
+  ros::Time abortion_timestamp_;
+  ros::Time conclusion_timestamp_;
   bool sorted_insertion_;
   AuctionEvaluatorPtr evaluator_;
   bool reauction_;

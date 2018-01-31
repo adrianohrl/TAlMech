@@ -26,7 +26,7 @@ Auction::Auction(const Auction& auction)
       renewal_deadline_(auction.renewal_deadline_),
       sorted_insertion_(auction.sorted_insertion_),
       reauction_(auction.reauction_), bid_update_(auction.reauction_),
-      evaluator_(auction.evaluator_)
+      evaluator_(auction.evaluator_), winner_(auction.winner_)
 {
 }
 
@@ -42,6 +42,11 @@ void Auction::start()
 
 void Auction::submit(const Bid& bid)
 {
+  if (start_timestamp_.isZero() || !close_timestamp_.isZero() ||
+      start_timestamp_ > bid.getTimestamp())
+  {
+    return;
+  }
   for (BidsIt it(bids_.begin()); it != bids_.end(); it++)
   {
     if (**it == bid)
@@ -57,36 +62,22 @@ void Auction::submit(const Bid& bid)
   BidPtr b(new Bid(bid));
   if (bids_.empty() || !sorted_insertion_)
   {
+    ROS_INFO_STREAM("Submiting " << bid.getBidder() << "'s bid for " << id_ << "...");
     bids_.push_back(b);
+    return;
   }
-  else
-  {
-    Comparator<Bid>::Ptr comparator(evaluator_->getComparator());
-    for (BidsIt it(bids_.begin()); it != bids_.end(); it++)
-    {
-      if (comparator->compare(bid, **it))
-      {
-        ROS_INFO_STREAM("[Auction] inserting " << *b);
-        bids_.insert(it, b);
-        ROS_INFO_STREAM("[Auction] inserted (size: " << bids_.size() << ")");
-
-        int counter(0);
-        for (BidsIt it(bids_.begin()); it != bids_.end(); it++)
-        {
-          ROS_WARN_STREAM("[Auction] " << counter++ << ": " << **it);
-        }
-        ROS_WARN_STREAM("[Auction] -------------------------");
-        return;
-      }
-    }
-    bids_.push_back(b);
-  }
-  int counter(0);
+  Comparator<Bid>::Ptr comparator(evaluator_->getComparator());
   for (BidsIt it(bids_.begin()); it != bids_.end(); it++)
   {
-    ROS_WARN_STREAM("[Auction] " << counter++ << ": " << **it);
+    if (comparator->compare(bid, **it))
+    {
+      ROS_INFO_STREAM("Submiting " << bid.getBidder() << "'s bid for " << id_ << "...");
+      bids_.insert(it, b);
+      return;
+    }
   }
-  ROS_WARN_STREAM("[Auction] -------------------------");
+  ROS_INFO_STREAM("Submiting " << bid.getBidder() << "'s bid for " << id_ << "...");
+  bids_.push_back(b);
 }
 
 void Auction::close()
@@ -99,19 +90,39 @@ void Auction::close()
   close_timestamp_ = ros::Time::now();
 }
 
+void Auction::selectWinner()
+{
+  if (close_timestamp_.isZero())
+  {
+    throw Exception("The auction must be closed before selecting a winner.");
+  }
+  BidConstPtr bid(!sorted_insertion_
+                      ? evaluator_->evaluate(bids_.begin(), bids_.end())
+                      : bids_.front());
+  winner_ = bid->getBidder();
+  ROS_INFO_STREAM("Selected " << winner_ << " as winner of " << id_);
+  renewal_deadline_ = ros::Time::now() + renewal_rate_.expectedCycleTime();
+}
+
+bool Auction::isOngoing() const
+{
+  return !hasRenewalExpired() && !hasAborted() && !hasConcluded();
+}
+
 void Auction::renewContract()
 {
-  if (renewal_deadline_.isZero())
+  if (winner_.empty())
   {
-    throw Exception("...");
+    throw Exception(
+        "The auction winner must be selected before renewing the contract.");
   }
   ros::Time timestamp(ros::Time::now());
   if (timestamp < renewal_deadline_)
   {
-    throw Exception("...");
+    throw Exception("The contract renewal deadline has expired.");
   }
   ROS_INFO_STREAM("Renewing " << id_ << " contract...");
-  renewal_deadline_ = timestamp + renewal_rate_.cycleTime();
+  renewal_deadline_ = timestamp + renewal_rate_.expectedCycleTime();
 }
 
 void Auction::restart()
@@ -126,38 +137,36 @@ void Auction::restart()
   }
   ROS_INFO_STREAM("Restarting " << id_ << "...");
   start_timestamp_ = ros::Time::now();
+  bids_.clear();
   close_timestamp_ = ros::Time();
+  winner_.clear();
+  renewal_deadline_ = ros::Time();
+  abortion_timestamp_ = ros::Time();
+  conclusion_timestamp_ = ros::Time();
+
 }
 
 void Auction::abort()
 {
-
+  if (close_timestamp_.isZero())
+  {
+    throw Exception("The auction must be closed before aborting.");
+  }
   ROS_INFO_STREAM("Aborting " << id_ << "...");
+  abortion_timestamp_ = ros::Time::now();
 }
 
 void Auction::conclude()
 {
-
+  if (close_timestamp_.isZero())
+  {
+    throw Exception("The auction must be closed before aborting.");
+  }
   ROS_INFO_STREAM("Concluding " << id_ << "...");
+  conclusion_timestamp_ = ros::Time::now();
 }
 
-void Auction::selectWinner()
-{
-  BidPtr bid; /*(sorted_insertion_
-                  ? evaluator_->evaluate(bids_.begin(), bids_.end())
-                  : bids_.front());*/
-  /*if (!sorted_insertion_)
-  {
-    bid = evaluator_->evaluate(bids_.begin(), bids_.end());
-  }
-  else
-  {
-    bid = bids_.front();
-  }
-  winner_ = bid->getBidder();*/
-}
-
-void Auction::operator=(const Auction &auction)
+void Auction::operator=(const Auction& auction)
 {
   id_ = auction.id_;
   *task_ = *auction.task_;
@@ -167,13 +176,13 @@ void Auction::operator=(const Auction &auction)
   renewal_rate_ = auction.renewal_rate_;
   renewal_deadline_ = auction.renewal_deadline_;
   bids_ = auction.bids_;
-  *winner_ = *auction.winner_;
+  winner_ = auction.winner_;
   sorted_insertion_ = auction.sorted_insertion_;
   *evaluator_ = *auction.evaluator_;
   bid_update_ = auction.bid_update_;
 }
 
-void Auction::operator=(const talmech_msgs::Auction &msg)
+void Auction::operator=(const talmech_msgs::Auction& msg)
 {
   id_ = msg.id;
   *task_ = msg.task;
@@ -183,7 +192,7 @@ void Auction::operator=(const talmech_msgs::Auction &msg)
   renewal_rate_ = ros::Rate(2.0);
   renewal_deadline_ = ros::Time();
   bids_.clear();
-  winner_ = RobotPtr();
+  winner_.clear();
   sorted_insertion_ = true;
   evaluator_.reset(new AuctionEvaluator());
   bid_update_ = false;

@@ -14,11 +14,13 @@ public:
   typedef boost::shared_ptr<const Role> ConstPtr;
   virtual ~Role() {}
   virtual void process();
+  std::string getId() const { return id_; }
 protected:
   typedef std::list<ControllerPtr> Controllers;
   typedef Controllers::iterator ControllersIt;
   typedef Controllers::const_iterator ControllersConstIt;
-  Role(std::size_t max_size = 1) : max_size_(max_size) {}
+  std::string id_;
+  Role(const std::string& id, const std::size_t& max_size = 1) : id_(id), max_size_(max_size) {}
   bool empty() const { return controllers_.empty(); }
   std::size_t size() const { return controllers_.size(); }
   ControllersIt begin() { return controllers_.begin(); }
@@ -31,7 +33,7 @@ protected:
   {
     controllers_.remove(controller);
   }
-  void setMaxSize(std::size_t max_size) { max_size_ = max_size; }
+  void setMaxSize(const std::size_t& max_size) { max_size_ = max_size; }
 private:
   Controllers controllers_;
   std::size_t max_size_;
