@@ -8,6 +8,11 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
+Forthcoming
+-----------
+* implemented RenewingContract state
+* Contributors: adrianohrl
+
 0.0.5 (2018-01-31)
 ------------------
 * fixed auction submission algorithm
