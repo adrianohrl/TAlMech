@@ -25,6 +25,12 @@ bool AnnouncingTask::process()
   auction_pub_.publish(auction_->toMsg());
   return MachineState::process();
 }
+
+bool AnnouncingTask::postProcess()
+{
+  auction_pub_.shutdown();
+  return MachineState::postProcess();
+}
 }
 }
 }

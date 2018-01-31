@@ -20,6 +20,7 @@ public:
   virtual ~AnnouncingTask() { auction_pub_.shutdown(); }
   virtual bool preProcess();
   virtual bool process();
+  virtual bool postProcess();
   virtual int getNext() const { return states::AwaitingAuctionDeadline; }
   virtual std::string str() const { return "Announcing Task"; }
 private:

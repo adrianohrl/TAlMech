@@ -42,26 +42,51 @@ void Auction::start()
 
 void Auction::submit(const Bid& bid)
 {
-  if (sorted_insertion_)
+  for (BidsIt it(bids_.begin()); it != bids_.end(); it++)
+  {
+    if (**it == bid)
+    {
+      if (!bid_update_)
+      {
+        return;
+      }
+      bids_.erase(it);
+      break;
+    }
+  }
+  BidPtr b(new Bid(bid));
+  if (bids_.empty() || !sorted_insertion_)
+  {
+    bids_.push_back(b);
+  }
+  else
   {
     Comparator<Bid>::Ptr comparator(evaluator_->getComparator());
     for (BidsIt it(bids_.begin()); it != bids_.end(); it++)
     {
-      if (**it == bid)
+      if (comparator->compare(bid, **it))
       {
-        if (bid_update_)
+        ROS_INFO_STREAM("[Auction] inserting " << *b);
+        bids_.insert(it, b);
+        ROS_INFO_STREAM("[Auction] inserted (size: " << bids_.size() << ")");
+
+        int counter(0);
+        for (BidsIt it(bids_.begin()); it != bids_.end(); it++)
         {
-          **it = bid;
+          ROS_WARN_STREAM("[Auction] " << counter++ << ": " << **it);
         }
+        ROS_WARN_STREAM("[Auction] -------------------------");
         return;
       }
-      else if (comparator->compare(bid, **it))
-      {
-        BidPtr b(new Bid(bid));
-        bids_.insert(it, b);
-      }
     }
+    bids_.push_back(b);
   }
+  int counter(0);
+  for (BidsIt it(bids_.begin()); it != bids_.end(); it++)
+  {
+    ROS_WARN_STREAM("[Auction] " << counter++ << ": " << **it);
+  }
+  ROS_WARN_STREAM("[Auction] -------------------------");
 }
 
 void Auction::close()

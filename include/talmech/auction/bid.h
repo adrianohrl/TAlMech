@@ -15,12 +15,13 @@ class Bid : public ToMsg<talmech_msgs::Bid>
 public:
   typedef boost::shared_ptr<Bid> Ptr;
   typedef boost::shared_ptr<const Bid> ConstPtr;
-  Bid(const RobotPtr& bidder, double amount = 0.0,
+  Bid(const std::string& auction, const std::string& bidder, double amount = 0.0,
       const ros::Time& timestamp = ros::Time::now());
   Bid(const Bid& bid);
   Bid(const talmech_msgs::Bid& msg);
   virtual ~Bid() {}
-  RobotPtr getBidder() const { return bidder_; }
+  std::string getAuction() const { return auction_; }
+  std::string getBidder() const { return bidder_; }
   double getAmount() const { return amount_; }
   ros::Time getTimestamp() const { return timestamp_; }
   void setAmount(double amount) { amount_ = amount; }
@@ -31,15 +32,16 @@ public:
   {
     talmech_msgs::Bid msg;
     msg.timestamp = timestamp_;
+    msg.auction = auction_;
+    msg.bidder = bidder_;
     msg.amount = amount_;
-    msg.bidder = bidder_->getId();
     return msg;
   }
   bool operator<(const Bid& bid) const { return amount_ < bid.amount_; }
   bool operator<=(const Bid& bid) const { return amount_ <= bid.amount_; }
   bool operator==(const Bid& bid) const
   {
-    return *bidder_ == *bid.bidder_ && amount_ == bid.amount_;
+    return auction_ == bid.auction_ && bidder_ == bid.bidder_;
   }
   bool operator!=(const Bid& bid) const { return !(*this == bid); }
   bool operator>=(const Bid& bid) const { return amount_ >= bid.amount_; }
@@ -52,19 +54,22 @@ public:
   virtual void operator=(const Bid& bid)
   {
     timestamp_ = bid.timestamp_;
+    auction_ = bid.auction_;
+    bidder_ = bid.bidder_;
     amount_ = bid.amount_;
-    *bidder_ = *bid.bidder_;
   }
   virtual void operator=(const talmech_msgs::Bid& msg)
   {
     timestamp_ = msg.timestamp;
+    auction_ = msg.auction;
+    bidder_ = msg.bidder;
     amount_ = msg.amount;
-    bidder_.reset(new Robot(msg.bidder));
   }
 private:
   ros::Time timestamp_;
+  std::string auction_;
+  std::string bidder_;
   double amount_;
-  RobotPtr bidder_;
 };
 typedef Bid::Ptr BidPtr;
 typedef Bid::ConstPtr BidConstPtr;
