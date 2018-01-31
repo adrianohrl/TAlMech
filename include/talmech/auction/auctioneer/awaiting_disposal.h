@@ -16,7 +16,9 @@ public:
   typedef boost::shared_ptr<const AwaitingDisposal> ConstPtr;
   AwaitingDisposal(const AuctionControllerPtr& controller);
   virtual ~AwaitingDisposal() {}
-  virtual int getNext() const { return states::AnnouncingTask; }
+  virtual bool preProcess();
+  virtual bool process() { return false; }
+  virtual int getNext() const { return states::AwaitingDisposal; }
   virtual std::string str() const { return "Awaiting Disposal"; }
 };
 typedef AwaitingDisposal::Ptr AwaitingDisposalPtr;

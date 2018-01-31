@@ -10,6 +10,12 @@ namespace auctioneer
 AwaitingDisposal::AwaitingDisposal(const AuctionControllerPtr &controller)
   : AuctionState::AuctionState(controller, states::AwaitingDisposal)
 {}
+
+bool AwaitingDisposal::preProcess()
+{
+  controller_->dispose();
+  return MachineState::preProcess();
+}
 }
 }
 }

@@ -15,6 +15,7 @@ AwaitingAuctionDeadline::AwaitingAuctionDeadline(
 
 bool AwaitingAuctionDeadline::preProcess()
 {
+  auction_->clear();
   deadline_ = auction_->getStartTimestamp() + auction_->getDuration();
   ros::NodeHandlePtr nh(getController()->getNodeHandle());
   submission_sub_ =
@@ -25,13 +26,18 @@ bool AwaitingAuctionDeadline::preProcess()
 
 bool AwaitingAuctionDeadline::process()
 {
-  if (ros::Time::now() >= deadline_)
+  return ros::Time::now() < deadline_ ? false : MachineState::process();
+}
+
+bool AwaitingAuctionDeadline::postProcess()
+{
+  auction_->close();
+  if (auction_->empty())
   {
-    auction_->close();
-    submission_sub_.shutdown();
-    return MachineState::process();
+    auction_->abort();
   }
-  return false;
+   submission_sub_.shutdown();
+   return MachineState::postProcess();
 }
 
 int AwaitingAuctionDeadline::getNext() const

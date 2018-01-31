@@ -29,6 +29,7 @@ public:
   Auction(const Auction& auction);
   virtual ~Auction() {}
   virtual void start();
+  virtual void clear() { bids_.clear(); }
   virtual void submit(const Bid &bid);
   virtual void close();
   virtual void renewContract();

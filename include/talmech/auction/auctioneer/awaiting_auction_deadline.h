@@ -20,7 +20,7 @@ public:
   virtual ~AwaitingAuctionDeadline() { submission_sub_.shutdown(); }
   virtual bool preProcess();
   virtual bool process();
-  virtual bool postProcess() { submission_sub_.shutdown(); }
+  virtual bool postProcess();
   virtual int getNext() const;
   virtual std::string str() const { return "Awaiting Auction Deadline"; }
 private:

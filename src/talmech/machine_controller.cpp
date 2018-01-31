@@ -18,22 +18,24 @@ void MachineController::process()
   }
   if (!current_->isPreProcessed())
   {
+    ROS_INFO_STREAM("[MachineController] pre processing " << current_->str() << "...");
     current_->preProcess();
   }
-  if (current_->isPreProcessed() && !current_->isProcessed())
+  else if (!current_->isProcessed())
   {
+    ROS_INFO_STREAM("[MachineController] processing " << current_->str() << "...");
     current_->process();
-    ROS_INFO_STREAM("[MachineController] processed");
   }
-  if (current_->isProcessed() && !current_->isPostProcessed())
+  else if (!current_->isPostProcessed())
   {
+    ROS_INFO_STREAM("[MachineController] post processing " << current_->str() << "...");
     current_->postProcess();
   }
-  if (current_->isPostProcessed())
+  else
   {
     std::string previous(current_->str());
     setCurrentState(current_->getNext());
-    ROS_DEBUG_STREAM("[MachineController] State Transition from "
+    ROS_INFO_STREAM("[MachineController] State Transition from "
                      << previous << " to " << current_->str());
   }
 }

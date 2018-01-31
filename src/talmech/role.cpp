@@ -16,9 +16,7 @@ void Role::process()
       it = controllers_.erase(it);
       continue;
     }
-    ROS_INFO_STREAM("[Role] Processing...");
     controller->process();
-    ROS_INFO_STREAM("[Role] Processed...");
     it++;
   }
 }
