@@ -3,6 +3,7 @@
 
 #include "../../machine_controller.h"
 #include "bidder_state.h"
+#include "../auction.h"
 
 namespace talmech
 {
@@ -16,13 +17,16 @@ class BiddingController : public MachineController,
 public:
   typedef boost::shared_ptr<BiddingController> Ptr;
   typedef boost::shared_ptr<const BiddingController> ConstPtr;
-  BiddingController(const ros::NodeHandlePtr& nh)
-    : MachineController::MachineController(nh)
+  BiddingController(const ros::NodeHandlePtr& nh, const AuctionPtr& auction, const BidPtr& bid)
+    : MachineController::MachineController(nh), auction_(auction), bid_(bid)
   {
   }
   virtual ~BiddingController() {}
   void addState(State id, const BiddingStatePtr& state);
   virtual void init();
+protected:
+  AuctionPtr auction_;
+  BidPtr bid_;
 };
 }
 typedef bidding::BiddingController::Ptr BiddingControllerPtr;

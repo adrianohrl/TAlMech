@@ -3,17 +3,24 @@
 
 #include "role.h"
 #include <string>
+#include "task.h"
 
 namespace talmech
 {
+template <class T>
+struct UtilityPtr
+{
+  typedef double (T::*Function)(const Task& task);
+};
 class Agent
 {
 public:
   typedef boost::shared_ptr<Agent> Ptr;
   typedef boost::shared_ptr<const Agent> ConstPtr;
-  Agent(const std::string& id, const RolePtr& role);
+  Agent(const std::string& id, const RolePtr& role = RolePtr());
   virtual ~Agent() {}
   virtual void process();
+  virtual double getUtility(const Task& task) const { return 0.0; }
   std::string getId() const { return id_; }
   RolePtr getRole() const { return role_; }
   std::string str() const { return id_; }
@@ -25,6 +32,8 @@ public:
     out << agent.str();
     return out;
   }
+protected:
+  void setRole(const RolePtr& role) { role_ = role; }
 private:
   std::string id_;
   RolePtr role_;

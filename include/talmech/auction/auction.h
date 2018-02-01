@@ -36,6 +36,7 @@ public:
           const ros::Duration& duration, const ros::Rate& renewal_rate,
           bool sorted_insertion, bool reauction, bool bid_update,
           const AuctionEvaluatorPtr& evaluator);
+  Auction(const talmech_msgs::Auction& msg);
   Auction(const Auction& auction);
   virtual ~Auction() {}
   virtual void start();
@@ -76,7 +77,10 @@ public:
     talmech_msgs::Auction msg;
     msg.id = id_;
     msg.task = task_->toMsg();
-    msg.expected_close = start_timestamp_ + duration_;
+    msg.start_timestamp = start_timestamp_;
+    msg.expected_duration = duration_;
+    msg.expected_close_timestamp = start_timestamp_ + duration_;
+    msg.expected_renewal_rate = 1.0 / renewal_rate_.expectedCycleTime().toSec();
     return msg;
   }
   bool operator==(const Auction& auction) const { return id_ == auction.id_; }

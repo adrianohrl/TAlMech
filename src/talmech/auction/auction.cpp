@@ -19,6 +19,13 @@ Auction::Auction(const std::string& id, const TaskPtr& task,
   }
 }
 
+Auction::Auction(const talmech_msgs::Auction& msg)
+  : id_(msg.id), task_(new Task(msg.task)), duration_(msg.expected_duration),
+    start_timestamp_(msg.start_timestamp), close_timestamp_(msg.expected_close_timestamp),
+    renewal_rate_(ros::Rate(msg.expected_renewal_rate))
+{
+}
+
 Auction::Auction(const Auction& auction)
     : id_(auction.id_), task_(auction.task_), duration_(auction.duration_),
       start_timestamp_(auction.start_timestamp_),
@@ -186,10 +193,10 @@ void Auction::operator=(const talmech_msgs::Auction& msg)
 {
   id_ = msg.id;
   *task_ = msg.task;
-  start_timestamp_ = ros::Time();
-  duration_ = ros::Duration(1.5);
-  close_timestamp_ = ros::Time();
-  renewal_rate_ = ros::Rate(2.0);
+  start_timestamp_ = msg.start_timestamp;
+  duration_ = msg.expected_duration;
+  close_timestamp_ = msg.expected_close_timestamp;
+  renewal_rate_ = ros::Rate(msg.expected_renewal_rate);
   renewal_deadline_ = ros::Time();
   bids_.clear();
   winner_.clear();

@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 2.8.3)
 
 project(talmech)
 
+if(NOT WIN32)
+  set_directory_properties(PROPERTIES COMPILE_OPTIONS "-std=c++11")
+endif()
+
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   talmech_msgs
@@ -55,6 +59,8 @@ set(H_FILES
   include/talmech/auction/auction.h
   include/talmech/auction/auction_evaluator.h
   include/talmech/auction/auctioneer.h
+  include/talmech/auction/auctioneer_agent.h
+  include/talmech/auction/auctioneer_robot.h
   include/talmech/auction/auctioning/announcing_task.h
   include/talmech/auction/auctioning/auctioning_controller.h
   include/talmech/auction/auctioning/auctioning_state.h
@@ -64,6 +70,8 @@ set(H_FILES
   include/talmech/auction/auctioning/selecting_winner.h
   include/talmech/auction/bid.h
   include/talmech/auction/bidder.h
+  include/talmech/auction/bidder_agent.h
+  include/talmech/auction/bidder_robot.h
   include/talmech/auction/bidding/awaiting_auction_close.h
   include/talmech/auction/bidding/awaiting_contract_renewal.h
   include/talmech/auction/bidding/awaiting_new_auction.h
