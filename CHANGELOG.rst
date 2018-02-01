@@ -16,7 +16,7 @@ Changelog for package talmech
 0.0.5 (2018-01-31)
 ------------------
 * fixed auction submission algorithm
-* implemented AwaitingDisposal state
+* implemented AwaitingAuctioningDisposal state
 * implemented AwaitingAuctionDeadline state
 * there is an instance of the machine controller available for use inside each machine state
 * Contributors: adrianohrl

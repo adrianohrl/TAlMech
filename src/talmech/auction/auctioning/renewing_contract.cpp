@@ -1,4 +1,4 @@
-#include "talmech/auction/auctioning/auction_controller.h"
+#include "talmech/auction/auctioning/auctioning_controller.h"
 #include "talmech/auction/auctioning/renewing_contract.h"
 
 namespace talmech
@@ -47,7 +47,7 @@ bool RenewingContract::postProcess()
 int RenewingContract::getNext() const
 {
   return !auction_->isOngoing()
-             ? states::AwaitingDisposal
+             ? states::AwaitingAuctioningDisposal
              : states::AnnouncingTask;
 }
 

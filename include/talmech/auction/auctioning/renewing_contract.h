@@ -1,7 +1,7 @@
 #ifndef _TALMECH_AUCTION_RENEWING_CONTRACT_H_
 #define _TALMECH_AUCTION_RENEWING_CONTRACT_H_
 
-#include "auction_state.h"
+#include "auctioning_state.h"
 #include <ros/publisher.h>
 #include <ros/subscriber.h>
 #include <talmech_msgs/Acknowledgment.h>

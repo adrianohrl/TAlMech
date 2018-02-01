@@ -1,5 +1,5 @@
 #include "talmech/auction/auctioning/announcing_task.h"
-#include "talmech/auction/auctioning/auction_controller.h"
+#include "talmech/auction/auctioning/auctioning_controller.h"
 #include <talmech_msgs/Auction.h>
 
 namespace talmech

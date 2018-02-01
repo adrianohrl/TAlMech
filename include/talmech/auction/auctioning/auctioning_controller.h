@@ -1,9 +1,9 @@
-#ifndef _TALMECH_AUCTION_AUCTIONEER_CONTROLLER_H_
-#define _TALMECH_AUCTION_AUCTIONEER_CONTROLLER_H_
+#ifndef _TALMECH_AUCTION_AUCTIONING_CONTROLLER_H_
+#define _TALMECH_AUCTION_AUCTIONING_CONTROLLER_H_
 
 #include "../auction.h"
 #include "../../machine_controller.h"
-#include "auction_state.h"
+#include "auctioning_state.h"
 
 namespace talmech
 {
@@ -20,7 +20,10 @@ public:
   typedef boost::shared_ptr<const AuctioningController> ConstPtr;
   AuctioningController(const ros::NodeHandlePtr& nh, const AuctionPtr& auction);
   virtual ~AuctioningController() {}
-  void addState(State id, const AuctioningStatePtr& state);
+  void addState(State id, const AuctioningStatePtr& state)
+  {
+    MachineController::addState(id, state);
+  }
   virtual void init();
   AuctionPtr getAuction() const { return auction_; }
 private:
@@ -32,4 +35,4 @@ typedef auctioning::AuctioningController::ConstPtr AuctioningControllerConstPtr;
 }
 }
 
-#endif // _TALMECH_AUCTION_AUCTIONEER_CONTROLLER_H_
+#endif // _TALMECH_AUCTION_AUCTIONING_CONTROLLER_H_

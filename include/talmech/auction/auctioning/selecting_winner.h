@@ -1,7 +1,7 @@
 #ifndef _TALMECH_AUCTION_SELECTING_WINNER_H_
 #define _TALMECH_AUCTION_SELECTING_WINNER_H_
 
-#include "auction_state.h"
+#include "auctioning_state.h"
 #include <ros/publisher.h>
 
 namespace talmech

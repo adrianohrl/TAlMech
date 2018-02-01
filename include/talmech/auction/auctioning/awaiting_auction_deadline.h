@@ -1,7 +1,7 @@
 #ifndef _TALMECH_AUCTION_AWAITING_AUCTION_DEADLINE_H_
 #define _TALMECH_AUCTION_AWAITING_AUCTION_DEADLINE_H_
 
-#include "auction_state.h"
+#include "auctioning_state.h"
 #include <ros/subscriber.h>
 #include <talmech_msgs/Bid.h>
 

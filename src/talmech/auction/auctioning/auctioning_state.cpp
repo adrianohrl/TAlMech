@@ -1,5 +1,5 @@
-#include "talmech/auction/auctioning/auction_controller.h"
-#include "talmech/auction/auctioning/auction_state.h"
+#include "talmech/auction/auctioning/auctioning_controller.h"
+#include "talmech/auction/auctioning/auctioning_state.h"
 
 namespace talmech
 {

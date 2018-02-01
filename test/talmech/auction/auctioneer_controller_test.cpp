@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <ros/console.h>
-#include "talmech/auction/auctioning/auction_controller.h"
+#include "talmech/auction/auctioning/auctioning_controller.h"
 
 using namespace talmech;
 using namespace talmech::auction;

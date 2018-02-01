@@ -2,7 +2,7 @@
 #define _TALMECH_AUCTION_BIDDER_CONTROLLER_H_
 
 #include "../../machine_controller.h"
-#include "bidder_state.h"
+#include "bidding_state.h"
 #include "../auction.h"
 
 namespace talmech
@@ -22,7 +22,10 @@ public:
   {
   }
   virtual ~BiddingController() {}
-  void addState(State id, const BiddingStatePtr& state);
+  void addState(State id, const BiddingStatePtr& state)
+  {
+    MachineController::addState(id, state);
+  }
   virtual void init();
 protected:
   AuctionPtr auction_;

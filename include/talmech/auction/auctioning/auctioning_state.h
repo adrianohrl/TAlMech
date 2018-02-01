@@ -1,5 +1,5 @@
-#ifndef _TALMECH_AUCTION_AUCTIONEER_STATE_H_
-#define _TALMECH_AUCTION_AUCTIONEER_STATE_H_
+#ifndef _TALMECH_AUCTION_AUCTIONING_STATE_H_
+#define _TALMECH_AUCTION_AUCTIONING_STATE_H_
 
 #include "../auction.h"
 #include "../../machine_state.h"
@@ -18,7 +18,7 @@ enum State
   AwaitingAuctionDeadline,
   SelectingWinner,
   RenewingContract,
-  AwaitingDisposal
+  AwaitingAuctioningDisposal
 };
 }
 typedef states::State State;
@@ -44,4 +44,4 @@ typedef AuctioningState::ConstPtr AuctioningStateConstPtr;
 }
 }
 
-#endif // _TALMECH_AUCTION_AUCTIONEER_STATE_H_
+#endif // _TALMECH_AUCTION_AUCTIONING_STATE_H_

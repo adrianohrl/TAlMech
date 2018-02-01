@@ -1,4 +1,4 @@
-#include "talmech/auction/auctioning/auction_controller.h"
+#include "talmech/auction/auctioning/auctioning_controller.h"
 #include "talmech/auction/auctioning/awaiting_auction_deadline.h"
 
 namespace talmech
@@ -42,7 +42,7 @@ bool AwaitingAuctionDeadline::postProcess()
 int AwaitingAuctionDeadline::getNext() const
 {
   return auction_->hasCandidates() ? states::SelectingWinner
-                                   : states::AwaitingDisposal;
+                                   : states::AwaitingAuctioningDisposal;
 }
 
 void AwaitingAuctionDeadline::callback(const talmech_msgs::Bid& msg)

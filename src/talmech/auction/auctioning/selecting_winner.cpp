@@ -1,4 +1,4 @@
-#include "talmech/auction/auctioning/auction_controller.h"
+#include "talmech/auction/auctioning/auctioning_controller.h"
 #include "talmech/auction/auctioning/selecting_winner.h"
 #include <talmech_msgs/Acknowledgment.h>
 

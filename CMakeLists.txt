@@ -34,17 +34,16 @@ set(CPP_FILES
   src/talmech/auction/auctioning/auctioning_controller.cpp
   src/talmech/auction/auctioning/auctioning_state.cpp
   src/talmech/auction/auctioning/awaiting_auction_deadline.cpp
-  src/talmech/auction/auctioning/awaiting_disposal.cpp
+  src/talmech/auction/auctioning/awaiting_auctioning_disposal.cpp
   src/talmech/auction/auctioning/renewing_contract.cpp
   src/talmech/auction/auctioning/selecting_winner.cpp
   src/talmech/auction/bid.cpp
   src/talmech/auction/bidder.cpp
   src/talmech/auction/bidding/awaiting_auction_close.cpp
+  src/talmech/auction/bidding/awaiting_bidding_disposal.cpp
   src/talmech/auction/bidding/awaiting_contract_renewal.cpp
-  src/talmech/auction/bidding/awaiting_new_auction.cpp
   src/talmech/auction/bidding/bidding_controller.cpp
   src/talmech/auction/bidding/bidding_state.cpp
-  src/talmech/auction/bidding/evaluating_metrics.cpp
   src/talmech/agent.cpp
   src/talmech/exception.cpp
   src/talmech/machine_controller.cpp
@@ -65,7 +64,7 @@ set(H_FILES
   include/talmech/auction/auctioning/auctioning_controller.h
   include/talmech/auction/auctioning/auctioning_state.h
   include/talmech/auction/auctioning/awaiting_auction_deadline.h
-  include/talmech/auction/auctioning/awaiting_disposal.h
+  include/talmech/auction/auctioning/awaiting_auctioning_disposal.h
   include/talmech/auction/auctioning/renewing_contract.h
   include/talmech/auction/auctioning/selecting_winner.h
   include/talmech/auction/bid.h
@@ -73,11 +72,10 @@ set(H_FILES
   include/talmech/auction/bidder_agent.h
   include/talmech/auction/bidder_robot.h
   include/talmech/auction/bidding/awaiting_auction_close.h
+  include/talmech/auction/bidding/awaiting_bidding_disposal.h
   include/talmech/auction/bidding/awaiting_contract_renewal.h
-  include/talmech/auction/bidding/awaiting_new_auction.h
   include/talmech/auction/bidding/bidding_controller.h
   include/talmech/auction/bidding/bidding_state.h
-  include/talmech/auction/bidding/evaluating_metrics.h
   include/talmech/agent.h
   include/talmech/comparator.h
   include/talmech/controller.h

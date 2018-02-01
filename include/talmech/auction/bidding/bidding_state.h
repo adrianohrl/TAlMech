@@ -15,9 +15,8 @@ namespace states
   enum State
   {
     AwaitingAuctionClose,
-    AwaitingContractRenewal,
-    AwaitingNewAuction,
-    EvaluatingMetrics
+    AwaitingBiddingDisposal,
+    AwaitingContractRenewal
   };
 }
 typedef states::State State;
