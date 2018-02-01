@@ -10,14 +10,14 @@ namespace talmech
 {
 namespace auction
 {
-namespace auctioneer
+namespace auctioning
 {
-class RenewingContract : public AuctionState
+class RenewingContract : public AuctioningState
 {
 public:
   typedef boost::shared_ptr<RenewingContract> Ptr;
   typedef boost::shared_ptr<const RenewingContract> ConstPtr;
-  RenewingContract(const AuctionControllerPtr& controller);
+  RenewingContract(const AuctioningControllerPtr& controller);
   virtual ~RenewingContract();
   virtual bool preProcess();
   virtual bool process();

@@ -7,14 +7,14 @@ namespace talmech
 {
 namespace auction
 {
-namespace bidder
+namespace bidding
 {
-class AwaitingContractRenewal : public BidderState
+class AwaitingContractRenewal : public BiddingState
 {
 public:
   typedef boost::shared_ptr<AwaitingContractRenewal> Ptr;
   typedef boost::shared_ptr<const AwaitingContractRenewal> ConstPtr;
-  AwaitingContractRenewal(const BidderControllerPtr& controller);
+  AwaitingContractRenewal(const BiddingControllerPtr& controller);
   virtual ~AwaitingContractRenewal() {}
   virtual int getNext() const;
   virtual std::string str() const { return "Awaiting Contract Renewal"; }

@@ -7,14 +7,14 @@ namespace talmech
 {
 namespace auction
 {
-namespace auctioneer
+namespace auctioning
 {
-class AwaitingDisposal : public AuctionState
+class AwaitingDisposal : public AuctioningState
 {
 public:
   typedef boost::shared_ptr<AwaitingDisposal> Ptr;
   typedef boost::shared_ptr<const AwaitingDisposal> ConstPtr;
-  AwaitingDisposal(const AuctionControllerPtr& controller);
+  AwaitingDisposal(const AuctioningControllerPtr& controller);
   virtual ~AwaitingDisposal() {}
   virtual bool preProcess();
   virtual bool process() { return false; }

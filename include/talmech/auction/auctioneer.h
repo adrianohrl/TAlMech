@@ -4,7 +4,7 @@
 #include "../role.h"
 #include "auction.h"
 #include <ros/node_handle.h>
-#include "auctioneer/auction_controller.h"
+#include "auctioning/auction_controller.h"
 
 namespace talmech
 {

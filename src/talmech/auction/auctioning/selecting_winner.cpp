@@ -1,15 +1,15 @@
-#include "talmech/auction/auctioneer/auction_controller.h"
-#include "talmech/auction/auctioneer/selecting_winner.h"
+#include "talmech/auction/auctioning/auction_controller.h"
+#include "talmech/auction/auctioning/selecting_winner.h"
 #include <talmech_msgs/Acknowledgment.h>
 
 namespace talmech
 {
 namespace auction
 {
-namespace auctioneer
+namespace auctioning
 {
-SelectingWinner::SelectingWinner(const AuctionControllerPtr& controller)
-    : AuctionState::AuctionState(controller, states::SelectingWinner)
+SelectingWinner::SelectingWinner(const AuctioningControllerPtr& controller)
+    : AuctioningState::AuctioningState(controller, states::SelectingWinner)
 {
   ros::NodeHandlePtr nh(controller->getNodeHandle());
   publisher_ = nh->advertise<talmech_msgs::Acknowledgment>("/auction/close", 1);

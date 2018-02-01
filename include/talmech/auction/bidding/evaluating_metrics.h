@@ -7,14 +7,14 @@ namespace talmech
 {
 namespace auction
 {
-namespace bidder
+namespace bidding
 {
-class EvaluatingMetrics : public BidderState
+class EvaluatingMetrics : public BiddingState
 {
 public:
   typedef boost::shared_ptr<EvaluatingMetrics> Ptr;
   typedef boost::shared_ptr<const EvaluatingMetrics> ConstPtr;
-  EvaluatingMetrics(const BidderControllerPtr& controller);
+  EvaluatingMetrics(const BiddingControllerPtr& controller);
   virtual ~EvaluatingMetrics() {}
   virtual int getNext() const;
   virtual std::string str() const { return "Evaluating Metrics"; }

@@ -8,14 +8,14 @@ namespace talmech
 {
 namespace auction
 {
-namespace auctioneer
+namespace auctioning
 {
-class SelectingWinner : public AuctionState
+class SelectingWinner : public AuctioningState
 {
 public:
   typedef boost::shared_ptr<SelectingWinner> Ptr;
   typedef boost::shared_ptr<const SelectingWinner> ConstPtr;
-  SelectingWinner(const AuctionControllerPtr& controller);
+  SelectingWinner(const AuctioningControllerPtr& controller);
   virtual ~SelectingWinner() { publisher_.shutdown(); }
   virtual bool process();
   virtual int getNext() const { return states::RenewingContract; }

@@ -1,15 +1,15 @@
-#include "talmech/auction/auctioneer/auction_controller.h"
-#include "talmech/auction/auctioneer/awaiting_auction_deadline.h"
+#include "talmech/auction/auctioning/auction_controller.h"
+#include "talmech/auction/auctioning/awaiting_auction_deadline.h"
 
 namespace talmech
 {
 namespace auction
 {
-namespace auctioneer
+namespace auctioning
 {
 AwaitingAuctionDeadline::AwaitingAuctionDeadline(
-    const AuctionControllerPtr& controller)
-    : AuctionState::AuctionState(controller, states::AwaitingAuctionDeadline)
+    const AuctioningControllerPtr& controller)
+    : AuctioningState::AuctioningState(controller, states::AwaitingAuctionDeadline)
 {
 }
 

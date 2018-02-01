@@ -1,14 +1,14 @@
-#include "talmech/auction/auctioneer/auction_controller.h"
-#include "talmech/auction/auctioneer/renewing_contract.h"
+#include "talmech/auction/auctioning/auction_controller.h"
+#include "talmech/auction/auctioning/renewing_contract.h"
 
 namespace talmech
 {
 namespace auction
 {
-namespace auctioneer
+namespace auctioning
 {
-RenewingContract::RenewingContract(const AuctionControllerPtr& controller)
-    : AuctionState::AuctionState(controller, states::RenewingContract)
+RenewingContract::RenewingContract(const AuctioningControllerPtr& controller)
+    : AuctioningState::AuctioningState(controller, states::RenewingContract)
 {
   ros::NodeHandlePtr nh(controller->getNodeHandle());
   publisher_ =

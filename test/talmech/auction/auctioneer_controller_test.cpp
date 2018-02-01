@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 #include <ros/console.h>
-#include "talmech/auction/auctioneer/auction_controller.h"
+#include "talmech/auction/auctioning/auction_controller.h"
 
 using namespace talmech;
 using namespace talmech::auction;
-using namespace talmech::auction::auctioneer;
+using namespace talmech::auction::auctioning;
 
 TEST(Auctioneer, Controller)
 {

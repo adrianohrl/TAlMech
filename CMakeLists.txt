@@ -26,21 +26,21 @@ set(CPP_FILES
   src/talmech/auction/auction.cpp
   src/talmech/auction/auction_evaluator.cpp
   src/talmech/auction/auctioneer.cpp
-  src/talmech/auction/auctioneer/announcing_task.cpp
-  src/talmech/auction/auctioneer/auction_controller.cpp
-  src/talmech/auction/auctioneer/auction_state.cpp
-  src/talmech/auction/auctioneer/awaiting_auction_deadline.cpp
-  src/talmech/auction/auctioneer/awaiting_disposal.cpp
-  src/talmech/auction/auctioneer/renewing_contract.cpp
-  src/talmech/auction/auctioneer/selecting_winner.cpp
+  src/talmech/auction/auctioning/announcing_task.cpp
+  src/talmech/auction/auctioning/auctioning_controller.cpp
+  src/talmech/auction/auctioning/auctioning_state.cpp
+  src/talmech/auction/auctioning/awaiting_auction_deadline.cpp
+  src/talmech/auction/auctioning/awaiting_disposal.cpp
+  src/talmech/auction/auctioning/renewing_contract.cpp
+  src/talmech/auction/auctioning/selecting_winner.cpp
   src/talmech/auction/bid.cpp
   src/talmech/auction/bidder.cpp
-  src/talmech/auction/bidder/awaiting_auction_close.cpp
-  src/talmech/auction/bidder/awaiting_contract_renewal.cpp
-  src/talmech/auction/bidder/awaiting_new_auction.cpp
-  src/talmech/auction/bidder/bidder_controller.cpp
-  src/talmech/auction/bidder/bidder_state.cpp
-  src/talmech/auction/bidder/evaluating_metrics.cpp
+  src/talmech/auction/bidding/awaiting_auction_close.cpp
+  src/talmech/auction/bidding/awaiting_contract_renewal.cpp
+  src/talmech/auction/bidding/awaiting_new_auction.cpp
+  src/talmech/auction/bidding/bidding_controller.cpp
+  src/talmech/auction/bidding/bidding_state.cpp
+  src/talmech/auction/bidding/evaluating_metrics.cpp
   src/talmech/agent.cpp
   src/talmech/exception.cpp
   src/talmech/machine_controller.cpp
@@ -55,21 +55,21 @@ set(H_FILES
   include/talmech/auction/auction.h
   include/talmech/auction/auction_evaluator.h
   include/talmech/auction/auctioneer.h
-  include/talmech/auction/auctioneer/announcing_task.h
-  include/talmech/auction/auctioneer/auction_controller.h
-  include/talmech/auction/auctioneer/auction_state.h
-  include/talmech/auction/auctioneer/awaiting_auction_deadline.h
-  include/talmech/auction/auctioneer/awaiting_disposal.h
-  include/talmech/auction/auctioneer/renewing_contract.h
-  include/talmech/auction/auctioneer/selecting_winner.h
+  include/talmech/auction/auctioning/announcing_task.h
+  include/talmech/auction/auctioning/auctioning_controller.h
+  include/talmech/auction/auctioning/auctioning_state.h
+  include/talmech/auction/auctioning/awaiting_auction_deadline.h
+  include/talmech/auction/auctioning/awaiting_disposal.h
+  include/talmech/auction/auctioning/renewing_contract.h
+  include/talmech/auction/auctioning/selecting_winner.h
   include/talmech/auction/bid.h
   include/talmech/auction/bidder.h
-  include/talmech/auction/bidder/awaiting_auction_close.h
-  include/talmech/auction/bidder/awaiting_contract_renewal.h
-  include/talmech/auction/bidder/awaiting_new_auction.h
-  include/talmech/auction/bidder/bidder_controller.h
-  include/talmech/auction/bidder/bidder_state.h
-  include/talmech/auction/bidder/evaluating_metrics.h
+  include/talmech/auction/bidding/awaiting_auction_close.h
+  include/talmech/auction/bidding/awaiting_contract_renewal.h
+  include/talmech/auction/bidding/awaiting_new_auction.h
+  include/talmech/auction/bidding/bidding_controller.h
+  include/talmech/auction/bidding/bidding_state.h
+  include/talmech/auction/bidding/evaluating_metrics.h
   include/talmech/agent.h
   include/talmech/comparator.h
   include/talmech/controller.h

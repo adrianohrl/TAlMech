@@ -7,14 +7,14 @@ namespace talmech
 {
 namespace auction
 {
-namespace bidder
+namespace bidding
 {
-class AwaitingAuctionClose : public BidderState
+class AwaitingAuctionClose : public BiddingState
 {
 public:
   typedef boost::shared_ptr<AwaitingAuctionClose> Ptr;
   typedef boost::shared_ptr<const AwaitingAuctionClose> ConstPtr;
-  AwaitingAuctionClose(const BidderControllerPtr& controller);
+  AwaitingAuctionClose(const BiddingControllerPtr& controller);
   virtual ~AwaitingAuctionClose() {}
   virtual int getNext() const { return states::EvaluatingMetrics; }
   virtual std::string str() const { return "Awaiting Auction Close"; }

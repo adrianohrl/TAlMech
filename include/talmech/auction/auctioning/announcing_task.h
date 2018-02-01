@@ -8,14 +8,14 @@ namespace talmech
 {
 namespace auction
 {
-namespace auctioneer
+namespace auctioning
 {
-class AnnouncingTask : public AuctionState
+class AnnouncingTask : public AuctioningState
 {
 public:
   typedef boost::shared_ptr<AnnouncingTask> Ptr;
   typedef boost::shared_ptr<const AnnouncingTask> ConstPtr;
-  AnnouncingTask(const AuctionControllerPtr& controller);
+  AnnouncingTask(const AuctioningControllerPtr& controller);
   virtual ~AnnouncingTask() { publisher_.shutdown(); }
   virtual bool process();
   virtual int getNext() const { return states::AwaitingAuctionDeadline; }

@@ -1,5 +1,5 @@
 #include "talmech/auction/auctioneer.h"
-#include "talmech/auction/auctioneer/auction_controller.h"
+#include "talmech/auction/auctioning/auction_controller.h"
 #include "talmech/exception.h"
 
 namespace talmech
@@ -30,7 +30,7 @@ bool Auctioneer::auction(const TaskPtr& task)
   AuctionPtr auction(new Auction(ss.str(), task, auction_duration_,
                                  renewal_rate_, sorted_insertion_,
                                  reallocation_, bid_update_, evaluator_));
-  ControllerPtr controller(new auctioneer::AuctionController(nh_, auction));
+  ControllerPtr controller(new auctioning::AuctioningController(nh_, auction));
   try
   {
     Role::addController(controller);
