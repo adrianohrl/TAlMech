@@ -27,6 +27,8 @@ public:
     MachineController::addState(id, state);
   }
   virtual void init();
+  AuctionPtr getAuction() const { return auction_; }
+  BidPtr getBid() const { return bid_; }
 protected:
   AuctionPtr auction_;
   BidPtr bid_;

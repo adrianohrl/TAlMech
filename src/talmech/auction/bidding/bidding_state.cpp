@@ -8,7 +8,8 @@ namespace auction
 namespace bidding
 {
 BiddingState::BiddingState(const BiddingControllerPtr &controller, State state)
-  : MachineState::MachineState(controller, state)
+  : MachineState::MachineState(controller, state), auction_(controller->getAuction()),
+    bid_(controller->getBid())
 {}
 }
 }

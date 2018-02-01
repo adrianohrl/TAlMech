@@ -1,6 +1,7 @@
 #ifndef _TALMECH_AUCTION_BIDDER_STATE_H_
 #define _TALMECH_AUCTION_BIDDER_STATE_H_
 
+#include "../auction.h"
 #include "../../machine_state.h"
 #include <boost/shared_ptr.hpp>
 
@@ -34,6 +35,8 @@ public:
   }
 protected:
   BiddingState(const BiddingControllerPtr& controller, State state);
+  AuctionPtr auction_;
+  BidPtr bid_;
 };
 typedef BiddingState::Ptr BiddingStatePtr;
 typedef BiddingState::ConstPtr BiddingStateConstPtr;
