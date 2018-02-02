@@ -8,6 +8,12 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
+Forthcoming
+-----------
+* first time auction runs correctly (1-to-1)
+* fixed subscriptions inside machine states
+* Contributors: adrianohrl
+
 0.0.7 (2018-02-01)
 ------------------
 * designed the task callback to the auctioneer object
