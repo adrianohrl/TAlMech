@@ -30,6 +30,7 @@ private:
 protected:
   ros::NodeHandlePtr nh_;
   MachineController(const ros::NodeHandlePtr &nh) : nh_(nh) {}
+  StatePtr getState(int id) const { return states_.at(id); }
   void addState(int id, const StatePtr &state);
   void setCurrentState(int state);
 private:

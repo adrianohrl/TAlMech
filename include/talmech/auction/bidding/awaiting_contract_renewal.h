@@ -3,7 +3,6 @@
 
 #include "bidding_state.h"
 #include <ros/publisher.h>
-#include <ros/subscriber.h>
 #include <talmech_msgs/Acknowledgment.h>
 
 namespace talmech
@@ -19,7 +18,7 @@ public:
   typedef boost::shared_ptr<const AwaitingContractRenewal> ConstPtr;
   AwaitingContractRenewal(const BiddingControllerPtr& controller,
                           const ros::Duration& tolerance = ros::Duration(5.0));
-  virtual ~AwaitingContractRenewal();
+  virtual ~AwaitingContractRenewal() { publisher_.shutdown(); }
   virtual bool preProcess();
   virtual bool process();
   virtual bool postProcess();
@@ -27,15 +26,14 @@ public:
   bool hasAborted() const { return false; }
   bool hasConcluded() const { return false; }
   virtual int getNext() const { return states::AwaitingBiddingDisposal; }
+  void renewalCallback(const talmech_msgs::Acknowledgment& msg);
   virtual std::string str() const { return "Awaiting Contract Renewal"; }
 private:
   ros::Publisher publisher_;
-  ros::Subscriber subscriber_;
   talmech_msgs::Acknowledgment msg_;
   ros::Duration tolerance_;
   ros::Time renewal_deadline_;
   bool ongoing_;
-  void callback(const talmech_msgs::Acknowledgment& msg);
 };
 typedef AwaitingContractRenewal::Ptr AwaitingContractRenewalPtr;
 typedef AwaitingContractRenewal::ConstPtr AwaitingContractRenewalConstPtr;

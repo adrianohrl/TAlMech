@@ -203,7 +203,9 @@ void Auction::operator=(const talmech_msgs::Auction& msg)
   duration_ = msg.expected_duration;
   close_timestamp_ = msg.expected_close_timestamp;
   renewal_rate_ = ros::Rate(msg.expected_renewal_rate);
-  renewal_deadline_ = ros::Time();
+  renewal_deadline_ = !close_timestamp_.isZero()
+                          ? close_timestamp_ + renewal_rate_.expectedCycleTime()
+                          : ros::Time();
   bids_.clear();
   winner_.clear();
   sorted_insertion_ = true;

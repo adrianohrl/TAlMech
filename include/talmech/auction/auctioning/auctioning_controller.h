@@ -4,6 +4,7 @@
 #include "../auction.h"
 #include "../../machine_controller.h"
 #include "auctioning_state.h"
+#include <talmech_msgs/Acknowledgment.h>
 
 namespace talmech
 {
@@ -25,6 +26,8 @@ public:
     MachineController::addState(id, state);
   }
   virtual void init();
+  void submissionCallback(const talmech_msgs::Bid& msg);
+  void acknowledgementCallback(const talmech_msgs::Acknowledgment& msg);
   AuctionPtr getAuction() const { return auction_; }
 private:
   AuctionPtr auction_;

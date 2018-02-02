@@ -1,6 +1,6 @@
 #include "talmech/auction/auctioneer.h"
-#include "talmech/auction/auctioning/auctioning_controller.h"
 #include "talmech/exception.h"
+#include <talmech_msgs/Auction.h>
 
 namespace talmech
 {
@@ -27,8 +27,19 @@ Auctioneer::Auctioneer(const ros::NodeHandlePtr& nh, const std::string& id,
   pnh.param("topic_name", topic_name, std::string("/task"));
   int queue_size;
   pnh.param("queue_size", queue_size, 1);
-  subscriber_ =
-      nh_->subscribe(topic_name, queue_size, &Auctioneer::callback, this);
+  task_sub_ =
+      nh_->subscribe(topic_name, queue_size, &Auctioneer::taskCallback, this);
+  announcement_pub_ =
+      nh_->advertise<talmech_msgs::Auction>("/auction/announcement", max_size);
+  submission_sub_ = nh_->subscribe("/auction/submission", queue_size,
+                                   &Auctioneer::submissionCallback, this);
+  close_pub_ =
+      nh_->advertise<talmech_msgs::Acknowledgment>("/auction/close", max_size);
+  acknowledgment_sub_ =
+      nh_->subscribe("/contract/acknowledgment", queue_size,
+                     &Auctioneer::acknowledgmentCallback, this);
+  renewal_pub_ = nh_->advertise<talmech_msgs::Acknowledgment>(
+      "/contract/renewal", max_size);
 }
 
 Auctioneer::Auctioneer(const std::string& id, const ros::NodeHandlePtr& nh,
@@ -48,8 +59,29 @@ Auctioneer::Auctioneer(const std::string& id, const ros::NodeHandlePtr& nh,
   {
     throw Exception("The auctioneer's evaluator must not be null.");
   }
-  subscriber_ =
-      nh_->subscribe(topic_name, queue_size, &Auctioneer::callback, this);
+  task_sub_ =
+      nh_->subscribe(topic_name, queue_size, &Auctioneer::taskCallback, this);
+  announcement_pub_ =
+      nh_->advertise<talmech_msgs::Auction>("/auction/announcement", max_size);
+  submission_sub_ = nh_->subscribe("/auction/submission", queue_size,
+                                   &Auctioneer::submissionCallback, this);
+  close_pub_ =
+      nh_->advertise<talmech_msgs::Acknowledgment>("/auction/close", max_size);
+  acknowledgment_sub_ =
+      nh_->subscribe("/contract/acknowledgment", queue_size,
+                     &Auctioneer::acknowledgmentCallback, this);
+  renewal_pub_ = nh_->advertise<talmech_msgs::Acknowledgment>(
+      "/contract/renewal", max_size);
+}
+
+Auctioneer::~Auctioneer()
+{
+  task_sub_.shutdown();
+  announcement_pub_.shutdown();
+  submission_sub_.shutdown();
+  close_pub_.shutdown();
+  acknowledgment_sub_.shutdown();
+  renewal_pub_.shutdown();
 }
 
 bool Auctioneer::auction(const TaskPtr& task)
@@ -79,10 +111,54 @@ void Auctioneer::setEvaluator(const AuctionEvaluatorPtr& evaluator)
   }
 }
 
-void Auctioneer::callback(const talmech_msgs::Auction &msg)
+void Auctioneer::taskCallback(const talmech_msgs::Task& msg)
 {
-  TaskPtr task(new Task(msg.task));
+  TaskPtr task(new Task(msg));
   auction(task);
+}
+
+void Auctioneer::submissionCallback(const talmech_msgs::Bid& msg)
+{
+  if (msg.auctioneer != id_)
+  {
+    return;
+  }
+  ROS_WARN_STREAM("[Auctioneer::submissionCallback] received " << msg.id);
+  auctioning::AuctioningControllerPtr controller(getController(msg.auction));
+  if (controller)
+  {
+    controller->submissionCallback(msg);
+  }
+}
+
+void Auctioneer::acknowledgmentCallback(const talmech_msgs::Acknowledgment& msg)
+{
+  if (msg.auctioneer != id_)
+  {
+    return;
+  }
+  ROS_WARN_STREAM("[Auctioneer::acknowledgmentCallback] received " << msg.id);
+  auctioning::AuctioningControllerPtr controller(getController(msg.auction));
+  if (controller)
+  {
+    controller->acknowledgementCallback(msg);
+  }
+}
+
+auctioning::AuctioningControllerPtr
+Auctioneer::getController(const std::string& auction) const
+{
+  auctioning::AuctioningControllerPtr controller;
+  for (ControllersConstIt it(begin()); it != end(); it++)
+  {
+    controller =
+        boost::dynamic_pointer_cast<auctioning::AuctioningController>(*it);
+    if (controller->getAuction()->getId() == auction)
+    {
+      return controller;
+    }
+  }
+  return auctioning::AuctioningControllerPtr();
 }
 }
 }

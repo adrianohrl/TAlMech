@@ -15,14 +15,6 @@ AwaitingAuctionClose::AwaitingAuctionClose(
 {
   ros::NodeHandlePtr nh(controller->getNodeHandle());
   publisher_ = nh->advertise<talmech_msgs::Bid>("/auction/submission", 1);
-  subscriber_ = nh->subscribe("/auction/close", 10,
-                              &AwaitingAuctionClose::callback, this);
-}
-
-AwaitingAuctionClose::~AwaitingAuctionClose()
-{
-  publisher_.shutdown();
-  subscriber_.shutdown();
 }
 
 bool AwaitingAuctionClose::preProcess()
@@ -35,12 +27,6 @@ bool AwaitingAuctionClose::preProcess()
 bool AwaitingAuctionClose::process()
 {
   return !hasClosed() && !hasExpired() ? false : MachineState::process();
-}
-
-bool AwaitingAuctionClose::postProcess()
-{
-  subscriber_.shutdown();
-  return MachineState::postProcess();
 }
 
 bool AwaitingAuctionClose::hasExpired() const
@@ -56,14 +42,17 @@ int AwaitingAuctionClose::getNext() const
                    : states::AwaitingBiddingDisposal;
 }
 
-void AwaitingAuctionClose::callback(const talmech_msgs::Acknowledgment& msg)
+void AwaitingAuctionClose::closeCallback(const talmech_msgs::Acknowledgment &msg)
 {
+  ROS_WARN_STREAM("[AwaitingAuctionClose::closeCallback] " << msg.id);
   if (msg.auction != auction_->getId())
   {
     return;
   }
   close_timestamp_ = ros::Time::now();
   selected_ = msg.bidder == bid_->getBidder();
+  ROS_INFO_STREAM("[AwaitingAuctionClose] " << (selected_ ? "" : "not ")
+                                            << "selected for " << msg.auction);
 }
 }
 }

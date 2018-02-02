@@ -19,21 +19,19 @@ public:
   typedef boost::shared_ptr<const AwaitingAuctionClose> ConstPtr;
   AwaitingAuctionClose(const BiddingControllerPtr& controller,
                        const ros::Duration& tolerance = ros::Duration(5.0));
-  virtual ~AwaitingAuctionClose();
+  virtual ~AwaitingAuctionClose() { publisher_.shutdown(); }
   virtual bool preProcess();
   virtual bool process();
-  virtual bool postProcess();
   virtual bool hasClosed() const { return !close_timestamp_.isZero(); }
   virtual bool hasExpired() const;
   virtual int getNext() const;
+  void closeCallback(const talmech_msgs::Acknowledgment& msg);
   virtual std::string str() const { return "Awaiting Auction Close"; }
 private:
   ros::Publisher publisher_;
-  ros::Subscriber subscriber_;
   bool selected_;
   ros::Time close_timestamp_;
   ros::Duration tolerance_;
-  void callback(const talmech_msgs::Acknowledgment& msg);
 };
 typedef AwaitingAuctionClose::Ptr AwaitingAuctionClosePtr;
 typedef AwaitingAuctionClose::ConstPtr AwaitingAuctionCloseConstPtr;

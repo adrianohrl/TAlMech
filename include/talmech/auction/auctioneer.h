@@ -3,9 +3,8 @@
 
 #include "../role.h"
 #include "auction.h"
-#include <ros/node_handle.h>
 #include "auctioning/auctioning_controller.h"
-#include <ros/subscriber.h>
+#include <talmech_msgs/Acknowledgment.h>
 
 namespace talmech
 {
@@ -28,8 +27,20 @@ public:
              const std::size_t& queue_size = 10,
              const AuctionEvaluatorPtr& evaluator =
                  AuctionEvaluatorPtr(new AuctionEvaluator()));
-  virtual ~Auctioneer() { subscriber_.shutdown(); }
+  virtual ~Auctioneer();
   bool auction(const TaskPtr& task);
+  void announce(const talmech_msgs::Auction& msg)
+  {
+    announcement_pub_.publish(msg);
+  }
+  void close(const talmech_msgs::Acknowledgment& msg)
+  {
+    close_pub_.publish(msg);
+  }
+  void renewal(const talmech_msgs::Acknowledgment& msg)
+  {
+    renewal_pub_.publish(msg);
+  }
   bool isSortedInsertion() const { return sorted_insertion_; }
   bool isReauctionAllowed() const { return reauction_; }
   bool isBidUpdateAllowed() const { return bid_update_; }
@@ -45,17 +56,24 @@ public:
   }
   void setBidUpdate(bool bid_update) { bid_update_ = bid_update; }
   void setEvaluator(const AuctionEvaluatorPtr& evaluator);
-  void callback(const talmech_msgs::Auction& msg);
-
 private:
   ros::NodeHandlePtr nh_;
-  ros::Subscriber subscriber_;
+  ros::Subscriber task_sub_;
+  ros::Publisher announcement_pub_;
+  ros::Subscriber submission_sub_;
+  ros::Publisher close_pub_;
+  ros::Subscriber acknowledgment_sub_;
+  ros::Publisher renewal_pub_;
   ros::Duration auction_duration_;
   ros::Rate renewal_rate_;
   bool sorted_insertion_;
   bool reauction_;
   bool bid_update_;
   AuctionEvaluatorPtr evaluator_;
+  void taskCallback(const talmech_msgs::Task& msg);
+  void submissionCallback(const talmech_msgs::Bid& msg);
+  void acknowledgmentCallback(const talmech_msgs::Acknowledgment& msg);
+  auctioning::AuctioningControllerPtr getController(const std::string& auction) const;
 };
 typedef Auctioneer::Ptr AuctioneerPtr;
 typedef Auctioneer::ConstPtr AuctioneerConstPtr;

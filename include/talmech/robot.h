@@ -12,7 +12,7 @@ public:
   typedef boost::shared_ptr<const Robot> ConstPtr;
   Robot(const std::string& id, const RolePtr& role = RolePtr());
   virtual ~Robot() {}
-  virtual double getUtility(const Task &task) const { return 1.0; }
+  virtual double getUtility(const Task &task) const { return 2.0; }
 };
 typedef Robot::Ptr RobotPtr;
 typedef Robot::ConstPtr RobotConstPtr;

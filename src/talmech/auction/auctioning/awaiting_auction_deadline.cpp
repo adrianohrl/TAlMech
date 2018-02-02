@@ -1,5 +1,6 @@
 #include "talmech/auction/auctioning/auctioning_controller.h"
 #include "talmech/auction/auctioning/awaiting_auction_deadline.h"
+#include <talmech_msgs/Acknowledgment.h>
 
 namespace talmech
 {
@@ -9,7 +10,8 @@ namespace auctioning
 {
 AwaitingAuctionDeadline::AwaitingAuctionDeadline(
     const AuctioningControllerPtr& controller)
-    : AuctioningState::AuctioningState(controller, states::AwaitingAuctionDeadline)
+    : AuctioningState::AuctioningState(controller,
+                                       states::AwaitingAuctionDeadline)
 {
 }
 
@@ -17,9 +19,6 @@ bool AwaitingAuctionDeadline::preProcess()
 {
   auction_->clear();
   deadline_ = auction_->getStartTimestamp() + auction_->getDuration();
-  ros::NodeHandlePtr nh(getController()->getNodeHandle());
-  subscriber_ = nh->subscribe("/auction/submission", 100,
-                              &AwaitingAuctionDeadline::callback, this);
   return MachineState::preProcess();
 }
 
@@ -33,9 +32,11 @@ bool AwaitingAuctionDeadline::postProcess()
   auction_->close();
   if (auction_->empty())
   {
+    ROS_ERROR_STREAM("[AwaitingAuctionDeadline] Aborting "
+                     << *auction_
+                     << ", because there is not any candidates interested...");
     auction_->abort();
   }
-  subscriber_.shutdown();
   return MachineState::postProcess();
 }
 
@@ -45,9 +46,12 @@ int AwaitingAuctionDeadline::getNext() const
                                    : states::AwaitingAuctioningDisposal;
 }
 
-void AwaitingAuctionDeadline::callback(const talmech_msgs::Bid& msg)
+void AwaitingAuctionDeadline::submissionCallback(const talmech_msgs::Bid &msg)
 {
-  ROS_WARN_STREAM("[AwaitingAuctionDeadline] callback for " << msg.bidder);
+  ROS_WARN_STREAM("[AwaitingAuctionDeadline::submissionCallback] received " << msg.id);
+  ROS_WARN_STREAM("[AwaitingAuctionDeadline::submit] "
+                  << msg.bidder << " (this: " << auction_->getId()
+                  << ", received: " << msg.auction << ")");
   if (msg.auction != auction_->getId())
   {
     return;

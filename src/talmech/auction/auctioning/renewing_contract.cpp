@@ -18,15 +18,6 @@ RenewingContract::RenewingContract(const AuctioningControllerPtr& controller)
 RenewingContract::~RenewingContract()
 {
   publisher_.shutdown();
-  subscriber_.shutdown();
-}
-
-bool RenewingContract::preProcess()
-{
-  ros::NodeHandlePtr nh(controller_->getNodeHandle());
-  subscriber_ = nh->subscribe("/contract/acknowledgment", 1,
-                              &RenewingContract::callback, this);
-  return MachineState::preProcess();
 }
 
 bool RenewingContract::process()
@@ -40,7 +31,6 @@ bool RenewingContract::postProcess()
   {
     auction_->restart();
   }
-  subscriber_.shutdown();
   return MachineState::postProcess();
 }
 
@@ -51,8 +41,9 @@ int RenewingContract::getNext() const
              : states::AnnouncingTask;
 }
 
-void RenewingContract::callback(const talmech_msgs::Acknowledgment& msg)
+void RenewingContract::acknowledgementCallback(const talmech_msgs::Acknowledgment &msg)
 {
+  ROS_WARN_STREAM("[RenewingContract::acknowledgementCallback] received " << msg.id);
   if (msg.auction != auction_->getId() || msg.bidder == auction_->getWinner())
   {
     return;

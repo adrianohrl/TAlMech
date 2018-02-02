@@ -4,6 +4,9 @@
 #include <boost/shared_ptr.hpp>
 #include "controller.h"
 #include <list>
+#include <ros/node_handle.h>
+#include <ros/subscriber.h>
+#include <ros/publisher.h>
 
 namespace talmech
 {

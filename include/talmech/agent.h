@@ -20,7 +20,7 @@ public:
   Agent(const std::string& id, const RolePtr& role = RolePtr());
   virtual ~Agent() {}
   virtual void process();
-  virtual double getUtility(const Task& task) const { return 0.0; }
+  virtual double getUtility(const Task& task) const { return 1.0; }
   std::string getId() const { return id_; }
   RolePtr getRole() const { return role_; }
   std::string str() const { return id_; }

@@ -28,6 +28,7 @@ bool SelectingWinner::process()
   msg.bidder = auction_->getWinner();
   msg.renewal_deadline = auction_->getRenewalDeadline();
   msg.status = status::Ongoing;
+  ROS_WARN_STREAM("[SelectingWinner] closing auction and sending to winner: " << auction_->getWinner());
   publisher_.publish(msg);
   return MachineState::process();
 }
