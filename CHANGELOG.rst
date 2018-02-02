@@ -8,8 +8,8 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
-Forthcoming
------------
+0.0.8 (2018-02-02)
+------------------
 * first time auction runs correctly (1-to-1)
 * fixed subscriptions inside machine states
 * Contributors: adrianohrl
