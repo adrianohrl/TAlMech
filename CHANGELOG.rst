@@ -8,8 +8,8 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
-Forthcoming
------------
+0.0.7 (2018-02-01)
+------------------
 * designed the task callback to the auctioneer object
 * implemented AwaitingContractRenewal state
 * fixed auctioneer id that was missing
