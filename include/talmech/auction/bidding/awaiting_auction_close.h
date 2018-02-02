@@ -23,8 +23,8 @@ public:
   virtual bool preProcess();
   virtual bool process();
   virtual bool postProcess();
-  virtual bool isClosed() const { return !close_timestamp_.isZero(); }
-  virtual bool isExpired() const;
+  virtual bool hasClosed() const { return !close_timestamp_.isZero(); }
+  virtual bool hasExpired() const;
   virtual int getNext() const;
   virtual std::string str() const { return "Awaiting Auction Close"; }
 private:

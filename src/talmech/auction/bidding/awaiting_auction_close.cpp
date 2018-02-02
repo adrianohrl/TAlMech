@@ -34,7 +34,7 @@ bool AwaitingAuctionClose::preProcess()
 
 bool AwaitingAuctionClose::process()
 {
-  return isClosed() || isExpired() ? false : MachineState::process();
+  return !hasClosed() && !hasExpired() ? false : MachineState::process();
 }
 
 bool AwaitingAuctionClose::postProcess()
@@ -43,7 +43,7 @@ bool AwaitingAuctionClose::postProcess()
   return MachineState::postProcess();
 }
 
-bool AwaitingAuctionClose::isExpired() const
+bool AwaitingAuctionClose::hasExpired() const
 {
   return close_timestamp_.isZero() &&
          ros::Time::now() - auction_->getStartTimestamp() >
@@ -63,7 +63,7 @@ void AwaitingAuctionClose::callback(const talmech_msgs::Acknowledgment& msg)
     return;
   }
   close_timestamp_ = ros::Time::now();
-  selected_ = msg.winner == bid_->getBidder();
+  selected_ = msg.bidder == bid_->getBidder();
 }
 }
 }
