@@ -129,7 +129,7 @@ void Auction::renewContract()
         "The auction winner must be selected before renewing the contract.");
   }
   ros::Time timestamp(ros::Time::now());
-  if (timestamp < renewal_deadline_)
+  if (timestamp > renewal_deadline_)
   {
     throw Exception("The contract renewal deadline has expired.");
   }

@@ -123,7 +123,6 @@ void Auctioneer::submissionCallback(const talmech_msgs::Bid& msg)
   {
     return;
   }
-  ROS_WARN_STREAM("[Auctioneer::submissionCallback] received " << msg.id);
   auctioning::AuctioningControllerPtr controller(getController(msg.auction));
   if (controller)
   {
@@ -137,7 +136,6 @@ void Auctioneer::acknowledgmentCallback(const talmech_msgs::Acknowledgment& msg)
   {
     return;
   }
-  ROS_WARN_STREAM("[Auctioneer::acknowledgmentCallback] received " << msg.id);
   auctioning::AuctioningControllerPtr controller(getController(msg.auction));
   if (controller)
   {

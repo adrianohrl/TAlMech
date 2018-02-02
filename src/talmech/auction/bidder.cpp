@@ -86,7 +86,6 @@ void Bidder::closeCallback(const talmech_msgs::Acknowledgment& msg)
   {
     return;
   }
-  ROS_WARN_STREAM("[Bidder::closeCallback] received " << msg.id);
   bidding::BiddingControllerPtr controller(getController(msg.auction));
   if (controller)
   {
@@ -100,7 +99,6 @@ void Bidder::renewalCallback(const talmech_msgs::Acknowledgment& msg)
   {
     return;
   }
-  ROS_WARN_STREAM("[Auctioneer::submissionCallback] received " << msg.id);
   bidding::BiddingControllerPtr controller(getController(msg.auction));
   if (controller)
   {

@@ -42,7 +42,6 @@ void AuctioningController::init()
 
 void AuctioningController::submissionCallback(const talmech_msgs::Bid& msg)
 {
-  ROS_WARN_STREAM("[AuctioningController::submissionCallback] received " << msg.id);
   AwaitingAuctionDeadlinePtr state(
       boost::dynamic_pointer_cast<AwaitingAuctionDeadline>(
           getState(states::AwaitingAuctionDeadline)));
@@ -51,7 +50,6 @@ void AuctioningController::submissionCallback(const talmech_msgs::Bid& msg)
 
 void AuctioningController::acknowledgementCallback(const talmech_msgs::Acknowledgment& msg)
 {
-  ROS_WARN_STREAM("[AuctioningController::acknowledgementCallback] received " << msg.id);
   RenewingContractPtr state(
       boost::dynamic_pointer_cast<RenewingContract>(
           getState(states::RenewingContract)));

@@ -48,15 +48,10 @@ int AwaitingAuctionDeadline::getNext() const
 
 void AwaitingAuctionDeadline::submissionCallback(const talmech_msgs::Bid &msg)
 {
-  ROS_WARN_STREAM("[AwaitingAuctionDeadline::submissionCallback] received " << msg.id);
-  ROS_WARN_STREAM("[AwaitingAuctionDeadline::submit] "
-                  << msg.bidder << " (this: " << auction_->getId()
-                  << ", received: " << msg.auction << ")");
   if (msg.auction != auction_->getId())
   {
     return;
   }
-  ROS_WARN_STREAM("[AwaitingAuctionDeadline] callback for " << msg.bidder);
   Bid bid(msg);
   auction_->submit(bid);
 }

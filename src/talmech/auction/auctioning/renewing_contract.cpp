@@ -43,8 +43,7 @@ int RenewingContract::getNext() const
 
 void RenewingContract::acknowledgementCallback(const talmech_msgs::Acknowledgment &msg)
 {
-  ROS_WARN_STREAM("[RenewingContract::acknowledgementCallback] received " << msg.id);
-  if (msg.auction != auction_->getId() || msg.bidder == auction_->getWinner())
+  if (msg.auction != auction_->getId() || msg.bidder != auction_->getWinner())
   {
     return;
   }

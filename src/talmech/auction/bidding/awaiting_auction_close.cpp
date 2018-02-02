@@ -44,7 +44,6 @@ int AwaitingAuctionClose::getNext() const
 
 void AwaitingAuctionClose::closeCallback(const talmech_msgs::Acknowledgment &msg)
 {
-  ROS_WARN_STREAM("[AwaitingAuctionClose::closeCallback] " << msg.id);
   if (msg.auction != auction_->getId())
   {
     return;

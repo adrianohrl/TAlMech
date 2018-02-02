@@ -27,7 +27,6 @@ void BiddingController::init()
 
 void BiddingController::closeCallback(const talmech_msgs::Acknowledgment &msg)
 {
-  ROS_WARN_STREAM("[BiddingController::closeCallback] received " << msg.id);
   AwaitingAuctionClosePtr state(
       boost::dynamic_pointer_cast<AwaitingAuctionClose>(
           getState(states::AwaitingAuctionClose)));
@@ -36,7 +35,6 @@ void BiddingController::closeCallback(const talmech_msgs::Acknowledgment &msg)
 
 void BiddingController::renewalCallback(const talmech_msgs::Acknowledgment &msg)
 {
-  ROS_WARN_STREAM("[BiddingController::renewalCallback] received " << msg.id);
   AwaitingContractRenewalPtr state(
       boost::dynamic_pointer_cast<AwaitingContractRenewal>(
           getState(states::AwaitingContractRenewal)));
