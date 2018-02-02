@@ -6,9 +6,9 @@ namespace talmech
 {
 namespace auction
 {
-Auctioneer::Auctioneer(const ros::NodeHandlePtr &nh, const std::string& id,
+Auctioneer::Auctioneer(const ros::NodeHandlePtr& nh, const std::string& id,
                        const AuctionEvaluatorPtr& evaluator)
-  : Role::Role(id), nh_(nh), evaluator_(evaluator), renewal_rate_(2.0)
+    : Role::Role(id), nh_(nh), evaluator_(evaluator), renewal_rate_(2.0)
 {
   ros::NodeHandle pnh("~");
   double auction_duration;
@@ -23,6 +23,12 @@ Auctioneer::Auctioneer(const ros::NodeHandlePtr &nh, const std::string& id,
   int max_size;
   pnh.param("max_size", max_size, 1);
   setMaxSize(max_size);
+  std::string topic_name;
+  pnh.param("topic_name", topic_name, std::string("/task"));
+  int queue_size;
+  pnh.param("queue_size", queue_size, 1);
+  subscriber_ =
+      nh_->subscribe(topic_name, queue_size, &Auctioneer::callback, this);
 }
 
 Auctioneer::Auctioneer(const std::string& id, const ros::NodeHandlePtr& nh,
@@ -30,6 +36,8 @@ Auctioneer::Auctioneer(const std::string& id, const ros::NodeHandlePtr& nh,
                        const ros::Rate& renewal_rate, bool sorted_insertion,
                        bool reauction, bool bid_update,
                        const std::size_t& max_size,
+                       const std::string& topic_name,
+                       const std::size_t& queue_size,
                        const AuctionEvaluatorPtr& evaluator)
     : Role::Role(id, max_size), nh_(nh), auction_duration_(auction_duration),
       renewal_rate_(renewal_rate), evaluator_(evaluator),
@@ -40,6 +48,8 @@ Auctioneer::Auctioneer(const std::string& id, const ros::NodeHandlePtr& nh,
   {
     throw Exception("The auctioneer's evaluator must not be null.");
   }
+  subscriber_ =
+      nh_->subscribe(topic_name, queue_size, &Auctioneer::callback, this);
 }
 
 bool Auctioneer::auction(const TaskPtr& task)
@@ -47,8 +57,8 @@ bool Auctioneer::auction(const TaskPtr& task)
   std::stringstream ss;
   ss << id_ << "-" << ros::Time::now();
   AuctionPtr auction(new Auction(id_, ss.str(), task, auction_duration_,
-                                 renewal_rate_, sorted_insertion_,
-                                 reauction_, bid_update_, evaluator_));
+                                 renewal_rate_, sorted_insertion_, reauction_,
+                                 bid_update_, evaluator_));
   ControllerPtr controller(new auctioning::AuctioningController(nh_, auction));
   try
   {
@@ -67,6 +77,12 @@ void Auctioneer::setEvaluator(const AuctionEvaluatorPtr& evaluator)
   {
     evaluator_ = evaluator;
   }
+}
+
+void Auctioneer::callback(const talmech_msgs::Auction &msg)
+{
+  TaskPtr task(new Task(msg.task));
+  auction(task);
 }
 }
 }

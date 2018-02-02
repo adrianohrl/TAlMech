@@ -5,6 +5,7 @@
 #include "auction.h"
 #include <ros/node_handle.h>
 #include "auctioning/auctioning_controller.h"
+#include <ros/subscriber.h>
 
 namespace talmech
 {
@@ -22,11 +23,12 @@ public:
              const ros::Duration& auction_duration = ros::Duration(1.5),
              const ros::Rate& renewal_rate = ros::Rate(2),
              bool sorted_insertion = true, bool reauction = true,
-             bool bid_update = false,
-             const std::size_t& max_size = 1,
+             bool bid_update = false, const std::size_t& max_size = 1,
+             const std::string& topic_name = "/task",
+             const std::size_t& queue_size = 10,
              const AuctionEvaluatorPtr& evaluator =
                  AuctionEvaluatorPtr(new AuctionEvaluator()));
-  virtual ~Auctioneer() {}
+  virtual ~Auctioneer() { subscriber_.shutdown(); }
   bool auction(const TaskPtr& task);
   bool isSortedInsertion() const { return sorted_insertion_; }
   bool isReauctionAllowed() const { return reauction_; }
@@ -43,9 +45,11 @@ public:
   }
   void setBidUpdate(bool bid_update) { bid_update_ = bid_update; }
   void setEvaluator(const AuctionEvaluatorPtr& evaluator);
+  void callback(const talmech_msgs::Auction& msg);
 
 private:
   ros::NodeHandlePtr nh_;
+  ros::Subscriber subscriber_;
   ros::Duration auction_duration_;
   ros::Rate renewal_rate_;
   bool sorted_insertion_;
