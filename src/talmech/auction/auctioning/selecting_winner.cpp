@@ -20,6 +20,7 @@ bool SelectingWinner::process()
   auction_->selectWinner();
   talmech_msgs::Acknowledgment msg;
   msg.timestamp = ros::Time::now();
+  msg.auctioneer = auction_->getAuctioneer();
   msg.auction = auction_->getId();
   msg.winner = auction_->getWinner();
   msg.renewal_deadline = auction_->getRenewalDeadline();

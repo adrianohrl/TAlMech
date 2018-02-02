@@ -46,7 +46,7 @@ bool Auctioneer::auction(const TaskPtr& task)
 {
   std::stringstream ss;
   ss << id_ << "-" << ros::Time::now();
-  AuctionPtr auction(new Auction(ss.str(), task, auction_duration_,
+  AuctionPtr auction(new Auction(id_, ss.str(), task, auction_duration_,
                                  renewal_rate_, sorted_insertion_,
                                  reauction_, bid_update_, evaluator_));
   ControllerPtr controller(new auctioning::AuctioningController(nh_, auction));

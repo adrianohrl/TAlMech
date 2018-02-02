@@ -5,13 +5,14 @@ namespace talmech
 {
 namespace auction
 {
-Auction::Auction(const std::string& id, const TaskPtr& task,
-                 const ros::Duration& duration, const ros::Rate& renewal_rate,
-                 bool sorted_insertion, bool reauction, bool bid_update,
+Auction::Auction(const std::string& auctioneer, const std::string& id,
+                 const TaskPtr& task, const ros::Duration& duration,
+                 const ros::Rate& renewal_rate, bool sorted_insertion,
+                 bool reauction, bool bid_update,
                  const AuctionEvaluatorPtr& evaluator)
-    : id_(id), task_(task), duration_(duration), renewal_rate_(renewal_rate),
-      sorted_insertion_(sorted_insertion), reauction_(reauction),
-      bid_update_(bid_update), evaluator_(evaluator)
+    : id_(id), auctioneer_(auctioneer), task_(task), duration_(duration),
+      renewal_rate_(renewal_rate), sorted_insertion_(sorted_insertion),
+      reauction_(reauction), bid_update_(bid_update), evaluator_(evaluator)
 {
   if (id_.empty())
   {
@@ -20,15 +21,16 @@ Auction::Auction(const std::string& id, const TaskPtr& task,
 }
 
 Auction::Auction(const talmech_msgs::Auction& msg)
-  : id_(msg.id), task_(new Task(msg.task)), duration_(msg.expected_duration),
-    start_timestamp_(msg.start_timestamp), close_timestamp_(msg.expected_close_timestamp),
-    renewal_rate_(ros::Rate(msg.expected_renewal_rate))
+    : id_(msg.id), auctioneer_(msg.auctioneer), task_(new Task(msg.task)),
+      duration_(msg.expected_duration), start_timestamp_(msg.start_timestamp),
+      close_timestamp_(msg.expected_close_timestamp),
+      renewal_rate_(ros::Rate(msg.expected_renewal_rate))
 {
 }
 
 Auction::Auction(const Auction& auction)
-    : id_(auction.id_), task_(auction.task_), duration_(auction.duration_),
-      start_timestamp_(auction.start_timestamp_),
+    : id_(auction.id_), auctioneer_(auction.auctioneer_), task_(auction.task_),
+      duration_(auction.duration_), start_timestamp_(auction.start_timestamp_),
       renewal_rate_(auction.renewal_rate_),
       renewal_deadline_(auction.renewal_deadline_),
       sorted_insertion_(auction.sorted_insertion_),
@@ -69,7 +71,8 @@ void Auction::submit(const Bid& bid)
   BidPtr b(new Bid(bid));
   if (bids_.empty() || !sorted_insertion_)
   {
-    ROS_INFO_STREAM("Submiting " << bid.getBidder() << "'s bid for " << id_ << "...");
+    ROS_INFO_STREAM("Submiting " << bid.getBidder() << "'s bid for " << id_
+                                 << "...");
     bids_.push_back(b);
     return;
   }
@@ -78,12 +81,14 @@ void Auction::submit(const Bid& bid)
   {
     if (comparator->compare(bid, **it))
     {
-      ROS_INFO_STREAM("Submiting " << bid.getBidder() << "'s bid for " << id_ << "...");
+      ROS_INFO_STREAM("Submiting " << bid.getBidder() << "'s bid for " << id_
+                                   << "...");
       bids_.insert(it, b);
       return;
     }
   }
-  ROS_INFO_STREAM("Submiting " << bid.getBidder() << "'s bid for " << id_ << "...");
+  ROS_INFO_STREAM("Submiting " << bid.getBidder() << "'s bid for " << id_
+                               << "...");
   bids_.push_back(b);
 }
 
@@ -150,7 +155,6 @@ void Auction::restart()
   renewal_deadline_ = ros::Time();
   abortion_timestamp_ = ros::Time();
   conclusion_timestamp_ = ros::Time();
-
 }
 
 void Auction::abort()
@@ -176,6 +180,7 @@ void Auction::conclude()
 void Auction::operator=(const Auction& auction)
 {
   id_ = auction.id_;
+  auctioneer_ = auction.auctioneer_;
   *task_ = *auction.task_;
   start_timestamp_ = auction.start_timestamp_;
   duration_ = auction.duration_;
@@ -192,6 +197,7 @@ void Auction::operator=(const Auction& auction)
 void Auction::operator=(const talmech_msgs::Auction& msg)
 {
   id_ = msg.id;
+  auctioneer_ = msg.auctioneer;
   *task_ = msg.task;
   start_timestamp_ = msg.start_timestamp;
   duration_ = msg.expected_duration;

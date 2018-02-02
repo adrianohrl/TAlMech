@@ -10,18 +10,24 @@ namespace talmech
 {
 namespace auction
 {
+class Auction;
 class Bid : public ToMsg<talmech_msgs::Bid>
 {
 public:
   typedef boost::shared_ptr<Bid> Ptr;
   typedef boost::shared_ptr<const Bid> ConstPtr;
-  Bid(const std::string& auction, const std::string& bidder, double amount = 0.0,
+  Bid(const std::string& bidder, const std::string& id, const Auction& auction, double amount = 0.0,
+      const ros::Time& timestamp = ros::Time::now());
+  Bid(const std::string& bidder, const std::string& id,
+      const std::string& auctioneer, const std::string& auction, double amount = 0.0,
       const ros::Time& timestamp = ros::Time::now());
   Bid(const Bid& bid);
   Bid(const talmech_msgs::Bid& msg);
   virtual ~Bid() {}
-  std::string getAuction() const { return auction_; }
   std::string getBidder() const { return bidder_; }
+  std::string getId() const { return id_; }
+  std::string getAuctioneer() const { return auctioneer_; }
+  std::string getAuction() const { return auction_; }
   double getAmount() const { return amount_; }
   ros::Time getTimestamp() const { return timestamp_; }
   void setAmount(double amount) { amount_ = amount; }
@@ -32,8 +38,10 @@ public:
   {
     talmech_msgs::Bid msg;
     msg.timestamp = timestamp_;
-    msg.auction = auction_;
     msg.bidder = bidder_;
+    msg.id = id_;
+    msg.auctioneer = auctioneer_;
+    msg.auction = auction_;
     msg.amount = amount_;
     return msg;
   }
@@ -54,21 +62,28 @@ public:
   virtual void operator=(const Bid& bid)
   {
     timestamp_ = bid.timestamp_;
-    auction_ = bid.auction_;
     bidder_ = bid.bidder_;
+    id_ = bid.id_;
+    auctioneer_ = bid.auctioneer_;
+    auction_ = bid.auction_;
     amount_ = bid.amount_;
   }
   virtual void operator=(const talmech_msgs::Bid& msg)
   {
     timestamp_ = msg.timestamp;
-    auction_ = msg.auction;
     bidder_ = msg.bidder;
+    id_ = msg.id;
+    auctioneer_ = msg.auctioneer;
+    auction_ = msg.auction;
     amount_ = msg.amount;
   }
+
 private:
   ros::Time timestamp_;
-  std::string auction_;
   std::string bidder_;
+  std::string id_;
+  std::string auctioneer_;
+  std::string auction_;
   double amount_;
 };
 typedef Bid::Ptr BidPtr;

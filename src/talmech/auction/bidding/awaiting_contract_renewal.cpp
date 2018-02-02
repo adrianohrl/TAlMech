@@ -23,6 +23,11 @@ AwaitingContractRenewal::~AwaitingContractRenewal()
   subscriber_.shutdown();
 }
 
+bool AwaitingContractRenewal::preProcess()
+{
+  return MachineState::preProcess();
+}
+
 void AwaitingContractRenewal::callback(const talmech_msgs::Acknowledgment& msg)
 {
   /*

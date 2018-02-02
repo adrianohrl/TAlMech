@@ -35,7 +35,7 @@ public:
   {
     return initialized_ ? function_(task) : 0.0;
   }
-  virtual bool bid(const AuctionPtr& auction, const BidPtr& bid);
+  virtual bool bid(const AuctionPtr& auction, double amount);
 
 private:
   ros::NodeHandlePtr nh_;

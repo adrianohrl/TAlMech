@@ -9,18 +9,18 @@ using namespace talmech::auction::auctioning;
 TEST(Auctioneer, Controller)
 {
   TaskPtr task(new Task("task"));
-  AuctionPtr auction(new Auction("auction1", task, ros::Duration(1.5),
+  AuctionPtr auction(new Auction("auctioneer1", "auction1", task, ros::Duration(1.5),
                                  ros::Rate(2.0), false, true, true,
                                  AuctionEvaluatorPtr(new AuctionEvaluator())));
   RobotPtr robot1(new Robot("bidder1"));
   RobotPtr robot2(new Robot("bidder2"));
   RobotPtr robot3(new Robot("bidder3"));
   RobotPtr robot4(new Robot("bidder4"));
-  Bid bid1("auction1", "bidder1", 10.0);
-  Bid bid2("auction1", "bidder2", 13.0);
-  Bid bid3("auction1", "bidder3", 6.0);
-  Bid bid4("auction1", "bidder1", 17.0);
-  Bid bid5("auction1", "bidder4", 15.0);
+  Bid bid1("bid1", "auctioneer1", "auction1", "bidder1", 10.0);
+  Bid bid2("bid2", "auctioneer1", "auction1", "bidder2", 13.0);
+  Bid bid3("bid3", "auctioneer1", "auction1", "bidder3", 6.0);
+  Bid bid4("bid4", "auctioneer1", "auction1", "bidder1", 17.0);
+  Bid bid5("bid5", "auctioneer1", "auction1", "bidder4", 15.0);
   auction->start();
   ROS_INFO_STREAM("[bids: " << auction->size() << "] Submiting " << bid1
                             << "...");

@@ -19,6 +19,7 @@ public:
   typedef boost::shared_ptr<const AwaitingContractRenewal> ConstPtr;
   AwaitingContractRenewal(const BiddingControllerPtr& controller);
   virtual ~AwaitingContractRenewal();
+  virtual bool preProcess();
   virtual int getNext() const { return states::AwaitingBiddingDisposal; }
   virtual std::string str() const { return "Awaiting Contract Renewal"; }
 private:

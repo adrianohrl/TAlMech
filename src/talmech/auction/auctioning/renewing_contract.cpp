@@ -77,6 +77,7 @@ void RenewingContract::callback(const talmech_msgs::Acknowledgment& msg)
       return;
     }
     talmech_msgs::Acknowledgment msg;
+    msg.auctioneer = auction_->getAuctioneer();
     msg.auction = auction_->getId();
     msg.winner = auction_->getWinner();
     msg.renewal_deadline = auction_->getRenewalDeadline();

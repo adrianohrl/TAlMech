@@ -5,8 +5,8 @@ namespace talmech
 {
 namespace auction
 {
-Bidder::Bidder(const ros::NodeHandlePtr &nh, const std::string& id)
-  : Role::Role(id), nh_(nh), initialized_(false)
+Bidder::Bidder(const ros::NodeHandlePtr& nh, const std::string& id)
+    : Role::Role(id), nh_(nh), initialized_(false)
 {
   ros::NodeHandle pnh("~");
   int max_size;
@@ -26,10 +26,11 @@ Bidder::Bidder(const std::string& id, const ros::NodeHandlePtr& nh,
                                &Bidder::callback, this);
 }
 
-bool Bidder::bid(const AuctionPtr &auction, const BidPtr &bid)
+bool Bidder::bid(const AuctionPtr& auction, double amount)
 {
   std::stringstream ss;
   ss << id_ << "-" << ros::Time::now();
+  BidPtr bid(new Bid(id_, ss.str(), *auction, amount));
   ControllerPtr controller(new bidding::BiddingController(nh_, auction, bid));
   try
   {
@@ -42,13 +43,13 @@ bool Bidder::bid(const AuctionPtr &auction, const BidPtr &bid)
   return true;
 }
 
-void Bidder::callback(const talmech_msgs::Auction &msg)
+void Bidder::callback(const talmech_msgs::Auction& msg)
 {
   AuctionPtr auction(new Auction(msg));
-  double metrics(evaluate(*auction->getTask()));
-  if (metrics != 0.0)
+  double amount(evaluate(*auction->getTask()));
+  if (amount != 0.0)
   {
-    bid(auction, BidPtr(new Bid(auction->getId(), id_, metrics)));
+    bid(auction, amount);
   }
 }
 }

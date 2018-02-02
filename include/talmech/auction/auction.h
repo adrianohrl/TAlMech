@@ -32,16 +32,16 @@ class Auction : public ToMsg<talmech_msgs::Auction>
 public:
   typedef boost::shared_ptr<Auction> Ptr;
   typedef boost::shared_ptr<const Auction> ConstPtr;
-  Auction(const std::string& id, const TaskPtr& task,
-          const ros::Duration& duration, const ros::Rate& renewal_rate,
-          bool sorted_insertion, bool reauction, bool bid_update,
-          const AuctionEvaluatorPtr& evaluator);
+  Auction(const std::string& auctioneer, const std::string& id,
+          const TaskPtr& task, const ros::Duration& duration,
+          const ros::Rate& renewal_rate, bool sorted_insertion, bool reauction,
+          bool bid_update, const AuctionEvaluatorPtr& evaluator);
   Auction(const talmech_msgs::Auction& msg);
   Auction(const Auction& auction);
   virtual ~Auction() {}
   virtual void start();
   virtual void clear() { bids_.clear(); }
-  virtual void submit(const Bid &bid);
+  virtual void submit(const Bid& bid);
   virtual void close();
   virtual void renewContract();
   virtual void restart();
@@ -49,17 +49,21 @@ public:
   virtual void conclude();
   virtual void selectWinner();
   bool hasCandidates() const { return !bids_.empty(); }
-  bool hasRenewalExpired() const { return ros::Time::now() > renewal_deadline_; }
+  bool hasRenewalExpired() const
+  {
+    return ros::Time::now() > renewal_deadline_;
+  }
   bool hasAborted() const { return !abortion_timestamp_.isZero(); }
   bool hasConcluded() const { return !conclusion_timestamp_.isZero(); }
   bool isOngoing() const;
   std::string getId() const { return id_; }
+  std::string getAuctioneer() const { return auctioneer_; }
+  TaskPtr getTask() const { return task_; }
   ros::Time getStartTimestamp() const { return start_timestamp_; }
   ros::Duration getDuration() const { return duration_; }
   ros::Time getCloseTimestamp() const { return close_timestamp_; }
   ros::Rate getRenewalRate() const { return renewal_rate_; }
   ros::Time getRenewalDeadline() const { return renewal_deadline_; }
-  TaskPtr getTask() const { return task_; }
   bool empty() const { return bids_.empty(); }
   std::size_t size() const { return bids_.size(); }
   BidsIt begin() { return bids_.begin(); }
@@ -76,6 +80,7 @@ public:
   {
     talmech_msgs::Auction msg;
     msg.id = id_;
+    msg.auctioneer = auctioneer_;
     msg.task = task_->toMsg();
     msg.start_timestamp = start_timestamp_;
     msg.expected_duration = duration_;
@@ -92,6 +97,7 @@ public:
   }
   virtual void operator=(const Auction& auction);
   virtual void operator=(const talmech_msgs::Auction& msg);
+
 protected:
   void setStartTimestamp(const ros::Time& timestamp = ros::Time::now())
   {
@@ -102,8 +108,10 @@ protected:
     close_timestamp_ = timestamp;
   }
   void setWinner(const std::string& winner) { winner_ = winner; }
+
 private:
   std::string id_;
+  std::string auctioneer_;
   TaskPtr task_;
   ros::Time start_timestamp_;
   ros::Duration duration_;
