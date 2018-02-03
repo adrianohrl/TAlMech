@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>talmech</name>
-  <version>0.0.8</version>
+  <version>0.0.9</version>
   <description>The talmech package</description>
   <maintainer email="adrianohrl@unifei.edu.br">Adriano Henrique Rossette Leite</maintainer>
   <author email="expertinos.unifei@gmail.com">Expertinos UNIFEI</author>
