@@ -46,6 +46,10 @@ public:
 private:
   std::string id_;
 };
+template <class T> struct EvaluateTaskPtr
+{
+  typedef double (T::*Function)(const Task& task) const;
+};
 typedef Task::Ptr TaskPtr;
 typedef Task::ConstPtr TaskConstPtr;
 }

@@ -6,11 +6,11 @@ namespace talmech
 namespace auction
 {
 Auction::Auction(const std::string& auctioneer, const std::string& id,
-                 const TaskPtr& task, const ros::Duration& duration,
+                 const TaskPtr& task, double reserve_price, const ros::Duration& duration,
                  const ros::Rate& renewal_rate, bool sorted_insertion,
                  bool reauction, bool bid_update,
                  const AuctionEvaluatorPtr& evaluator)
-    : id_(id), auctioneer_(auctioneer), task_(task), duration_(duration),
+    : id_(id), auctioneer_(auctioneer), task_(task), reserve_price_(reserve_price), duration_(duration),
       renewal_rate_(renewal_rate), sorted_insertion_(sorted_insertion),
       reauction_(reauction), bid_update_(bid_update), evaluator_(evaluator)
 {
@@ -21,7 +21,7 @@ Auction::Auction(const std::string& auctioneer, const std::string& id,
 }
 
 Auction::Auction(const talmech_msgs::Auction& msg)
-    : id_(msg.id), auctioneer_(msg.auctioneer), task_(new Task(msg.task)),
+    : id_(msg.id), auctioneer_(msg.auctioneer), task_(new Task(msg.task)), reserve_price_(msg.reserve_price),
       duration_(msg.expected_duration), start_timestamp_(msg.start_timestamp),
       close_timestamp_(msg.expected_close_timestamp),
       renewal_rate_(ros::Rate(msg.expected_renewal_rate))
@@ -29,7 +29,7 @@ Auction::Auction(const talmech_msgs::Auction& msg)
 }
 
 Auction::Auction(const Auction& auction)
-    : id_(auction.id_), auctioneer_(auction.auctioneer_), task_(auction.task_),
+    : id_(auction.id_), auctioneer_(auction.auctioneer_), task_(auction.task_), reserve_price_(auction.reserve_price_),
       duration_(auction.duration_), start_timestamp_(auction.start_timestamp_),
       renewal_rate_(auction.renewal_rate_),
       renewal_deadline_(auction.renewal_deadline_),
@@ -52,7 +52,7 @@ void Auction::start()
 void Auction::submit(const Bid& bid)
 {
   if (start_timestamp_.isZero() || !close_timestamp_.isZero() ||
-      start_timestamp_ > bid.getTimestamp())
+      start_timestamp_ > bid.getTimestamp() || bid.getAmount() <= reserve_price_)
   {
     return;
   }
@@ -148,6 +148,7 @@ void Auction::restart()
     throw Exception("The auction has not been started yet.");
   }
   ROS_INFO_STREAM("Restarting " << id_ << "...");
+  // what about the reserve price, it is not the same thing
   start_timestamp_ = ros::Time::now();
   bids_.clear();
   close_timestamp_ = ros::Time();
@@ -182,6 +183,7 @@ void Auction::operator=(const Auction& auction)
   id_ = auction.id_;
   auctioneer_ = auction.auctioneer_;
   *task_ = *auction.task_;
+  reserve_price_ = auction.reserve_price_;
   start_timestamp_ = auction.start_timestamp_;
   duration_ = auction.duration_;
   close_timestamp_ = auction.close_timestamp_;
@@ -199,6 +201,7 @@ void Auction::operator=(const talmech_msgs::Auction& msg)
   id_ = msg.id;
   auctioneer_ = msg.auctioneer;
   *task_ = msg.task;
+  reserve_price_ = msg.reserve_price;
   start_timestamp_ = msg.start_timestamp;
   duration_ = msg.expected_duration;
   close_timestamp_ = msg.expected_close_timestamp;

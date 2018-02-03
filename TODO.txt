@@ -4,4 +4,4 @@
 (bidder) task abort
 (bidder) task conclude
 
-(auctioneer) reserve price evaluate
+(auctioneer) reset reserve price evaluate when restarting auction

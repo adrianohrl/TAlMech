@@ -28,6 +28,17 @@ public:
              const AuctionEvaluatorPtr& evaluator =
                  AuctionEvaluatorPtr(new AuctionEvaluator()));
   virtual ~Auctioneer();
+  template <typename A>
+  void registerReservePriceEvaluationFunction(
+      typename EvaluateTaskPtr<A>::Function function, A* agent)
+  {
+    function_ = boost::bind(function, agent, _1);
+    initialized_ = true;
+  }
+  double evaluate(const Task& task) const
+  {
+    return initialized_ ? function_(task) : 0.0;
+  }
   bool auction(const TaskPtr& task);
   bool isSortedInsertion() const { return sorted_insertion_; }
   bool isReauctionAllowed() const { return reauction_; }
@@ -58,10 +69,13 @@ private:
   bool reauction_;
   bool bid_update_;
   AuctionEvaluatorPtr evaluator_;
+  bool initialized_;
+  boost::function<double(const Task&)> function_;
   void taskCallback(const talmech_msgs::Task& msg);
   void submissionCallback(const talmech_msgs::Bid& msg);
   void acknowledgmentCallback(const talmech_msgs::Acknowledgment& msg);
-  auctioning::AuctioningControllerPtr getController(const std::string& auction) const;
+  auctioning::AuctioningControllerPtr
+  getController(const std::string& auction) const;
 };
 typedef Auctioneer::Ptr AuctioneerPtr;
 typedef Auctioneer::ConstPtr AuctioneerConstPtr;

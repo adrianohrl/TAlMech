@@ -78,7 +78,7 @@ void Bidder::announcementCallback(const talmech_msgs::Auction& msg)
   double amount(evaluate(*auction->getTask()));
   ROS_INFO_STREAM("[Bidder] bidding for " << *auction << " (amount: " << amount
                                           << ")");
-  if (amount != 0.0)
+  if (amount > msg.reserve_price)
   {
     bid(auction, amount);
   }

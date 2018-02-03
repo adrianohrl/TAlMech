@@ -33,9 +33,10 @@ public:
   typedef boost::shared_ptr<Auction> Ptr;
   typedef boost::shared_ptr<const Auction> ConstPtr;
   Auction(const std::string& auctioneer, const std::string& id,
-          const TaskPtr& task, const ros::Duration& duration,
-          const ros::Rate& renewal_rate, bool sorted_insertion, bool reauction,
-          bool bid_update, const AuctionEvaluatorPtr& evaluator);
+          const TaskPtr& task, double reserve_price,
+          const ros::Duration& duration, const ros::Rate& renewal_rate,
+          bool sorted_insertion, bool reauction, bool bid_update,
+          const AuctionEvaluatorPtr& evaluator);
   Auction(const talmech_msgs::Auction& msg);
   Auction(const Auction& auction);
   virtual ~Auction() {}
@@ -59,6 +60,7 @@ public:
   std::string getId() const { return id_; }
   std::string getAuctioneer() const { return auctioneer_; }
   TaskPtr getTask() const { return task_; }
+  double getReservePrice() const { return reserve_price_; }
   ros::Time getStartTimestamp() const { return start_timestamp_; }
   ros::Duration getDuration() const { return duration_; }
   ros::Time getCloseTimestamp() const { return close_timestamp_; }
@@ -74,6 +76,7 @@ public:
   bool isSortedInsertion() const { return sorted_insertion_; }
   bool isReauctionAllowed() const { return reauction_; }
   bool isBidUpdateAllowed() const { return bid_update_; }
+  void setReservePrice(double reserve_price) { reserve_price_ = reserve_price; }
   std::string str() const { return id_; }
   const char* c_str() const { return str().c_str(); }
   virtual talmech_msgs::Auction toMsg() const
@@ -82,6 +85,7 @@ public:
     msg.id = id_;
     msg.auctioneer = auctioneer_;
     msg.task = task_->toMsg();
+    msg.reserve_price = reserve_price_;
     msg.start_timestamp = start_timestamp_;
     msg.expected_duration = duration_;
     msg.expected_close_timestamp = start_timestamp_ + duration_;
@@ -97,7 +101,6 @@ public:
   }
   virtual void operator=(const Auction& auction);
   virtual void operator=(const talmech_msgs::Auction& msg);
-
 protected:
   void setStartTimestamp(const ros::Time& timestamp = ros::Time::now())
   {
@@ -108,11 +111,11 @@ protected:
     close_timestamp_ = timestamp;
   }
   void setWinner(const std::string& winner) { winner_ = winner; }
-
 private:
   std::string id_;
   std::string auctioneer_;
   TaskPtr task_;
+  double reserve_price_;
   ros::Time start_timestamp_;
   ros::Duration duration_;
   ros::Time close_timestamp_;
