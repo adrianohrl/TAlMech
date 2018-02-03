@@ -8,6 +8,12 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
+Forthcoming
+-----------
+* started to implement canceling, abortion and conclusion of auction and task processes
+* fixed machine state publishers
+* Contributors: adrianohrl
+
 0.0.8 (2018-02-02)
 ------------------
 * first time auction runs correctly (1-to-1)
