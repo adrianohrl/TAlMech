@@ -1,0 +1,7 @@
+(auctioneer) auction abort
+(auctioneer) auction cancel
+(auctioneer) auction conclude
+(bidder) task abort
+(bidder) task conclude
+
+(auctioneer) reserve price evaluate

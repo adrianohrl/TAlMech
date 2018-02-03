@@ -15,14 +15,17 @@ public:
       : Agent::Agent(id, RolePtr(new Bidder(nh, id)))
   {
     BidderPtr bidder(boost::dynamic_pointer_cast<Bidder>(getRole()));
-    bidder->init(&Agent::getUtility, static_cast<Agent*>(this));
+    bidder->registerMetricsEvaluationFunction(&Agent::getUtility,
+                                              static_cast<Agent*>(this));
   }
   BidderAgent(const std::string& id, const ros::NodeHandlePtr& nh,
-              const std::size_t& max_size = 1, const std::size_t& queue_size = 10)
+              const std::size_t& max_size = 1,
+              const std::size_t& queue_size = 10)
       : Agent::Agent(id, RolePtr(new Bidder(id, nh, max_size, queue_size)))
   {
     BidderPtr bidder(boost::dynamic_pointer_cast<Bidder>(getRole()));
-    bidder->init(&Agent::getUtility, static_cast<Agent*>(this));
+    bidder->registerMetricsEvaluationFunction(&Agent::getUtility,
+                                              static_cast<Agent*>(this));
   }
   virtual ~BidderAgent() {}
 };

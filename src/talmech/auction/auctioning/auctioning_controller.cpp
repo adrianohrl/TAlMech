@@ -39,6 +39,28 @@ void AuctioningController::init()
   setCurrentState(states::AnnouncingTask);
 }
 
+void AuctioningController::cancel()
+{
+  ROS_DEBUG_STREAM("Canceling " << *auction_ << "...");
+  setCurrentState(states::AwaitingAuctioningDisposal);
+}
+
+void AuctioningController::abort()
+{
+  RenewingContractPtr state(
+      boost::dynamic_pointer_cast<RenewingContract>(
+          getState(states::RenewingContract)));
+  state->abort();
+}
+
+void AuctioningController::conclude()
+{
+  RenewingContractPtr state(
+      boost::dynamic_pointer_cast<RenewingContract>(
+          getState(states::RenewingContract)));
+  state->conclude();
+}
+
 void AuctioningController::registerAnnouncementPublisher(ros::Publisher *publisher)
 {
   if (!isInitialized())

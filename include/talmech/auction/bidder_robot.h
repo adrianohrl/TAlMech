@@ -15,14 +15,14 @@ public:
       : Robot::Robot(id, RolePtr(new Bidder(nh, id)))
   {
     BidderPtr bidder(boost::dynamic_pointer_cast<Bidder>(getRole()));
-    bidder->init(&Robot::getUtility, static_cast<Robot*>(this));
+    bidder->registerMetricsEvaluationFunction(&Robot::getUtility, static_cast<Robot*>(this));
   }
   BidderRobot(const std::string& id, const ros::NodeHandlePtr& nh,
               const std::size_t& max_size, const std::size_t& queue_size)
       : Robot::Robot(id, RolePtr(new Bidder(id, nh, max_size, queue_size)))
   {
     BidderPtr bidder(boost::dynamic_pointer_cast<Bidder>(getRole()));
-    bidder->init(&Robot::getUtility, static_cast<Robot*>(this));
+    bidder->registerMetricsEvaluationFunction(&Robot::getUtility, static_cast<Robot*>(this));
   }
   virtual ~BidderRobot() {}
 };

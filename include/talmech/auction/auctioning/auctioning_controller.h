@@ -26,6 +26,9 @@ public:
     MachineController::addState(id, state);
   }
   virtual void init();
+  virtual void cancel();
+  virtual void abort();
+  virtual void conclude();
   void registerAnnouncementPublisher(ros::Publisher* publisher);
   void submissionCallback(const talmech_msgs::Bid& msg);
   void registerClosePublisher(ros::Publisher* publisher);

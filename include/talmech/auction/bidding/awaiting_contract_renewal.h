@@ -19,6 +19,8 @@ public:
   AwaitingContractRenewal(const BiddingControllerPtr& controller,
                           const ros::Duration& tolerance = ros::Duration(5.0));
   virtual ~AwaitingContractRenewal() { publisher_ = NULL; }
+  void abort() { aborted_ = true; }
+  void conclude() { concluded_ = true; }
   virtual bool preProcess();
   virtual bool process();
   virtual bool postProcess();
@@ -35,9 +37,11 @@ private:
   ros::Duration tolerance_;
   ros::Time renewal_deadline_;
   bool ongoing_;
+  bool aborted_;
+  bool concluded_;
   bool hasExpired() const;
-  bool hasAborted() const { return false; }
-  bool hasConcluded() const { return false; }
+  bool hasAborted() const { return aborted_; }
+  bool hasConcluded() const { return concluded_; }
 };
 typedef AwaitingContractRenewal::Ptr AwaitingContractRenewalPtr;
 typedef AwaitingContractRenewal::ConstPtr AwaitingContractRenewalConstPtr;

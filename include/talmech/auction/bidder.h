@@ -26,7 +26,7 @@ public:
          const std::size_t& max_size = 1, const std::size_t& queue_size = 10);
   virtual ~Bidder();
   template <typename A>
-  void init(typename EvaluatePtr<A>::Function function, A* agent)
+  void registerMetricsEvaluationFunction(typename EvaluatePtr<A>::Function function, A* agent)
   {
     function_ = boost::bind(function, agent, _1);
     initialized_ = true;

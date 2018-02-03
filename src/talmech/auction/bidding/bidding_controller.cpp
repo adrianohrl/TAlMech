@@ -67,6 +67,22 @@ void BiddingController::renewalCallback(const talmech_msgs::Acknowledgment& msg)
           getState(states::AwaitingContractRenewal)));
   state->renewalCallback(msg);
 }
+
+void BiddingController::abort()
+{
+  AwaitingContractRenewalPtr state(
+      boost::dynamic_pointer_cast<AwaitingContractRenewal>(
+          getState(states::AwaitingContractRenewal)));
+  state->abort();
+}
+
+void BiddingController::conclude()
+{
+  AwaitingContractRenewalPtr state(
+      boost::dynamic_pointer_cast<AwaitingContractRenewal>(
+          getState(states::AwaitingContractRenewal)));
+  state->conclude();
+}
 }
 }
 }

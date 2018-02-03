@@ -20,6 +20,8 @@ bool RenewingContract::preProcess()
     throw Exception(
         "The acknowledgement publisher has not been registered yet.");
   }
+  aborted_ = false;
+  concluded_ = false;
   return MachineState::preProcess();
 }
 

@@ -10,7 +10,7 @@ namespace bidding
 AwaitingContractRenewal::AwaitingContractRenewal(
     const BiddingControllerPtr& controller, const ros::Duration& tolerance)
     : BiddingState::BiddingState(controller, states::AwaitingContractRenewal),
-      tolerance_(tolerance), ongoing_(true)
+      tolerance_(tolerance), ongoing_(true), aborted_(false), concluded_(false)
 {
   msg_.auctioneer = auction_->getAuctioneer();
   msg_.auction = auction_->getId();
@@ -25,6 +25,8 @@ bool AwaitingContractRenewal::preProcess()
     throw Exception("The acknowledgment publisher has not been registered yet.");
   }
   ongoing_ = true;
+  aborted_ = false;
+  concluded_ = false;
   std::stringstream ss;
   msg_.timestamp = ros::Time::now();
   ss << bid_->getBidder() << "-" << msg_.timestamp;
