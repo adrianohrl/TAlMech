@@ -56,7 +56,11 @@ bool Bidder::bid(const AuctionPtr& auction, double amount)
   ss << id_ << "-" << ros::Time::now();
   BidPtr bid(new Bid(id_, ss.str(), *auction, amount));
   ROS_INFO_STREAM("[Bidder] bidding: " << *bid);
-  ControllerPtr controller(new bidding::BiddingController(nh_, auction, bid));
+  bidding::BiddingControllerPtr controller(
+      new bidding::BiddingController(auction, bid));
+  controller->init();
+  controller->registerSubmissionPublisher(&submission_pub_);
+  controller->registerAcknowledgmentPublisher(&acknowledgment_pub_);
   try
   {
     Role::addController(controller);
@@ -106,13 +110,13 @@ void Bidder::renewalCallback(const talmech_msgs::Acknowledgment& msg)
   }
 }
 
-bidding::BiddingControllerPtr Bidder::getController(const std::string &auction) const
+bidding::BiddingControllerPtr
+Bidder::getController(const std::string& auction) const
 {
   bidding::BiddingControllerPtr controller;
   for (ControllersConstIt it(begin()); it != end(); it++)
   {
-    controller =
-        boost::dynamic_pointer_cast<bidding::BiddingController>(*it);
+    controller = boost::dynamic_pointer_cast<bidding::BiddingController>(*it);
     if (controller->getAuction()->getId() == auction)
     {
       return controller;

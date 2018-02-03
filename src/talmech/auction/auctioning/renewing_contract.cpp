@@ -8,16 +8,19 @@ namespace auction
 namespace auctioning
 {
 RenewingContract::RenewingContract(const AuctioningControllerPtr& controller)
-    : AuctioningState::AuctioningState(controller, states::RenewingContract)
+    : AuctioningState::AuctioningState(controller, states::RenewingContract),
+      aborted_(false), concluded_(false)
 {
-  ros::NodeHandlePtr nh(controller->getNodeHandle());
-  publisher_ =
-      nh->advertise<talmech_msgs::Acknowledgment>("/contract/renewal", 1);
 }
 
-RenewingContract::~RenewingContract()
+bool RenewingContract::preProcess()
 {
-  publisher_.shutdown();
+  if (!publisher_)
+  {
+    throw Exception(
+        "The acknowledgement publisher has not been registered yet.");
+  }
+  return MachineState::preProcess();
 }
 
 bool RenewingContract::process()
@@ -36,12 +39,12 @@ bool RenewingContract::postProcess()
 
 int RenewingContract::getNext() const
 {
-  return !auction_->isOngoing()
-             ? states::AwaitingAuctioningDisposal
-             : states::AnnouncingTask;
+  return !auction_->isOngoing() ? states::AwaitingAuctioningDisposal
+                                : states::AnnouncingTask;
 }
 
-void RenewingContract::acknowledgementCallback(const talmech_msgs::Acknowledgment &msg)
+void RenewingContract::acknowledgementCallback(
+    const talmech_msgs::Acknowledgment& msg)
 {
   if (msg.auction != auction_->getId() || msg.bidder != auction_->getWinner())
   {
@@ -75,8 +78,9 @@ void RenewingContract::acknowledgementCallback(const talmech_msgs::Acknowledgmen
     msg.auction = auction_->getId();
     msg.bidder = auction_->getWinner();
     msg.renewal_deadline = auction_->getRenewalDeadline();
-    msg.status = status::Ongoing;
-    publisher_.publish(msg);
+    msg.status = aborted_ ? status::Aborted
+                          : (concluded_ ? status::Concluded : status::Ongoing);
+    publisher_->publish(msg);
   }
 }
 }

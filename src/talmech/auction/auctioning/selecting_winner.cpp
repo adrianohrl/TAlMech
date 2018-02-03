@@ -9,10 +9,17 @@ namespace auction
 namespace auctioning
 {
 SelectingWinner::SelectingWinner(const AuctioningControllerPtr& controller)
-    : AuctioningState::AuctioningState(controller, states::SelectingWinner)
+    : AuctioningState::AuctioningState(controller, states::SelectingWinner), publisher_(NULL)
 {
-  ros::NodeHandlePtr nh(controller->getNodeHandle());
-  publisher_ = nh->advertise<talmech_msgs::Acknowledgment>("/auction/close", 1);
+}
+
+bool SelectingWinner::preProcess()
+{
+  if (!publisher_)
+  {
+    throw Exception("The close publisher has not been registered yet.");
+  }
+  return MachineState::preProcess();
 }
 
 bool SelectingWinner::process()
@@ -28,7 +35,7 @@ bool SelectingWinner::process()
   msg.bidder = auction_->getWinner();
   msg.renewal_deadline = auction_->getRenewalDeadline();
   msg.status = status::Ongoing;
-  publisher_.publish(msg);
+  publisher_->publish(msg);
   return MachineState::process();
 }
 }

@@ -13,14 +13,16 @@ AwaitingAuctionClose::AwaitingAuctionClose(
     : BiddingState::BiddingState(controller, states::AwaitingAuctionClose),
       selected_(false), tolerance_(tolerance)
 {
-  ros::NodeHandlePtr nh(controller->getNodeHandle());
-  publisher_ = nh->advertise<talmech_msgs::Bid>("/auction/submission", 1);
 }
 
 bool AwaitingAuctionClose::preProcess()
 {
+  if (!publisher_)
+  {
+    throw Exception("The submission publisher has not been registered yet.");
+  }
   selected_ = false;
-  publisher_.publish(bid_->toMsg());
+  publisher_->publish(bid_->toMsg());
   return MachineState::preProcess();
 }
 

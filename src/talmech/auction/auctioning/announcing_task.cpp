@@ -11,14 +11,21 @@ namespace auctioning
 AnnouncingTask::AnnouncingTask(const AuctioningControllerPtr &controller)
   : AuctioningState::AuctioningState(controller, states::AnnouncingTask)
 {
-  ros::NodeHandlePtr nh(controller->getNodeHandle());
-  publisher_ = nh->advertise<talmech_msgs::Auction>("/auction/announcement", 1);
+}
+
+bool AnnouncingTask::preProcess()
+{
+  if (!publisher_)
+  {
+    throw Exception("The announcement publisher has not been registered yet.");
+  }
+  return MachineState::preProcess();
 }
 
 bool AnnouncingTask::process()
 {
   auction_->start();
-  publisher_.publish(auction_->toMsg());
+  publisher_->publish(auction_->toMsg());
   return MachineState::process();
 }
 }

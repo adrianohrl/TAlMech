@@ -29,18 +29,6 @@ public:
                  AuctionEvaluatorPtr(new AuctionEvaluator()));
   virtual ~Auctioneer();
   bool auction(const TaskPtr& task);
-  void announce(const talmech_msgs::Auction& msg)
-  {
-    announcement_pub_.publish(msg);
-  }
-  void close(const talmech_msgs::Acknowledgment& msg)
-  {
-    close_pub_.publish(msg);
-  }
-  void renewal(const talmech_msgs::Acknowledgment& msg)
-  {
-    renewal_pub_.publish(msg);
-  }
   bool isSortedInsertion() const { return sorted_insertion_; }
   bool isReauctionAllowed() const { return reauction_; }
   bool isBidUpdateAllowed() const { return bid_update_; }

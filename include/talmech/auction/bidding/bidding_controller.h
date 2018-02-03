@@ -12,14 +12,15 @@ namespace auction
 {
 namespace bidding
 {
-class BiddingController : public MachineController,
-    public boost::enable_shared_from_this<BiddingController>
+class BiddingController
+    : public MachineController,
+      public boost::enable_shared_from_this<BiddingController>
 {
 public:
   typedef boost::shared_ptr<BiddingController> Ptr;
   typedef boost::shared_ptr<const BiddingController> ConstPtr;
-  BiddingController(const ros::NodeHandlePtr& nh, const AuctionPtr& auction, const BidPtr& bid)
-    : MachineController::MachineController(nh), auction_(auction), bid_(bid)
+  BiddingController(const AuctionPtr& auction, const BidPtr& bid)
+      : auction_(auction), bid_(bid)
   {
   }
   virtual ~BiddingController() {}
@@ -28,7 +29,9 @@ public:
     MachineController::addState(id, state);
   }
   virtual void init();
-  void closeCallback(const talmech_msgs::Acknowledgment&  msg);
+  void registerSubmissionPublisher(ros::Publisher* publisher);
+  void closeCallback(const talmech_msgs::Acknowledgment& msg);
+  void registerAcknowledgmentPublisher(ros::Publisher* publisher);
   void renewalCallback(const talmech_msgs::Acknowledgment& msg);
   AuctionPtr getAuction() const { return auction_; }
   BidPtr getBid() const { return bid_; }

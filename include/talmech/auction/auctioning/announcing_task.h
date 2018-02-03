@@ -16,12 +16,17 @@ public:
   typedef boost::shared_ptr<AnnouncingTask> Ptr;
   typedef boost::shared_ptr<const AnnouncingTask> ConstPtr;
   AnnouncingTask(const AuctioningControllerPtr& controller);
-  virtual ~AnnouncingTask() { publisher_.shutdown(); }
+  virtual ~AnnouncingTask() { publisher_ = NULL; }
+  virtual bool preProcess();
   virtual bool process();
   virtual int getNext() const { return states::AwaitingAuctionDeadline; }
+  void registerAnnouncementPublisher(ros::Publisher* publisher)
+  {
+    publisher_ = publisher;
+  }
   virtual std::string str() const { return "Announcing Task"; }
 private:
-  ros::Publisher publisher_;
+  ros::Publisher* publisher_;
 };
 typedef AnnouncingTask::Ptr AnnouncingTaskPtr;
 typedef AnnouncingTask::ConstPtr AnnouncingTaskConstPtr;

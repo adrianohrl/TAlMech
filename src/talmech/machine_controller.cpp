@@ -47,6 +47,12 @@ std::string MachineController::str() const
 
 const char* MachineController::c_str() const { return str().c_str(); }
 
+MachineController::StatePtr MachineController::getState(int id) const
+{
+  StateConstIt it(states_.find(id));
+  return it != states_.end() ? it->second : StatePtr();
+}
+
 void MachineController::addState(int id, const StatePtr& state)
 {
   StateConstIt it(states_.find(id));

@@ -19,15 +19,18 @@ class AuctioningController
 public:
   typedef boost::shared_ptr<AuctioningController> Ptr;
   typedef boost::shared_ptr<const AuctioningController> ConstPtr;
-  AuctioningController(const ros::NodeHandlePtr& nh, const AuctionPtr& auction);
+  AuctioningController(const AuctionPtr& auction);
   virtual ~AuctioningController() {}
   void addState(State id, const AuctioningStatePtr& state)
   {
     MachineController::addState(id, state);
   }
   virtual void init();
+  void registerAnnouncementPublisher(ros::Publisher* publisher);
   void submissionCallback(const talmech_msgs::Bid& msg);
+  void registerClosePublisher(ros::Publisher* publisher);
   void acknowledgementCallback(const talmech_msgs::Acknowledgment& msg);
+  void registerRenewalPublisher(ros::Publisher* publisher);
   AuctionPtr getAuction() const { return auction_; }
 private:
   AuctionPtr auction_;

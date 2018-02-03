@@ -16,12 +16,18 @@ public:
   typedef boost::shared_ptr<SelectingWinner> Ptr;
   typedef boost::shared_ptr<const SelectingWinner> ConstPtr;
   SelectingWinner(const AuctioningControllerPtr& controller);
-  virtual ~SelectingWinner() { publisher_.shutdown(); }
+  virtual ~SelectingWinner() { publisher_ = NULL; }
+  virtual bool preProcess();
   virtual bool process();
   virtual int getNext() const { return states::RenewingContract; }
+  void registerClosePublisher(ros::Publisher* publisher)
+  {
+    publisher_ = publisher;
+  }
   virtual std::string str() const { return "Selecting Winner"; }
+
 private:
-  ros::Publisher publisher_;
+  ros::Publisher* publisher_;
 };
 typedef SelectingWinner::Ptr SelectingWinnerPtr;
 typedef SelectingWinner::ConstPtr SelectingWinnerConstPtr;

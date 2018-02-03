@@ -20,7 +20,8 @@ public:
   ros::NodeHandlePtr getNodeHandle() const { return nh_; }
   virtual std::string str() const;
   virtual const char* c_str() const;
-  friend std::ostream& operator<<(std::ostream& out, const MachineController& controller)
+  friend std::ostream& operator<<(std::ostream& out,
+                                  const MachineController& controller)
   {
     out << controller.str();
     return out;
@@ -29,10 +30,14 @@ private:
   typedef boost::shared_ptr<MachineState> StatePtr;
 protected:
   ros::NodeHandlePtr nh_;
-  MachineController(const ros::NodeHandlePtr &nh) : nh_(nh) {}
-  StatePtr getState(int id) const { return states_.at(id); }
-  void addState(int id, const StatePtr &state);
+  MachineController(const ros::NodeHandlePtr& nh = ros::NodeHandlePtr())
+      : nh_(nh)
+  {
+  }
+  StatePtr getState(int id) const;
+  void addState(int id, const StatePtr& state);
   void setCurrentState(int state);
+  bool isInitialized() const { return current_.get(); }
 private:
   typedef std::map<int, StatePtr> StateMap;
   typedef StateMap::iterator StateIt;

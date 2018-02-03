@@ -36,14 +36,6 @@ public:
     return initialized_ ? function_(task) : 0.0;
   }
   virtual bool bid(const AuctionPtr& auction, double amount);
-  void submit(const talmech_msgs::Bid& msg)
-  {
-    submission_pub_.publish(msg);
-  }
-  void acknowledge(const talmech_msgs::Acknowledgment& msg)
-  {
-    acknowledgment_pub_.publish(msg);
-  }
 private:
   ros::NodeHandlePtr nh_;
   ros::Subscriber announcement_sub_;

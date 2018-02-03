@@ -12,9 +12,8 @@ namespace auction
 {
 namespace auctioning
 {
-AuctioningController::AuctioningController(const ros::NodeHandlePtr& nh,
-                                           const AuctionPtr& auction)
-    : MachineController::MachineController(nh), auction_(auction)
+AuctioningController::AuctioningController(const AuctionPtr& auction)
+    : auction_(auction)
 {
   if (!auction_)
   {
@@ -40,6 +39,19 @@ void AuctioningController::init()
   setCurrentState(states::AnnouncingTask);
 }
 
+void AuctioningController::registerAnnouncementPublisher(ros::Publisher *publisher)
+{
+  if (!isInitialized())
+  {
+    throw Exception("The auctioning machine controller must be initialized before "
+                    "registering the announcement publisher.");
+  }
+  AnnouncingTaskPtr state(
+      boost::dynamic_pointer_cast<AnnouncingTask>(
+          getState(states::AnnouncingTask)));
+  state->registerAnnouncementPublisher(publisher);
+}
+
 void AuctioningController::submissionCallback(const talmech_msgs::Bid& msg)
 {
   AwaitingAuctionDeadlinePtr state(
@@ -48,12 +60,38 @@ void AuctioningController::submissionCallback(const talmech_msgs::Bid& msg)
   state->submissionCallback(msg);
 }
 
+void AuctioningController::registerClosePublisher(ros::Publisher *publisher)
+{
+  if (!isInitialized())
+  {
+    throw Exception("The auctioning machine controller must be initialized before "
+                    "registering the close publisher.");
+  }
+  SelectingWinnerPtr state(
+      boost::dynamic_pointer_cast<SelectingWinner>(
+          getState(states::SelectingWinner)));
+  state->registerClosePublisher(publisher);
+}
+
 void AuctioningController::acknowledgementCallback(const talmech_msgs::Acknowledgment& msg)
 {
   RenewingContractPtr state(
       boost::dynamic_pointer_cast<RenewingContract>(
           getState(states::RenewingContract)));
   state->acknowledgementCallback(msg);
+}
+
+void AuctioningController::registerRenewalPublisher(ros::Publisher *publisher)
+{
+  if (!isInitialized())
+  {
+    throw Exception("The auctioning machine controller must be initialized before "
+                    "registering the renewal publisher.");
+  }
+  RenewingContractPtr state(
+      boost::dynamic_pointer_cast<RenewingContract>(
+          getState(states::RenewingContract)));
+  state->registerRenewalPublisher(publisher);
 }
 }
 }

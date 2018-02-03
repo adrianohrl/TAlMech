@@ -25,7 +25,20 @@ void BiddingController::init()
   setCurrentState(states::AwaitingAuctionClose);
 }
 
-void BiddingController::closeCallback(const talmech_msgs::Acknowledgment &msg)
+void BiddingController::registerSubmissionPublisher(ros::Publisher* publisher)
+{
+  if (!isInitialized())
+  {
+    throw Exception("The bidding machine controller must be initialized before "
+                    "registering the submission publisher.");
+  }
+  AwaitingAuctionClosePtr state(
+      boost::dynamic_pointer_cast<AwaitingAuctionClose>(
+          getState(states::AwaitingAuctionClose)));
+  state->registerSubmissionPublisher(publisher);
+}
+
+void BiddingController::closeCallback(const talmech_msgs::Acknowledgment& msg)
 {
   AwaitingAuctionClosePtr state(
       boost::dynamic_pointer_cast<AwaitingAuctionClose>(
@@ -33,7 +46,21 @@ void BiddingController::closeCallback(const talmech_msgs::Acknowledgment &msg)
   state->closeCallback(msg);
 }
 
-void BiddingController::renewalCallback(const talmech_msgs::Acknowledgment &msg)
+void BiddingController::registerAcknowledgmentPublisher(
+    ros::Publisher* publisher)
+{
+  if (!isInitialized())
+  {
+    throw Exception("The bidding machine controller must be initialized before "
+                    "registering the acknowledgment publisher.");
+  }
+  AwaitingContractRenewalPtr state(
+      boost::dynamic_pointer_cast<AwaitingContractRenewal>(
+          getState(states::AwaitingContractRenewal)));
+  state->registerAcknowledgmentPublisher(publisher);
+}
+
+void BiddingController::renewalCallback(const talmech_msgs::Acknowledgment& msg)
 {
   AwaitingContractRenewalPtr state(
       boost::dynamic_pointer_cast<AwaitingContractRenewal>(
