@@ -20,12 +20,7 @@ double DistanceUtility::getUtility(const Task &task) const
     throw Exception("The DistanceUtility has not been initialized yet.");
   }
   double utility(UtilityDecorator::getUtility(task));
-  typedef geometry_msgs::PoseStamped Waypoint;
-  typedef std::vector<Waypoint> Waypoints;
-  typedef Waypoints::iterator WaypointsIt;
-  typedef Waypoints::const_iterator WaypointsConstIt;
-  Waypoints waypoints(task.getWaypoints()->poses);
-  for (WaypointsConstIt it(waypoints.begin()); it != waypoints.end(); it++)
+  for (WaypointsConstIt it(task.begin()); it != task.end(); it++)
   {
     utility += correction_factor_ * getDistance(*pose_, it->pose);
   }

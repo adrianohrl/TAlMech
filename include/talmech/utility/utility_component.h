@@ -13,7 +13,7 @@ public:
   typedef boost::shared_ptr<UtilityComponent> Ptr;
   typedef boost::shared_ptr<const UtilityComponent> ConstPtr;
   virtual ~UtilityComponent() {}
-  virtual Ptr getComponent(const std::string& expression) const { return Ptr(); }
+  virtual Ptr getComponent(const std::string& component) const { return Ptr(); }
   virtual double getUtility(const Task& task) const = 0;
   virtual bool operator==(const std::string& expression) const = 0;
   bool operator!=(const std::string& expression) const

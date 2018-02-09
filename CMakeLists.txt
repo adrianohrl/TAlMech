@@ -81,13 +81,16 @@ set(H_FILES
   include/talmech/auction/bidding/bidding_state.h
   include/talmech/agent.h
   include/talmech/comparator.h
+  include/talmech/continuous_skill.h
   include/talmech/controller.h
+  include/talmech/discrete_skill.h
   include/talmech/exception.h
   include/talmech/machine_controller.h
   include/talmech/machine_state.h
   include/talmech/resource.h
   include/talmech/robot.h
   include/talmech/role.h
+  include/talmech/skill.h
   include/talmech/task.h
   include/talmech/to_msg.h
   include/talmech/utility/basic/basic_utility_factory.h
@@ -115,6 +118,7 @@ if(CATKIN_ENABLE_TESTING)
   catkin_add_gtest(${PROJECT_NAME}_test
     test/talmech/auction/auctioneer_controller_test.cpp
     test/talmech/auction/bidder_controller_test.cpp
+    test/talmech/utility/utility_test.cpp
     test/talmech/talmech_test.cpp
     ${CPP_FILES}
   )

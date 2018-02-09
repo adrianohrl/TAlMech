@@ -3,9 +3,9 @@
 
 namespace talmech
 {
-Robot::Robot(const std::string& id, const geometry_msgs::Pose& pose,
+Robot::Robot(const std::string& id, const Pose& pose,
              const utility::UtilityFactoryPtr& factory, const RolePtr& role)
-    : Agent::Agent(id, factory, role), pose_(new geometry_msgs::Pose(pose))
+    : Agent::Agent(id, factory, role), pose_(new Pose(pose))
 {
 }
 

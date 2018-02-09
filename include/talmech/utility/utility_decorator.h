@@ -15,15 +15,14 @@ public:
   {
   }
   virtual ~UtilityDecorator() {}
-  virtual bool isDecorator() const { return true; }
   virtual double getUtility(const Task& task) const
   {
     return component_ ? component_->getUtility(task) : 0.0;
   }
-  virtual UtilityComponentPtr getComponent(const std::string& expression) const
+  virtual UtilityComponentPtr getComponent(const std::string& component) const
   {
-    return component_ ? (*component_ != expression
-                             ? component_->getComponent(expression)
+    return component_ ? (*component_ != component
+                             ? component_->getComponent(component)
                              : component_)
                       : UtilityComponentPtr();
   }

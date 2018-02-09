@@ -8,6 +8,12 @@
 
 namespace talmech
 {
+typedef geometry_msgs::PoseStamped Waypoint;
+typedef boost::shared_ptr<Waypoint> WaypointPtr;
+typedef boost::shared_ptr<const Waypoint> WaypointConstPtr;
+typedef std::vector<Waypoint> Waypoints;
+typedef Waypoints::iterator WaypointsIt;
+typedef Waypoints::const_iterator WaypointsConstIt;
 class Task : public ToMsg<talmech_msgs::Task>
 {
 public:
@@ -20,6 +26,16 @@ public:
   virtual ~Task() {}
   std::string getId() const { return id_; }
   nav_msgs::PathPtr getWaypoints() const { return waypoints_; }
+  bool empty() const { return waypoints_->poses.empty(); }
+  std::size_t size() const { return waypoints_->poses.size(); }
+  WaypointsIt begin() { return waypoints_->poses.begin(); }
+  WaypointsConstIt begin() const { return waypoints_->poses.begin(); }
+  WaypointsIt end() { return waypoints_->poses.end(); }
+  WaypointsConstIt end() const { return waypoints_->poses.end(); }
+  void addWaypoint(const Waypoint& waypoint)
+  {
+    waypoints_->poses.push_back(waypoint);
+  }
   std::string str() const { return id_; }
   const char* c_str() const { return str().c_str(); }
   bool operator==(const Task& task) const { return id_ == task.id_; }
@@ -46,7 +62,6 @@ public:
     id_ = msg.id;
     *waypoints_ = msg.waypoints;
   }
-
 private:
   std::string id_;
   nav_msgs::PathPtr waypoints_;

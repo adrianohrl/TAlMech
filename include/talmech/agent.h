@@ -23,11 +23,15 @@ public:
         const RolePtr& role = RolePtr());
   virtual ~Agent() {}
   virtual void process() { role_->process(); }
+  std::string getId() const { return id_; }
   double getUtility(const Task& task) const
   {
     return utility_ ? utility_->getUtility(task) : 0.0;
   }
-  std::string getId() const { return id_; }
+  utility::UtilityComponentPtr getUtilityComponent(const std::string& component) const
+  {
+    return utility_ ? utility_->getComponent(component) : utility::UtilityComponentPtr();
+  }
   RolePtr getRole() const { return role_; }
   void setUtility(const std::string& expression)
   {

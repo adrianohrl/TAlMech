@@ -27,17 +27,16 @@ public:
   {
     return expression == "distance" || expression == "Distance" ||
            expression == "DISTANCE" || expression == "distance_utility" ||
-           expression == "DistanceUtility";
+           expression == "DistanceUtility" || expression == "DISTANCE_UTILITY";
   }
   virtual bool operator==(const std::string& expression) const
   {
     return hasBeenRequested(expression);
   }
 private:
-  geometry_msgs::PosePtr pose_;
+  PosePtr pose_;
   double correction_factor_;
-  double getDistance(const geometry_msgs::Pose& p1,
-                     const geometry_msgs::Pose& p2) const
+  double getDistance(const Pose& p1, const Pose& p2) const
   {
     return sqrt(pow(2, p1.position.x - p2.position.x) +
                 pow(2, p1.position.y - p2.position.y) +
