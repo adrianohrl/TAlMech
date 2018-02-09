@@ -52,6 +52,9 @@ set(CPP_FILES
   src/talmech/robot.cpp
   src/talmech/role.cpp
   src/talmech/task.cpp
+  src/talmech/utility/basic/basic_utility_factory.cpp
+  src/talmech/utility/basic/distance_utility.cpp
+  src/talmech/utility/utility_factory.cpp
 )
 
 set(H_FILES
@@ -87,6 +90,11 @@ set(H_FILES
   include/talmech/role.h
   include/talmech/task.h
   include/talmech/to_msg.h
+  include/talmech/utility/basic/basic_utility_factory.h
+  include/talmech/utility/basic/distance_utility.h
+  include/talmech/utility/utility_component.h
+  include/talmech/utility/utility_decorator.h
+  include/talmech/utility/utility_factory.h
 )
 
 add_library(${PROJECT_NAME}

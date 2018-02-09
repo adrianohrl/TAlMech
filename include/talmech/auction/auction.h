@@ -44,11 +44,11 @@ public:
   virtual void clear() { bids_.clear(); }
   virtual void submit(const Bid& bid);
   virtual void close();
+  virtual void selectWinner();
   virtual void renewContract();
   virtual void restart();
   virtual void abort();
   virtual void conclude();
-  virtual void selectWinner();
   bool hasCandidates() const { return !bids_.empty(); }
   bool hasRenewalExpired() const
   {

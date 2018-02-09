@@ -29,12 +29,12 @@ public:
     MachineController::addState(id, state);
   }
   virtual void init();
+  virtual void abort();
+  virtual void conclude();
   void registerSubmissionPublisher(ros::Publisher* publisher);
   void closeCallback(const talmech_msgs::Acknowledgment& msg);
   void registerAcknowledgmentPublisher(ros::Publisher* publisher);
   void renewalCallback(const talmech_msgs::Acknowledgment& msg);
-  virtual void abort();
-  virtual void conclude();
   AuctionPtr getAuction() const { return auction_; }
   BidPtr getBid() const { return bid_; }
 protected:

@@ -5,3 +5,7 @@
 (bidder) task conclude
 
 (auctioneer) reset reserve price evaluate when restarting auction
+
+(utility) read parameters
+(utility) initialization
+(skill)

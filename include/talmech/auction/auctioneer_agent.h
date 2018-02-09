@@ -12,21 +12,25 @@ class AuctioneerAgent : public Agent
 {
 public:
   AuctioneerAgent(const ros::NodeHandlePtr& nh, const std::string& id,
+                  const utility::UtilityFactoryPtr& factory =
+                      utility::basic::BasicUtilityFactory::getInstance(),
                   const AuctionEvaluatorPtr& evaluator =
                       AuctionEvaluatorPtr(new AuctionEvaluator()))
-      : Agent::Agent(id, RolePtr(new Auctioneer(nh, id, evaluator)))
+      : Agent::Agent(id, factory, RolePtr(new Auctioneer(nh, id, evaluator)))
   {
   }
   AuctioneerAgent(const std::string& id, const ros::NodeHandlePtr& nh,
+                  const utility::UtilityFactoryPtr& factory =
+                      utility::basic::BasicUtilityFactory::getInstance(),
                   const ros::Duration& auction_duration = ros::Duration(1.5),
                   const ros::Rate& renewal_rate = ros::Rate(2),
                   bool sorted_insertion = true, bool reauction = true,
                   bool bid_update = false, const std::size_t& max_size = 1,
                   const AuctionEvaluatorPtr& evaluator =
                       AuctionEvaluatorPtr(new AuctionEvaluator()))
-      : Agent::Agent(id, RolePtr(new Auctioneer(id, nh, auction_duration,
-                                                renewal_rate, sorted_insertion,
-                                                reauction, bid_update)))
+      : Agent::Agent(id, factory, RolePtr(new Auctioneer(
+                                      id, nh, auction_duration, renewal_rate,
+                                      sorted_insertion, reauction, bid_update)))
   {
   }
   virtual ~AuctioneerAgent() {}

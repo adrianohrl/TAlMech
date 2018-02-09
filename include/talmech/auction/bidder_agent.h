@@ -11,17 +11,21 @@ namespace auction
 class BidderAgent : public Agent
 {
 public:
-  BidderAgent(const ros::NodeHandlePtr& nh, const std::string& id)
-      : Agent::Agent(id, RolePtr(new Bidder(nh, id)))
+  BidderAgent(const ros::NodeHandlePtr& nh, const std::string& id,
+              const utility::UtilityFactoryPtr& factory =
+                  utility::basic::BasicUtilityFactory::getInstance())
+      : Agent::Agent(id, factory, RolePtr(new Bidder(nh, id)))
   {
     BidderPtr bidder(boost::dynamic_pointer_cast<Bidder>(getRole()));
     bidder->registerMetricsEvaluationFunction(&Agent::getUtility,
                                               static_cast<Agent*>(this));
   }
   BidderAgent(const std::string& id, const ros::NodeHandlePtr& nh,
+              const utility::UtilityFactoryPtr& factory =
+                  utility::basic::BasicUtilityFactory::getInstance(),
               const std::size_t& max_size = 1,
               const std::size_t& queue_size = 10)
-      : Agent::Agent(id, RolePtr(new Bidder(id, nh, max_size, queue_size)))
+      : Agent::Agent(id, factory, RolePtr(new Bidder(id, nh, max_size, queue_size)))
   {
     BidderPtr bidder(boost::dynamic_pointer_cast<Bidder>(getRole()));
     bidder->registerMetricsEvaluationFunction(&Agent::getUtility,

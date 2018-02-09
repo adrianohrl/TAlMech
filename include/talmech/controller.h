@@ -11,10 +11,10 @@ public:
   typedef boost::shared_ptr<Controller> Ptr;
   typedef boost::shared_ptr<const Controller> ConstPtr;
   virtual ~Controller() {}
-  virtual void process() = 0;
   virtual void init() {}
-  virtual bool isDisposed() const { return disposed_; }
+  virtual void process() = 0;
   virtual void dispose() { disposed_ = true; }
+  virtual bool isDisposed() const { return disposed_; }
 protected:
   Controller() : disposed_(false) {}
 private:
