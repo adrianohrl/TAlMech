@@ -8,6 +8,18 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
+Forthcoming
+-----------
+* tested utility calculations
+* fixed cgetComponent function
+* created SkillUtility class
+* skill class enhances tomsg interface
+* skill class enhances tomsg interface
+* created Skill class
+* Created the utility framework
+* defined reserver price in the auction
+* Contributors: adrianohrl
+
 0.0.9 (2018-02-03)
 ------------------
 * started to implement canceling, abortion and conclusion of auction and task processes
