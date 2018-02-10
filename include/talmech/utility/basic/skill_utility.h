@@ -1,0 +1,4 @@
+#ifndef SKILL_UTILITY_H
+#define SKILL_UTILITY_H
+
+#endif // SKILL_UTILITY_H
