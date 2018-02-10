@@ -8,8 +8,8 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
-Forthcoming
------------
+0.0.10 (2018-02-10)
+-------------------
 * tested utility calculations
 * fixed cgetComponent function
 * created SkillUtility class
