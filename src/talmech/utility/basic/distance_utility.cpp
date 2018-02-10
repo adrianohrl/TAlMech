@@ -10,6 +10,10 @@ namespace basic
 void DistanceUtility::init(const Robot &robot, double correction_factor)
 {
   pose_ = robot.getPose();
+  if (correction_factor == 0.0)
+  {
+    throw Exception("The correction factor must not be zero.");
+  }
   correction_factor_ = correction_factor;
 }
 

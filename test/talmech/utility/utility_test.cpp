@@ -13,6 +13,7 @@ TEST(Utility, Decorator)
   RobotPtr robot1(new Robot("robot1"));
   robot1->setUtility("distance skill");
   UtilityComponentPtr component(robot1->getUtilityComponent("DistanceUtility"));
+  ROS_WARN_STREAM("[UtilityTest] component " << (component ? component->str() : "-----"));
   DistanceUtilityPtr distance(boost::dynamic_pointer_cast<DistanceUtility>(component));
   if (distance)
   {
@@ -20,6 +21,7 @@ TEST(Utility, Decorator)
     distance->init(*robot1, 0.5);
   }
   component = robot1->getUtilityComponent("SkillUtility");
+  ROS_WARN_STREAM("[UtilityTest] component " << (component ? component->str() : "-----"));
   SkillUtilityPtr skill(boost::dynamic_pointer_cast<SkillUtility>(component));
   if (skill)
   {

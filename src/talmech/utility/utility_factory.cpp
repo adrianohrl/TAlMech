@@ -1,4 +1,5 @@
 #include "talmech/utility/utility_factory.h"
+#include <ros/console.h>
 
 namespace talmech
 {
@@ -10,11 +11,11 @@ UtilityComponentPtr
 UtilityFactory::decorate(const std::string& expression) const
 {
   UtilityComponentPtr component;
-  Expressions splitted_expression(splitted_expression);
+  Expressions splitted_expression(split(expression));
   for (ExpressionsConstIt it(splitted_expression.begin());
        it != splitted_expression.end(); it++)
   {
-    component = getComponent(expression, component);
+    component = getComponent(*it, component);
   }
   return component;
 }

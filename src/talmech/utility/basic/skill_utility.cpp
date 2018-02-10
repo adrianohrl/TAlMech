@@ -15,6 +15,13 @@ void SkillUtility::init(const Agent &agent, const std::list<double> &correction_
   {
     throw Exception("The vector of correction factors must be equals to the skills vector.");
   }
+  for (std::list<double>::const_iterator it(correction_factors.begin()); it != correction_factors.end(); it++)
+  {
+    if (*it == 0.0)
+    {
+      throw Exception("The correction factor must not be zero.");
+    }
+  }
 }
 
 double SkillUtility::getUtility(const Task &task) const

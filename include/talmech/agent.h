@@ -8,8 +8,7 @@
 
 namespace talmech
 {
-template <class T>
-struct UtilityPtr
+template <class T> struct UtilityPtr
 {
   typedef double (T::*Function)(const Task& task);
 };
@@ -23,7 +22,7 @@ public:
   typedef boost::shared_ptr<const Agent> ConstPtr;
   Agent(const std::string& id,
         const utility::UtilityFactoryPtr& factory =
-            utility::basic::BasicUtilityFactoryPtr(),
+            utility::basic::BasicUtilityFactory::getInstance(),
         const RolePtr& role = RolePtr());
   virtual ~Agent() {}
   virtual void process() { role_->process(); }
@@ -39,9 +38,13 @@ public:
   {
     return utility_ ? utility_->getUtility(task) : 0.0;
   }
-  utility::UtilityComponentPtr getUtilityComponent(const std::string& component) const
+  utility::UtilityComponentPtr
+  getUtilityComponent(const std::string& component) const
   {
-    return utility_ ? utility_->getComponent(component) : utility::UtilityComponentPtr();
+    return utility_
+               ? (*utility_ != component ? utility_->getComponent(component)
+                                         : utility_)
+               : utility::UtilityComponentPtr();
   }
   RolePtr getRole() const { return role_; }
   void setUtility(const std::string& expression)
@@ -51,10 +54,7 @@ public:
       utility_ = factory_->decorate(expression);
     }
   }
-  void addSkill(const SkillPtr& skill)
-  {
-    skills_->push_back(skill);
-  }
+  void addSkill(const SkillPtr& skill) { skills_->push_back(skill); }
   std::string str() const { return id_; }
   const char* c_str() const { return str().c_str(); }
   bool operator==(const Agent& agent) const { return id_ == agent.id_; }
@@ -64,8 +64,10 @@ public:
     out << agent.str();
     return out;
   }
+
 protected:
   void setRole(const RolePtr& role) { role_ = role; }
+
 private:
   std::string id_;
   SkillsPtr skills_;

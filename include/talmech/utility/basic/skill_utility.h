@@ -32,6 +32,7 @@ public:
   {
     return hasBeenRequested(expression);
   }
+  virtual std::string str() const { return "SkillUtility"; }
 private:
   SkillsPtr skills_;
   std::list<double> correction_factors_;

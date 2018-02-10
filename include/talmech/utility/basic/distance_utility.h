@@ -33,6 +33,7 @@ public:
   {
     return hasBeenRequested(expression);
   }
+  virtual std::string str() const { return "DistanceUtility"; }
 private:
   PosePtr pose_;
   double correction_factor_;

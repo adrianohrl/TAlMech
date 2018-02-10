@@ -15,6 +15,8 @@ public:
   virtual ~UtilityComponent() {}
   virtual Ptr getComponent(const std::string& component) const { return Ptr(); }
   virtual double getUtility(const Task& task) const = 0;
+  virtual std::string str() const = 0;
+  const char* c_str() const { return str().c_str(); }
   virtual bool operator==(const std::string& expression) const = 0;
   bool operator!=(const std::string& expression) const
   {

@@ -15,7 +15,7 @@ public:
   typedef boost::shared_ptr<const Robot> ConstPtr;
   Robot(const std::string& id, const Pose& pose = Pose(),
         const utility::UtilityFactoryPtr& factory =
-            utility::basic::BasicUtilityFactoryPtr(),
+            utility::basic::BasicUtilityFactory::getInstance(),
         const RolePtr& role = RolePtr());
   virtual ~Robot() {}
   double getX() const { return pose_->position.x; }
