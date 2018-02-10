@@ -20,7 +20,7 @@ double DistanceUtility::getUtility(const Task &task) const
     throw Exception("The DistanceUtility has not been initialized yet.");
   }
   double utility(UtilityDecorator::getUtility(task));
-  for (WaypointsConstIt it(task.begin()); it != task.end(); it++)
+  for (WaypointsConstIt it(task.beginWaypoints()); it != task.endWaypoints(); it++)
   {
     utility += correction_factor_ * getDistance(*pose_, it->pose);
   }

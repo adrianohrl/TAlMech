@@ -2,6 +2,7 @@
 #include <ros/console.h>
 #include "talmech/utility/basic/basic_utility_factory.h"
 #include "talmech/utility/basic/distance_utility.h"
+#include "talmech/utility/basic/skill_utility.h"
 
 using namespace talmech;
 using namespace talmech::utility;
@@ -10,13 +11,20 @@ using namespace talmech::utility::basic;
 TEST(Utility, Decorator)
 {
   RobotPtr robot1(new Robot("robot1"));
-  robot1->setUtility("distance");
+  robot1->setUtility("distance skill");
   UtilityComponentPtr component(robot1->getUtilityComponent("DistanceUtility"));
   DistanceUtilityPtr distance(boost::dynamic_pointer_cast<DistanceUtility>(component));
   if (distance)
   {
     ROS_INFO("Initializing the DistanceUtility component...");
     distance->init(*robot1, 0.5);
+  }
+  component = robot1->getUtilityComponent("SkillUtility");
+  SkillUtilityPtr skill(boost::dynamic_pointer_cast<SkillUtility>(component));
+  if (skill)
+  {
+    ROS_INFO("Initializing the SkillUtility component...");
+    skill->init(*robot1, std::list<double>());
   }
   Waypoint waypoint;
   TaskPtr task1(new Task("task1"));

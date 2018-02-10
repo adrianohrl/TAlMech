@@ -16,6 +16,7 @@ public:
   Skill(const Skill& skill) : resource_(new Resource(*skill.resource_)) {}
   Skill(const talmech_msgs::Skill &msg) : resource_(new Resource(msg.resource)) {}
   virtual ~Skill() {}
+  virtual double getLevel() const { return 1.0; }
   virtual std::string str() const { return resource_->str(); }
   const char* c_str() const { return str().c_str(); }
   virtual bool operator<(const Skill& skill) const { return *this == skill; }
@@ -24,6 +25,7 @@ public:
   virtual bool operator!=(const Skill& skill) const { return !(*this == skill); }
   virtual bool operator>=(const Skill& skill) const { return *this == skill; }
   virtual bool operator>(const Skill& skill) const { return *this == skill; }
+  virtual double compareTo(const Skill& skill) const { return getLevel() - skill.getLevel(); }
   friend std::ostream& operator<<(std::ostream& out, const Skill& skill)
   {
     out << skill.str();

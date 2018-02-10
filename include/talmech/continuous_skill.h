@@ -14,7 +14,7 @@ public:
    : Skill::Skill(resource), level_(level)
   {}
   virtual ~ContinuousSkill() {}
-  double getLevel() const { return level_; }
+  virtual double getLevel() const { return level_; }
   void setLevel(double level) { level_ = level; }
   virtual std::string str() const;
 private:

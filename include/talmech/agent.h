@@ -28,7 +28,13 @@ public:
   virtual ~Agent() {}
   virtual void process() { role_->process(); }
   std::string getId() const { return id_; }
-  Skills getSkills() const { return skills_; }
+  SkillsPtr getSkills() const { return skills_; }
+  bool emptySkills() const { return skills_->empty(); }
+  std::size_t sizeSkills() const { return skills_->size(); }
+  SkillsIt beginSkills() { return skills_->begin(); }
+  SkillsConstIt beginSkills() const { return skills_->begin(); }
+  SkillsIt endSkills() { return skills_->end(); }
+  SkillsConstIt endSkills() const { return skills_->end(); }
   double getUtility(const Task& task) const
   {
     return utility_ ? utility_->getUtility(task) : 0.0;
@@ -47,7 +53,7 @@ public:
   }
   void addSkill(const SkillPtr& skill)
   {
-    skills_.push_back(skill);
+    skills_->push_back(skill);
   }
   std::string str() const { return id_; }
   const char* c_str() const { return str().c_str(); }
@@ -62,7 +68,7 @@ protected:
   void setRole(const RolePtr& role) { role_ = role; }
 private:
   std::string id_;
-  Skills skills_;
+  SkillsPtr skills_;
   RolePtr role_;
   utility::UtilityComponentPtr utility_;
   utility::UtilityFactoryPtr factory_;

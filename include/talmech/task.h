@@ -19,6 +19,8 @@ typedef std::vector<Waypoint> Waypoints;
 typedef Waypoints::iterator WaypointsIt;
 typedef Waypoints::const_iterator WaypointsConstIt;
 typedef std::list<SkillPtr> Skills;
+typedef boost::shared_ptr<Skills> SkillsPtr;
+typedef boost::shared_ptr<const Skills> SkillsConstPtr;
 typedef Skills::iterator SkillsIt;
 typedef Skills::const_iterator SkillsConstIt;
 class Task : public ToMsg<talmech_msgs::Task>
@@ -31,14 +33,20 @@ public:
   Task(const talmech_msgs::Task& msg);
   virtual ~Task() {}
   std::string getId() const { return id_; }
-  PathPtr getWaypoints() const { return waypoints_; }
   Skills getSkills() const { return skills_; }
-  bool empty() const { return waypoints_->poses.empty(); }
-  std::size_t size() const { return waypoints_->poses.size(); }
-  WaypointsIt begin() { return waypoints_->poses.begin(); }
-  WaypointsConstIt begin() const { return waypoints_->poses.begin(); }
-  WaypointsIt end() { return waypoints_->poses.end(); }
-  WaypointsConstIt end() const { return waypoints_->poses.end(); }
+  bool emptySkills() const { return skills_.empty(); }
+  std::size_t sizeSkills() const { return skills_.size(); }
+  SkillsIt beginSkills() { return skills_.begin(); }
+  SkillsConstIt beginSkills() const { return skills_.begin(); }
+  SkillsIt endSkills() { return skills_.end(); }
+  SkillsConstIt endSkills() const { return skills_.end(); }
+  PathPtr getWaypoints() const { return waypoints_; }
+  bool emptyWaypoints() const { return waypoints_->poses.empty(); }
+  std::size_t sizeWaypoints() const { return waypoints_->poses.size(); }
+  WaypointsIt beginWaypoints() { return waypoints_->poses.begin(); }
+  WaypointsConstIt beginWaypoints() const { return waypoints_->poses.begin(); }
+  WaypointsIt endWaypoints() { return waypoints_->poses.end(); }
+  WaypointsConstIt endWaypoints() const { return waypoints_->poses.end(); }
   void addWaypoint(const Waypoint& waypoint)
   {
     waypoints_->poses.push_back(waypoint);
