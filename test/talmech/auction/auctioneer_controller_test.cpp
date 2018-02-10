@@ -8,7 +8,7 @@ using namespace talmech::auction::auctioning;
 
 TEST(Auctioneer, Controller)
 {
-  TaskPtr task(new Task("task"));
+  /*TaskPtr task(new Task("task"));
   AuctionPtr auction(new Auction("auctioneer1", "auction1", task, ros::Duration(1.5),
                                  ros::Rate(2.0), false, true, true,
                                  AuctionEvaluatorPtr(new AuctionEvaluator())));
@@ -40,5 +40,5 @@ TEST(Auctioneer, Controller)
   ROS_INFO_STREAM("[bids: " << auction->size() << "] Submitted all...");
   auction->close();
   auction->selectWinner();
-  ROS_WARN_STREAM("Winner: " << auction->getWinner());
+  ROS_WARN_STREAM("Winner: " << auction->getWinner());*/
 }

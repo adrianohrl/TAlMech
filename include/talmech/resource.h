@@ -12,6 +12,7 @@ public:
   typedef boost::shared_ptr<Resource> Ptr;
   typedef boost::shared_ptr<const Resource> ConstPtr;
   Resource(const std::string& id);
+  Resource(const Resource& resource) : id_(resource.id_) {}
   virtual ~Resource() {}
   std::string getId() const { return id_; }
   std::string str() const { return id_; }

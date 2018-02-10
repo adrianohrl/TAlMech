@@ -18,16 +18,16 @@ TEST(Utility, Decorator)
     ROS_INFO("Initializing the DistanceUtility component...");
     distance->init(*robot1, 0.5);
   }
-  nav_msgs::Path waypoints;
-  geometry_msgs::Pose waypoint;
-  waypoints.poses.push_back(waypoint);
-  waypoint.position.x = 3.0;
-  waypoints.poses.push_back(waypoint);
-  waypoint.position.x = 0.0;
-  waypoint.position.y = 4.0;
-  waypoints.poses.push_back(waypoint);
-  waypoint.position.y = 0.0;
-  waypoints.poses.push_back(waypoint);
-  TaskPtr task1("task1", waypoints);
-  ROS_INFO_STREAM("Utility of " << )
+  Waypoint waypoint;
+  TaskPtr task1(new Task("task1"));
+  task1->addWaypoint(waypoint);
+  waypoint.pose.position.x = 3.0;
+  task1->addWaypoint(waypoint);
+  waypoint.pose.position.x = 0.0;
+  waypoint.pose.position.y = 4.0;
+  task1->addWaypoint(waypoint);
+  waypoint.pose.position.y = 0.0;
+  task1->addWaypoint(waypoint);
+  double utility(robot1->getUtility(*task1));
+  ROS_INFO_STREAM("Utility of " << *robot1 << " for " << *task1 << ": " << utility);
 }

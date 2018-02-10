@@ -3,6 +3,7 @@
 
 #include "role.h"
 #include <string>
+#include "skill.h"
 #include "utility/basic/basic_utility_factory.h"
 
 namespace talmech
@@ -12,6 +13,9 @@ struct UtilityPtr
 {
   typedef double (T::*Function)(const Task& task);
 };
+typedef std::list<SkillPtr> Skills;
+typedef Skills::iterator SkillsIt;
+typedef Skills::const_iterator SkillsConstIt;
 class Agent
 {
 public:
@@ -24,6 +28,7 @@ public:
   virtual ~Agent() {}
   virtual void process() { role_->process(); }
   std::string getId() const { return id_; }
+  Skills getSkills() const { return skills_; }
   double getUtility(const Task& task) const
   {
     return utility_ ? utility_->getUtility(task) : 0.0;
@@ -40,6 +45,10 @@ public:
       utility_ = factory_->decorate(expression);
     }
   }
+  void addSkill(const SkillPtr& skill)
+  {
+    skills_.push_back(skill);
+  }
   std::string str() const { return id_; }
   const char* c_str() const { return str().c_str(); }
   bool operator==(const Agent& agent) const { return id_ == agent.id_; }
@@ -53,6 +62,7 @@ protected:
   void setRole(const RolePtr& role) { role_ = role; }
 private:
   std::string id_;
+  Skills skills_;
   RolePtr role_;
   utility::UtilityComponentPtr utility_;
   utility::UtilityFactoryPtr factory_;
