@@ -45,6 +45,8 @@ set(CPP_FILES
   src/talmech/auction/bidding/bidding_controller.cpp
   src/talmech/auction/bidding/bidding_state.cpp
   src/talmech/agent.cpp
+  src/talmech/continuous_skill.cpp
+  src/talmech/discrete_skill.cpp
   src/talmech/exception.cpp
   src/talmech/machine_controller.cpp
   src/talmech/machine_state.cpp

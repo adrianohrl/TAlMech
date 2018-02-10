@@ -6,7 +6,7 @@ namespace talmech
 std::string ContinuousSkill::str() const
 {
   std::stringstream ss;
-  ss << Skill::str() << "(" << level_ << ")";
+  ss << Skill::str() << " (" << level_ << ")";
   return ss.str();
 }
 }

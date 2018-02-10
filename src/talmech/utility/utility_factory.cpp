@@ -16,6 +16,7 @@ UtilityFactory::decorate(const std::string& expression) const
        it != splitted_expression.end(); it++)
   {
     component = getComponent(*it, component);
+    ROS_DEBUG_STREAM_COND(component, "Decorated " << *component << " component.");
   }
   return component;
 }

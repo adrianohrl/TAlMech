@@ -11,6 +11,10 @@ void SkillUtility::init(const Agent &agent, const std::list<double> &correction_
 {
   skills_ = agent.getSkills();
   correction_factors_ = correction_factors;
+  if (!skills_)
+  {
+    throw Exception("The skills vector must not be null.");
+  }
   if (skills_->size() != correction_factors_.size())
   {
     throw Exception("The vector of correction factors must be equals to the skills vector.");
@@ -35,13 +39,12 @@ double SkillUtility::getUtility(const Task &task) const
     {
       double correction_factor(*it);
       SkillPtr skill(*agent_it);
-      if (skill == desired_skill)
+      if (*skill == *desired_skill)
       {
-        if (skill < desired_skill)
+        if (*skill >= *desired_skill)
         {
-          return 0.0;
+          utility += correction_factor / (1.0 + skill->compareTo(*desired_skill));
         }
-        utility += correction_factor / (1.0 + skill->compareTo(*desired_skill));
         break;
       }
     }
@@ -50,7 +53,7 @@ double SkillUtility::getUtility(const Task &task) const
       break;
     }
   }
-  return utility;
+  return utility != 0.0 ? utility + UtilityDecorator::getUtility(task) : 0.0;
 }
 }
 }
