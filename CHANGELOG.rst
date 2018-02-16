@@ -8,8 +8,8 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
-Forthcoming
------------
+0.0.11 (2018-02-16)
+-------------------
 * created utility facade
 * Contributors: adrianohrl
 
