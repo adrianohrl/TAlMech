@@ -12,20 +12,20 @@ class BidderAgent : public Agent
 {
 public:
   BidderAgent(const ros::NodeHandlePtr& nh, const std::string& id,
-              const utility::UtilityFactoryPtr& factory =
-                  utility::basic::BasicUtilityFactory::getInstance())
-      : Agent::Agent(id, factory, RolePtr(new Bidder(nh, id)))
+              const utility::UtilityPtr& utility =
+                  utility::UtilityPtr(new utility::basic::BasicUtility()))
+      : Agent::Agent(id, utility, RolePtr(new Bidder(nh, id)))
   {
     BidderPtr bidder(boost::dynamic_pointer_cast<Bidder>(getRole()));
     bidder->registerMetricsEvaluationFunction(&Agent::getUtility,
                                               static_cast<Agent*>(this));
   }
   BidderAgent(const std::string& id, const ros::NodeHandlePtr& nh,
-              const utility::UtilityFactoryPtr& factory =
-                  utility::basic::BasicUtilityFactory::getInstance(),
+              const utility::UtilityPtr& utility =
+                  utility::UtilityPtr(new utility::basic::BasicUtility()),
               const std::size_t& max_size = 1,
               const std::size_t& queue_size = 10)
-      : Agent::Agent(id, factory, RolePtr(new Bidder(id, nh, max_size, queue_size)))
+      : Agent::Agent(id, utility, RolePtr(new Bidder(id, nh, max_size, queue_size)))
   {
     BidderPtr bidder(boost::dynamic_pointer_cast<Bidder>(getRole()));
     bidder->registerMetricsEvaluationFunction(&Agent::getUtility,

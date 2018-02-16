@@ -8,4 +8,6 @@
 
 (utility) read parameters
 (utility) initialization
-(skill)
+
+(random generator)
+(task generator)

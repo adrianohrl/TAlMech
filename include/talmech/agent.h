@@ -1,10 +1,10 @@
 #ifndef _TALMECH_AGENT_H_
 #define _TALMECH_AGENT_H_
 
+#include "utility/basic/basic_utility.h"
 #include "role.h"
 #include <string>
 #include "skill.h"
-#include "utility/basic/basic_utility_factory.h"
 
 namespace talmech
 {
@@ -21,8 +21,8 @@ public:
   typedef boost::shared_ptr<Agent> Ptr;
   typedef boost::shared_ptr<const Agent> ConstPtr;
   Agent(const std::string& id,
-        const utility::UtilityFactoryPtr& factory =
-            utility::basic::BasicUtilityFactory::getInstance(),
+        const utility::UtilityPtr& utility =
+            utility::UtilityPtr(new utility::basic::BasicUtility()),
         const RolePtr& role = RolePtr());
   virtual ~Agent() {}
   virtual void process() { role_->process(); }
@@ -41,17 +41,15 @@ public:
   utility::UtilityComponentPtr
   getUtilityComponent(const std::string& component) const
   {
-    return utility_
-               ? (*utility_ != component ? utility_->getComponent(component)
-                                         : utility_)
-               : utility::UtilityComponentPtr();
+    return utility_ ? utility_->getComponent(component)
+                    : utility::UtilityComponentPtr();
   }
   RolePtr getRole() const { return role_; }
   void setUtility(const std::string& expression)
   {
-    if (factory_)
+    if (utility_)
     {
-      utility_ = factory_->decorate(expression);
+      utility_->decorate(expression);
     }
   }
   void addSkill(const SkillPtr& skill) { skills_->push_back(skill); }
@@ -64,16 +62,13 @@ public:
     out << agent.str();
     return out;
   }
-
 protected:
   void setRole(const RolePtr& role) { role_ = role; }
-
 private:
   std::string id_;
   SkillsPtr skills_;
   RolePtr role_;
-  utility::UtilityComponentPtr utility_;
-  utility::UtilityFactoryPtr factory_;
+  utility::UtilityPtr utility_;
 };
 typedef Agent::Ptr AgentPtr;
 typedef Agent::ConstPtr AgentConstPtr;

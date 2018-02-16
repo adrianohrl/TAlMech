@@ -1,5 +1,5 @@
-#ifndef _TALMECH_UTILITY_BASIC_SKILL_UTILITY_H_
-#define _TALMECH_UTILITY_BASIC_SKILL_UTILITY_H_
+#ifndef _TALMECH_BASIC_SKILL_UTILITY_H_
+#define _TALMECH_BASIC_SKILL_UTILITY_H_
 
 #include "../../agent.h"
 #include "../utility_decorator.h"
@@ -43,4 +43,4 @@ typedef SkillUtility::ConstPtr SkillUtilityConstPtr;
 }
 }
 
-#endif // _TALMECH_UTILITY_BASIC_SKILL_UTILITY_H_
+#endif // _TALMECH_BASIC_SKILL_UTILITY_H_

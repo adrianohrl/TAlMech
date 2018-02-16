@@ -4,7 +4,7 @@
 namespace talmech
 {
 Robot::Robot(const std::string& id, const Pose& pose,
-             const utility::UtilityFactoryPtr& factory, const RolePtr& role)
+             const utility::UtilityPtr &factory, const RolePtr& role)
     : Agent::Agent(id, factory, role), pose_(new Pose(pose))
 {
 }

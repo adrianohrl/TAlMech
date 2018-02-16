@@ -8,7 +8,7 @@ namespace utility
 const std::string UtilityFactory::delimiter_ = std::string(" ");
 
 UtilityComponentPtr
-UtilityFactory::decorate(const std::string& expression) const
+UtilityFactory::decorate(const Expression& expression) const
 {
   UtilityComponentPtr component;
   Expressions splitted_expression(split(expression));
@@ -21,7 +21,7 @@ UtilityFactory::decorate(const std::string& expression) const
   return component;
 }
 
-UtilityFactory::Expressions
+Expressions
 UtilityFactory::split(const Expression& expression) const
 {
   Expressions splitted_expression;

@@ -3,8 +3,8 @@
 
 namespace talmech
 {
-Agent::Agent(const std::string &id, const utility::UtilityFactoryPtr &factory, const RolePtr &role)
-  : id_(id), factory_(factory), role_(role), skills_(SkillsPtr(new Skills()))
+Agent::Agent(const std::string &id, const utility::UtilityPtr &utility, const RolePtr &role)
+  : id_(id), utility_(utility), role_(role), skills_(SkillsPtr(new Skills()))
 {
   if (id_.empty())
   {

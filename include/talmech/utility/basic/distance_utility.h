@@ -1,5 +1,5 @@
-#ifndef _TALMECH_UTILITY_BASIC_DISTANCE_UTILITY_H_
-#define _TALMECH_UTILITY_BASIC_DISTANCE_UTILITY_H_
+#ifndef _TALMECH_BASIC_DISTANCE_UTILITY_H_
+#define _TALMECH_BASIC_DISTANCE_UTILITY_H_
 
 #include "../utility_decorator.h"
 #include "../../robot.h"
@@ -50,4 +50,4 @@ typedef DistanceUtility::ConstPtr DistanceUtilityConstPtr;
 }
 }
 
-#endif // _TALMECH_UTILITY_BASIC_DISTANCE_UTILITY_H_
+#endif // _TALMECH_BASIC_DISTANCE_UTILITY_H_

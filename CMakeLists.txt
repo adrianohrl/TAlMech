@@ -96,9 +96,11 @@ set(H_FILES
   include/talmech/skill.h
   include/talmech/task.h
   include/talmech/to_msg.h
+  include/talmech/utility/basic/basic_utility.h
   include/talmech/utility/basic/basic_utility_factory.h
   include/talmech/utility/basic/distance_utility.h
   include/talmech/utility/basic/skill_utility.h
+  include/talmech/utility/utility.h
   include/talmech/utility/utility_component.h
   include/talmech/utility/utility_decorator.h
   include/talmech/utility/utility_factory.h
