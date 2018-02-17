@@ -8,8 +8,8 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
-Forthcoming
------------
+0.0.12 (2018-02-17)
+-------------------
 * fixed skill comparison
 * Contributors: adrianohrl
 
