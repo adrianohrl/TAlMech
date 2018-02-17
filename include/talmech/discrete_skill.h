@@ -13,10 +13,18 @@ public:
   DiscreteSkill(const ResourcePtr& resource, long level)
    : Skill::Skill(resource), level_(level)
   {}
+  DiscreteSkill(const talmech_msgs::Skill &msg);
   virtual ~DiscreteSkill() {}
   virtual double getLevel() const { return (double) level_; }
-  void setLevel(long level) { level_ = level; }
+  virtual void setLevel(long level) { level_ = level; }
+  virtual void setLevel(double level) { level_ = round(level); }
   virtual std::string str() const;
+  virtual talmech_msgs::Skill toMsg() const
+  {
+    talmech_msgs::Skill msg(Skill::toMsg());
+    msg.type = 1;
+    return msg;
+  }
 private:
   long level_;
 };

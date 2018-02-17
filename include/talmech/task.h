@@ -28,7 +28,7 @@ class Task : public ToMsg<talmech_msgs::Task>
 public:
   typedef boost::shared_ptr<Task> Ptr;
   typedef boost::shared_ptr<const Task> ConstPtr;
-  Task(const std::string& id, const Path& waypoints = Path());
+  Task(const std::string& id, const Path& waypoints = Path(), const Skills& skills = Skills());
   Task(const Task& task);
   Task(const talmech_msgs::Task& msg);
   virtual ~Task() {}
@@ -69,17 +69,29 @@ public:
     talmech_msgs::Task msg;
     msg.id = id_;
     msg.waypoints = *waypoints_;
+    for (SkillsConstIt it(skills_.begin()); it != skills_.end(); it++)
+    {
+      SkillPtr skill(*it);
+      msg.skills.push_back(skill->toMsg());
+    }
     return msg;
   }
   virtual void operator=(const Task& task)
   {
     id_ = task.id_;
     *waypoints_ = *task.waypoints_;
+    skills_ = task.skills_;
   }
   virtual void operator=(const talmech_msgs::Task& msg)
   {
     id_ = msg.id;
     *waypoints_ = msg.waypoints;
+    skills_.clear();
+    for (std::size_t i(0); i < msg.skills.size(); i++)
+    {
+      SkillPtr skill(new Skill(msg.skills[i]));
+      skills_.push_back(skill);
+    }
   }
 private:
   std::string id_;

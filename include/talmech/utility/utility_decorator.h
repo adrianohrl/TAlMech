@@ -26,6 +26,7 @@ public:
                              : component_)
                       : UtilityComponentPtr();
   }
+  virtual std::string str() const { return component_ ? component_->str() : ""; }
 private:
   UtilityComponentPtr component_;
 };

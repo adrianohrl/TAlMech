@@ -19,9 +19,6 @@ public:
   virtual void process();
   std::string getId() const { return id_; }
 protected:
-  typedef std::list<ControllerPtr> Controllers;
-  typedef Controllers::iterator ControllersIt;
-  typedef Controllers::const_iterator ControllersConstIt;
   std::string id_;
   Role(const std::string& id, const std::size_t& max_size = 1) : id_(id), max_size_(max_size) {}
   bool empty() const { return controllers_.empty(); }

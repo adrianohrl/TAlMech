@@ -2,6 +2,7 @@
 #define _TALMECH_CONTROLLER_H_
 
 #include <boost/shared_ptr.hpp>
+#include <list>
 
 namespace talmech
 {
@@ -22,6 +23,9 @@ private:
 };
 typedef Controller::Ptr ControllerPtr;
 typedef Controller::ConstPtr ControllerConstPtr;
+typedef std::list<ControllerPtr> Controllers;
+typedef Controllers::iterator ControllersIt;
+typedef Controllers::const_iterator ControllersConstIt;
 }
 
 #endif // _TALMECH_CONTROLLER_H_

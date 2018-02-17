@@ -36,6 +36,13 @@ public:
                                            : component_)
                : UtilityComponentPtr();
   }
+  std::string str() const { return component_ ? component_->str() : ""; }
+  const char* c_str() const { return str().c_str(); }
+  friend std::ostream& operator<<(std::ostream& out, const Utility& utility)
+  {
+    out << utility.str();
+    return out;
+  }
 private:
   UtilityFactoryPtr factory_;
   UtilityComponentPtr component_;

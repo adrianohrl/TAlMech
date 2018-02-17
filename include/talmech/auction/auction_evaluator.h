@@ -8,9 +8,6 @@ namespace talmech
 {
 namespace auction
 {
-typedef std::list<BidPtr> Bids;
-typedef Bids::iterator BidsIt;
-typedef Bids::const_iterator BidsConstIt;
 class AuctionEvaluator
 {
 public:

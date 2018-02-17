@@ -12,9 +12,6 @@ template <class T> struct UtilityPtr
 {
   typedef double (T::*Function)(const Task& task);
 };
-typedef std::list<SkillPtr> Skills;
-typedef Skills::iterator SkillsIt;
-typedef Skills::const_iterator SkillsConstIt;
 class Agent
 {
 public:

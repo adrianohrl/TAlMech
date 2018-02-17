@@ -88,6 +88,9 @@ private:
 };
 typedef Bid::Ptr BidPtr;
 typedef Bid::ConstPtr BidConstPtr;
+typedef std::list<BidPtr> Bids;
+typedef Bids::iterator BidsIt;
+typedef Bids::const_iterator BidsConstIt;
 }
 }
 

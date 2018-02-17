@@ -17,11 +17,12 @@ public:
   Skill(const talmech_msgs::Skill &msg) : resource_(new Resource(msg.resource)) {}
   virtual ~Skill() {}
   virtual double getLevel() const { return 1.0; }
+  virtual void setLevel(double level) {}
   virtual std::string str() const { return resource_->str(); }
   const char* c_str() const { return str().c_str(); }
   virtual bool operator<(const Skill& skill) const { return *this == skill && getLevel() < skill.getLevel(); }
   virtual bool operator<=(const Skill& skill) const { return *this == skill && getLevel() <= skill.getLevel(); }
-  virtual bool operator==(const Skill& skill) const { return resource_ == skill.resource_; }
+  virtual bool operator==(const Skill& skill) const { return *resource_ == *skill.resource_; }
   virtual bool operator!=(const Skill& skill) const { return !(*this == skill); }
   virtual bool operator>=(const Skill& skill) const { return *this == skill && getLevel() >= skill.getLevel(); }
   virtual bool operator>(const Skill& skill) const { return *this == skill && getLevel() > skill.getLevel(); }
@@ -36,6 +37,7 @@ public:
     talmech_msgs::Skill msg;
     msg.resource = resource_->getId();
     msg.type = 0;
+    msg.level = getLevel();
     return msg;
   }
   virtual void operator=(const Skill& skill)
@@ -51,6 +53,9 @@ private:
 };
 typedef Skill::Ptr SkillPtr;
 typedef Skill::ConstPtr SkillConstPtr;
+typedef std::list<SkillPtr> Skills;
+typedef Skills::iterator SkillsIt;
+typedef Skills::const_iterator SkillsConstIt;
 }
 
 #endif // _TALMECH_SKILL_H_

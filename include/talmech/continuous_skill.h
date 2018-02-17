@@ -13,10 +13,17 @@ public:
   ContinuousSkill(const ResourcePtr& resource, double level)
    : Skill::Skill(resource), level_(level)
   {}
+  ContinuousSkill(const talmech_msgs::Skill& msg);
   virtual ~ContinuousSkill() {}
   virtual double getLevel() const { return level_; }
-  void setLevel(double level) { level_ = level; }
+  virtual void setLevel(double level) { level_ = level; }
   virtual std::string str() const;
+  virtual talmech_msgs::Skill toMsg() const
+  {
+    talmech_msgs::Skill msg(Skill::toMsg());
+    msg.type = 2;
+    return msg;
+  }
 private:
   double level_;
 };

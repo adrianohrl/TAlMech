@@ -8,7 +8,8 @@ namespace auction
 {
 Auctioneer::Auctioneer(const ros::NodeHandlePtr& nh, const std::string& id,
                        const AuctionEvaluatorPtr& evaluator)
-    : Role::Role(id), nh_(nh), evaluator_(evaluator), renewal_rate_(2.0)
+    : Role::Role(id), nh_(nh), evaluator_(evaluator), renewal_rate_(2.0),
+      initialized_(false)
 {
   ros::NodeHandle pnh("~");
   double auction_duration;
@@ -53,7 +54,7 @@ Auctioneer::Auctioneer(const std::string& id, const ros::NodeHandlePtr& nh,
     : Role::Role(id, max_size), nh_(nh), auction_duration_(auction_duration),
       renewal_rate_(renewal_rate), evaluator_(evaluator),
       sorted_insertion_(sorted_insertion), reauction_(reauction),
-      bid_update_(bid_update)
+      bid_update_(bid_update), initialized_(false)
 {
   if (!evaluator_)
   {
@@ -89,9 +90,9 @@ bool Auctioneer::auction(const TaskPtr& task)
   std::stringstream ss;
   ss << id_ << "-" << ros::Time::now();
   double reserve_price(evaluate(*task));
-  AuctionPtr auction(new Auction(id_, ss.str(), task, reserve_price, auction_duration_,
-                                 renewal_rate_, sorted_insertion_, reauction_,
-                                 bid_update_, evaluator_));
+  AuctionPtr auction(new Auction(
+      id_, ss.str(), task, reserve_price, auction_duration_, renewal_rate_,
+      sorted_insertion_, reauction_, bid_update_, evaluator_));
   auctioning::AuctioningControllerPtr controller(
       new auctioning::AuctioningController(auction));
   controller->init();

@@ -7,7 +7,8 @@ namespace utility
 {
 namespace basic
 {
-void SkillUtility::init(const Agent &agent, const std::list<double> &correction_factors)
+void SkillUtility::init(const Agent& agent,
+                        const std::list<double>& correction_factors)
 {
   skills_ = agent.getSkills();
   correction_factors_ = correction_factors;
@@ -17,9 +18,11 @@ void SkillUtility::init(const Agent &agent, const std::list<double> &correction_
   }
   if (skills_->size() != correction_factors_.size())
   {
-    throw Exception("The vector of correction factors must be equals to the skills vector.");
+    throw Exception("The vector of correction factors must be equals to the "
+                    "skills vector.");
   }
-  for (std::list<double>::const_iterator it(correction_factors.begin()); it != correction_factors.end(); it++)
+  for (std::list<double>::const_iterator it(correction_factors.begin());
+       it != correction_factors.end(); it++)
   {
     if (*it == 0.0)
     {
@@ -28,14 +31,20 @@ void SkillUtility::init(const Agent &agent, const std::list<double> &correction_
   }
 }
 
-double SkillUtility::getUtility(const Task &task) const
+double SkillUtility::getUtility(const Task& task) const
 {
+  if (!skills_)
+  {
+    throw Exception("The SkillUtility has not been initialized yet.");
+  }
   double utility(0.0);
-  for (SkillsConstIt task_it(task.beginSkills()); task_it != task.endSkills(); task_it++)
+  for (SkillsConstIt task_it(task.beginSkills()); task_it != task.endSkills();
+       task_it++)
   {
     SkillPtr desired_skill(*task_it);
     std::list<double>::const_iterator it(correction_factors_.begin());
-    for (SkillsConstIt agent_it(skills_->begin()); agent_it != skills_->end(); agent_it++, it++)
+    for (SkillsConstIt agent_it(skills_->begin()); agent_it != skills_->end();
+         agent_it++, it++)
     {
       double correction_factor(*it);
       SkillPtr skill(*agent_it);
@@ -43,7 +52,8 @@ double SkillUtility::getUtility(const Task &task) const
       {
         if (*skill >= *desired_skill)
         {
-          utility += correction_factor / (1.0 + skill->compareTo(*desired_skill));
+          utility +=
+              correction_factor / (1.0 + skill->compareTo(*desired_skill));
         }
         break;
       }
