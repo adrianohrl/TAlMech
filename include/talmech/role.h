@@ -20,7 +20,9 @@ public:
   std::string getId() const { return id_; }
 protected:
   std::string id_;
-  Role(const std::string& id, const std::size_t& max_size = 1) : id_(id), max_size_(max_size) {}
+  Role(const std::string& id, const std::size_t& max_size = 1)
+    : id_(id), max_size_(max_size)
+  {}
   bool empty() const { return controllers_.empty(); }
   std::size_t size() const { return controllers_.size(); }
   ControllersIt begin() { return controllers_.begin(); }

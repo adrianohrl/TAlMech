@@ -45,6 +45,9 @@ set(CPP_FILES
   src/talmech/auction/bidding/bidding_controller.cpp
   src/talmech/auction/bidding/bidding_state.cpp
   src/talmech/agent.cpp
+  src/talmech/behavior/behaved.cpp
+  src/talmech/behavior/behavior.cpp
+  src/talmech/behavior/temporal_buffer.cpp
   src/talmech/continuous_skill.cpp
   src/talmech/discrete_skill.cpp
   src/talmech/exception.cpp
@@ -83,6 +86,12 @@ set(H_FILES
   include/talmech/auction/bidding/bidding_controller.h
   include/talmech/auction/bidding/bidding_state.h
   include/talmech/agent.h
+  include/talmech/behavior/behaved.h
+  include/talmech/behavior/behavior.h
+  include/talmech/behavior/behavior_monitor.h
+  include/talmech/behavior/motivation_component.h
+  include/talmech/behavior/motivation_decorator.h
+  include/talmech/behavior/temporal_buffer.h
   include/talmech/comparator.h
   include/talmech/continuous_skill.h
   include/talmech/controller.h
@@ -124,6 +133,7 @@ if(CATKIN_ENABLE_TESTING)
   catkin_add_gtest(${PROJECT_NAME}_test
     test/talmech/auction/auctioneer_controller_test.cpp
     test/talmech/auction/bidder_controller_test.cpp
+    test/talmech/behavior/behavior_test.cpp
     test/talmech/utility/utility_test.cpp
     test/talmech/talmech_test.cpp
     ${CPP_FILES}
