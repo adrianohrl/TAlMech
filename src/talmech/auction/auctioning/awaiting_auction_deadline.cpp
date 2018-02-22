@@ -32,7 +32,7 @@ bool AwaitingAuctionDeadline::postProcess()
   auction_->close();
   if (auction_->empty())
   {
-    ROS_ERROR_STREAM("[AwaitingAuctionDeadline] Aborting "
+    ROS_DEBUG_STREAM("Aborting "
                      << *auction_
                      << ", because there is not any candidates interested...");
     auction_->abort();

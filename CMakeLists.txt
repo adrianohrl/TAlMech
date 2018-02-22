@@ -53,6 +53,7 @@ set(CPP_FILES
   src/talmech/exception.cpp
   src/talmech/machine_controller.cpp
   src/talmech/machine_state.cpp
+  src/talmech/nodes/ros_node.cpp
   src/talmech/resource.cpp
   src/talmech/robot.cpp
   src/talmech/role.cpp
@@ -85,6 +86,8 @@ set(H_FILES
   include/talmech/auction/bidding/awaiting_contract_renewal.h
   include/talmech/auction/bidding/bidding_controller.h
   include/talmech/auction/bidding/bidding_state.h
+  include/talmech/auction/report/auctioneer_report.h
+  include/talmech/auction/report/bidder_report.h
   include/talmech/agent.h
   include/talmech/behavior/behaved.h
   include/talmech/behavior/behavior.h
@@ -99,6 +102,7 @@ set(H_FILES
   include/talmech/exception.h
   include/talmech/machine_controller.h
   include/talmech/machine_state.h
+  include/talmech/nodes/ros_nodes.h
   include/talmech/resource.h
   include/talmech/robot.h
   include/talmech/role.h
@@ -127,6 +131,38 @@ add_dependencies(${PROJECT_NAME}
 target_link_libraries(${PROJECT_NAME}
   ${Boost_LIBRARIES}
   ${catkin_LIBRARIES}
+)
+
+add_executable(agent_node
+  src/talmech/nodes/agent_node.cpp
+  src/agent_node.cpp
+  ${CPP_FILES}
+)
+
+add_dependencies(agent_node
+  ${catkin_EXPORTED_TARGETS}
+  ${talmech_EXPORTED_TARGETS}
+)
+
+target_link_libraries(agent_node
+  ${catkin_LIBRARIES}
+  ${talmech_LIBRARIES}
+)
+
+add_executable(report_node
+  src/talmech/nodes/report_node.cpp
+  src/report_node.cpp
+  ${CPP_FILES}
+)
+
+add_dependencies(report_node
+  ${catkin_EXPORTED_TARGETS}
+  ${talmech_EXPORTED_TARGETS}
+)
+
+target_link_libraries(report_node
+  ${catkin_LIBRARIES}
+  ${talmech_LIBRARIES}
 )
 
 if(CATKIN_ENABLE_TESTING)

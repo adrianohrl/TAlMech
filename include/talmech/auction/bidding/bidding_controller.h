@@ -5,6 +5,7 @@
 #include "bidding_state.h"
 #include "../auction.h"
 #include <talmech_msgs/Acknowledgment.h>
+#include <talmech_msgs/Contract.h>
 
 namespace talmech
 {
@@ -35,6 +36,10 @@ public:
   void closeCallback(const talmech_msgs::Acknowledgment& msg);
   void registerAcknowledgmentPublisher(ros::Publisher* publisher);
   void renewalCallback(const talmech_msgs::Acknowledgment& msg);
+  void registerExecutePublisher(ros::Publisher* publisher);
+  void registerCancelPublisher(ros::Publisher* publisher);
+  void feedbackCallback(const talmech_msgs::Contract& msg);
+  void resultCallback(const talmech_msgs::Contract& msg);
   AuctionPtr getAuction() const { return auction_; }
   BidPtr getBid() const { return bid_; }
 protected:

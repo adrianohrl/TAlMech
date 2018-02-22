@@ -52,8 +52,6 @@ void AwaitingAuctionClose::closeCallback(const talmech_msgs::Acknowledgment &msg
   }
   close_timestamp_ = ros::Time::now();
   selected_ = msg.bidder == bid_->getBidder();
-  ROS_INFO_STREAM("[AwaitingAuctionClose] " << (selected_ ? "" : "not ")
-                                            << "selected for " << msg.auction);
 }
 }
 }

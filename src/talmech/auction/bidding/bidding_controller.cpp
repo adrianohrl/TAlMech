@@ -68,6 +68,38 @@ void BiddingController::renewalCallback(const talmech_msgs::Acknowledgment& msg)
   state->renewalCallback(msg);
 }
 
+void BiddingController::registerExecutePublisher(ros::Publisher *publisher)
+{
+  AwaitingContractRenewalPtr state(
+      boost::dynamic_pointer_cast<AwaitingContractRenewal>(
+          getState(states::AwaitingContractRenewal)));
+  state->registerExecutePublisher(publisher);
+}
+
+void BiddingController::registerCancelPublisher(ros::Publisher *publisher)
+{
+  AwaitingContractRenewalPtr state(
+      boost::dynamic_pointer_cast<AwaitingContractRenewal>(
+          getState(states::AwaitingContractRenewal)));
+  state->registerCancelPublisher(publisher);
+}
+
+void BiddingController::feedbackCallback(const talmech_msgs::Contract &msg)
+{
+  AwaitingContractRenewalPtr state(
+      boost::dynamic_pointer_cast<AwaitingContractRenewal>(
+          getState(states::AwaitingContractRenewal)));
+  state->feedbackCallback(msg);
+}
+
+void BiddingController::resultCallback(const talmech_msgs::Contract &msg)
+{
+  AwaitingContractRenewalPtr state(
+      boost::dynamic_pointer_cast<AwaitingContractRenewal>(
+          getState(states::AwaitingContractRenewal)));
+  state->resultCallback(msg);
+}
+
 void BiddingController::abort()
 {
   AwaitingContractRenewalPtr state(

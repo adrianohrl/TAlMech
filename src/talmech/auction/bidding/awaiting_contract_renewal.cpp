@@ -1,5 +1,6 @@
 #include "talmech/auction/bidding/awaiting_contract_renewal.h"
 #include "talmech/auction/bidding/bidding_controller.h"
+#include <talmech_msgs/Contract.h>
 
 namespace talmech
 {
@@ -18,20 +19,39 @@ AwaitingContractRenewal::AwaitingContractRenewal(
   msg_.status = status::Ongoing;
 }
 
+AwaitingContractRenewal::~AwaitingContractRenewal()
+{
+  publisher_ = NULL;
+  execute_pub_ = NULL;
+  cancel_pub_ = NULL;
+}
+
 bool AwaitingContractRenewal::preProcess()
 {
   if (!publisher_)
   {
     throw Exception("The acknowledgment publisher has not been registered yet.");
   }
+  if (!execute_pub_)
+  {
+    throw Exception("The execute publisher has not been registered yet.");
+  }
+  if (!cancel_pub_)
+  {
+    throw Exception("The cancel publisher has not been registered yet.");
+  }
   ongoing_ = true;
   aborted_ = false;
   concluded_ = false;
   std::stringstream ss;
-  msg_.timestamp = ros::Time::now();
+  talmech_msgs::Contract msg;
+  msg.timestamp = ros::Time::now();
+  msg.task = auction_->getTask()->toMsg();
+  msg.status = status::Ongoing;
+  execute_pub_->publish(msg);
+  msg_.timestamp = msg.timestamp;
   ss << bid_->getBidder() << "-" << msg_.timestamp;
   msg_.id = ss.str();
-  ROS_INFO_STREAM("[AwaitingContractRenewal] publishing first ack message " << msg_.id);
   publisher_->publish(msg_);
   renewal_deadline_ = msg_.timestamp + auction_->getRenewalRate().expectedCycleTime();
   return MachineState::preProcess();
@@ -53,7 +73,6 @@ bool AwaitingContractRenewal::postProcess()
     ss << bid_->getBidder() << "-" << msg_.timestamp;
     msg_.id = ss.str();
     msg_.status = hasConcluded() ? status::Concluded : status::Aborted;
-    ROS_INFO_STREAM("[AwaitingContractRenewal] publishing last ack message " << msg_.id);
     publisher_->publish(msg_);
   }
   return MachineState::postProcess();
@@ -74,16 +93,43 @@ void AwaitingContractRenewal::renewalCallback(const talmech_msgs::Acknowledgment
   renewal_deadline_ = msg.renewal_deadline;
   if (msg.status != status::Ongoing || renewal_deadline_ < ros::Time::now())
   {
-    ROS_INFO_STREAM("[AwaitingContractRenewal] not ongoing anymore " << msg_.status);
     ongoing_ = false;
+    talmech_msgs::Contract contract_msg;
+    contract_msg.timestamp = ros::Time::now();
+    contract_msg.task = auction_->getTask()->toMsg();
+    contract_msg.status = msg.status;
+    cancel_pub_->publish(contract_msg);
     return;
   }
   std::stringstream ss;
   msg_.timestamp = ros::Time::now();
   ss << bid_->getBidder() << "-" << msg_.timestamp;
   msg_.id = ss.str();
-  ROS_INFO_STREAM("[AwaitingContractRenewal] publishing ack message " << msg_.id);
   publisher_->publish(msg_);
+}
+
+void AwaitingContractRenewal::feedbackCallback(const talmech_msgs::Contract &msg)
+{
+  if (msg.status == status::Aborted)
+  {
+    aborted_ = true;
+  }
+  else if (msg.status == status::Concluded)
+  {
+    concluded_ = true;
+  }
+}
+
+void AwaitingContractRenewal::resultCallback(const talmech_msgs::Contract &msg)
+{
+  if (msg.status == status::Aborted)
+  {
+    aborted_ = true;
+  }
+  else if (msg.status == status::Concluded)
+  {
+    concluded_ = true;
+  }
 }
 }
 }

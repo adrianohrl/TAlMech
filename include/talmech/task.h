@@ -104,6 +104,9 @@ template <class T> struct EvaluateTaskPtr
 };
 typedef Task::Ptr TaskPtr;
 typedef Task::ConstPtr TaskConstPtr;
+typedef std::list<TaskPtr> Tasks;
+typedef Tasks::iterator TasksIt;
+typedef Tasks::const_iterator TasksConstIt;
 }
 
 #endif // _TALMECH_TASK_H_

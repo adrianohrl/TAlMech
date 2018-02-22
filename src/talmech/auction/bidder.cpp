@@ -23,6 +23,10 @@ Bidder::Bidder(const ros::NodeHandlePtr& nh, const std::string& id)
       "/contract/acknowledgment", max_size);
   renewal_sub_ = nh_->subscribe("/contract/renewal", queue_size,
                                 &Bidder::renewalCallback, this);
+  execute_pub_ = nh_->advertise<talmech_msgs::Contract>("contract/execute", max_size);
+  cancel_pub_ = nh_->advertise<talmech_msgs::Contract>("contract/cancel", max_size);
+  feedback_sub_ = nh_->subscribe("contract/feedback", max_size, &Bidder::feedbackCallback, this);
+  result_sub_ = nh_->subscribe("contract/result", max_size, &Bidder::resultCallback, this);
 }
 
 Bidder::Bidder(const std::string& id, const ros::NodeHandlePtr& nh,
@@ -39,6 +43,10 @@ Bidder::Bidder(const std::string& id, const ros::NodeHandlePtr& nh,
       "/contract/acknowledgment", max_size);
   renewal_sub_ = nh_->subscribe("/contract/renewal", queue_size,
                                 &Bidder::renewalCallback, this);
+  execute_pub_ = nh_->advertise<talmech_msgs::Contract>("contract/execute", max_size);
+  cancel_pub_ = nh_->advertise<talmech_msgs::Contract>("contract/cancel", max_size);
+  feedback_sub_ = nh_->subscribe("contract/feedback", max_size, &Bidder::feedbackCallback, this);
+  result_sub_ = nh_->subscribe("contract/result", max_size, &Bidder::resultCallback, this);
 }
 
 Bidder::~Bidder()
@@ -48,6 +56,10 @@ Bidder::~Bidder()
   close_sub_.shutdown();
   acknowledgment_pub_.shutdown();
   renewal_sub_.shutdown();
+  execute_pub_.shutdown();
+  cancel_pub_.shutdown();
+  feedback_sub_.shutdown();
+  result_sub_.shutdown();
 }
 
 bool Bidder::bid(const AuctionPtr& auction, double amount)
@@ -61,6 +73,8 @@ bool Bidder::bid(const AuctionPtr& auction, double amount)
   controller->init();
   controller->registerSubmissionPublisher(&submission_pub_);
   controller->registerAcknowledgmentPublisher(&acknowledgment_pub_);
+  controller->registerExecutePublisher(&execute_pub_);
+  controller->registerCancelPublisher(&cancel_pub_);
   try
   {
     Role::addController(controller);
@@ -110,6 +124,20 @@ void Bidder::renewalCallback(const talmech_msgs::Acknowledgment& msg)
   }
 }
 
+void Bidder::feedbackCallback(const talmech_msgs::Contract &msg)
+{
+  Task task(msg.task);
+  bidding::BiddingControllerPtr controller(getController(task));
+  controller->feedbackCallback(msg);
+}
+
+void Bidder::resultCallback(const talmech_msgs::Contract &msg)
+{
+  Task task(msg.task);
+  bidding::BiddingControllerPtr controller(getController(task));
+  controller->resultCallback(msg);
+}
+
 bidding::BiddingControllerPtr
 Bidder::getController(const std::string& auction) const
 {
@@ -118,6 +146,20 @@ Bidder::getController(const std::string& auction) const
   {
     controller = boost::dynamic_pointer_cast<bidding::BiddingController>(*it);
     if (controller->getAuction()->getId() == auction)
+    {
+      return controller;
+    }
+  }
+  return bidding::BiddingControllerPtr();
+}
+
+bidding::BiddingControllerPtr Bidder::getController(const Task &task) const
+{
+  bidding::BiddingControllerPtr controller;
+  for (ControllersConstIt it(begin()); it != end(); it++)
+  {
+    controller = boost::dynamic_pointer_cast<bidding::BiddingController>(*it);
+    if (*controller->getAuction()->getTask() == task)
     {
       return controller;
     }

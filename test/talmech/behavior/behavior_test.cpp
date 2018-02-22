@@ -12,6 +12,4 @@ TEST(Behavior, TemporalBuffer)
   buffer->update(now + ros::Duration(2.5));
   buffer->update(now + ros::Duration(1.0));
   buffer->update(now + ros::Duration(0.5));
-
-
 }

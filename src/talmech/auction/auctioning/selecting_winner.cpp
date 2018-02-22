@@ -24,6 +24,7 @@ bool SelectingWinner::preProcess()
 
 bool SelectingWinner::process()
 {
+  ROS_WARN("[SelectingWinner::process] selecting winner...");
   auction_->selectWinner();
   std::stringstream ss;
   talmech_msgs::Acknowledgment msg;
