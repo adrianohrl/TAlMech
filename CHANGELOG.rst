@@ -8,6 +8,13 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
+Forthcoming
+-----------
+* first test of report
+* moved agent_node lcation
+* created behavior related classes
+* Contributors: adrianohrl
+
 0.0.12 (2018-02-17)
 -------------------
 * fixed skill comparison
