@@ -8,8 +8,8 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
-Forthcoming
------------
+0.0.13 (2018-02-23)
+-------------------
 * first test of report
 * moved agent_node lcation
 * created behavior related classes
