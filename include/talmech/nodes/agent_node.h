@@ -16,7 +16,7 @@ public:
   typedef boost::shared_ptr<const AgentNode> ConstPtr;
   AgentNode(const ros::NodeHandlePtr& nh,
             const ros::Rate& rate = ros::Rate(20));
-  virtual ~AgentNode() {}
+  virtual ~AgentNode() { task_sub_.shutdown(); }
 protected:
   talmech::AgentPtr agent_;
   virtual void readParameters();

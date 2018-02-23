@@ -1,6 +1,7 @@
 #ifndef _TALMECH_AUCTION_BIDDER_REPORT_H_
 #define _TALMECH_AUCTION_BIDDER_REPORT_H_
 
+#include <boost/shared_ptr.hpp>
 #include <set>
 #include <sstream>
 #include "../../exception.h"
@@ -17,45 +18,67 @@ typedef StringSet::const_iterator StringSetConstIt;
 class BidderReport
 {
 public:
-  BidderReport(const std::string& bidder)
-    : bidder_(bidder), submissions_(0), contracts_(0),
-      abortions_(0), conclusions_(0)
+  typedef boost::shared_ptr<BidderReport> Ptr;
+  typedef boost::shared_ptr<const BidderReport> ConstPtr;
+  BidderReport(const std::string& bidder) : bidder_(bidder)
   {
-    throw Exception("The bidder id must not be null.");
+    if (bidder_.empty())
+    {
+      throw Exception("The bidder id must not be null.");
+    }
   }
   virtual ~BidderReport() {}
   std::string getBidder() const { return bidder_; }
-  std::size_t getSubmissions() const { return submissions_; }
-  std::size_t getContracts() const { return contracts_; }
-  std::size_t getAbortions() const { return abortions_; }
-  std::size_t getConclusions() const { return conclusions_; }
-  void addSubmission(const std::string& submission) { submissions_.insert(submission); }
+  StringSet getSubmissions() const { return submissions_; }
+  StringSet getContracts() const { return contracts_; }
+  StringSet getAbortions() const { return abortions_; }
+  StringSet getConclusions() const { return conclusions_; }
+  void addSubmission(const std::string& submission)
+  {
+    submissions_.insert(submission);
+  }
   void addContract(const std::string& contract) { contracts_.insert(contract); }
   void addAbortion(const std::string& abortion) { abortions_.insert(abortion); }
-  void addConclusion(const std::string& conclusion) { conclusions_.insert(conclusion); }
-  std::string report() const ()
+  void addConclusion(const std::string& conclusion)
+  {
+    conclusions_.insert(conclusion);
+  }
+  std::string report() const
   {
     std::stringstream ss;
     ss << "Bidder: " << bidder_ << "\n";
     ss << "\tSubmissions: " << submissions_.size() << "\n";
-    for (StringSetConstIt it(submissions_.begin()); it != submissions_.end(); it++)
+    for (StringSetConstIt it(submissions_.begin()); it != submissions_.end();
+         it++)
     {
       ss << "\t\t" << *it << "\n";
     }
-    ss << "\tContracts: " << contracts_.size() << " ("  << (contracts_.size() / submissions_.size() * 100) << "%)\n";
-    for (StringSetConstIt it(contracts_.begin()); it != contracts_.end(); it++)
+    if (!submissions_.empty())
     {
-      ss << "\t\t" << *it << "\n";
-    }
-    ss << "\tAbortions: " << abortions_.size() << " ("  << (abortions_.size() / contracts_.size() * 100) << "%)\n";
-    for (StringSetConstIt it(abortions_.begin()); it != abortions_.end(); it++)
-    {
-      ss << "\t\t" << *it << "\n";
-    }
-    ss << "\tConclusions: " << conclusions_.size() << " ("  << (conclusions_.size() / contracts_.size() * 100) << "%)\n";
-    for (StringSetConstIt it(conclusions_.begin()); it != conclusions_.end(); it++)
-    {
-      ss << "\t\t" << *it << "\n";
+      ss << "\tContracts: " << contracts_.size() << " ("
+         << (contracts_.size() / (double)submissions_.size() * 100) << "%)\n";
+      for (StringSetConstIt it(contracts_.begin()); it != contracts_.end();
+           it++)
+      {
+        ss << "\t\t" << *it << "\n";
+      }
+      if (!contracts_.empty())
+      {
+        ss << "\tAbortions: " << abortions_.size() << " ("
+           << (abortions_.size() / (double)contracts_.size() * 100) << "%)\n";
+        for (StringSetConstIt it(abortions_.begin()); it != abortions_.end();
+             it++)
+        {
+          ss << "\t\t" << *it << "\n";
+        }
+        ss << "\tConclusions: " << conclusions_.size() << " ("
+           << (conclusions_.size() / (double)contracts_.size() * 100) << "%)\n";
+        for (StringSetConstIt it(conclusions_.begin());
+             it != conclusions_.end(); it++)
+        {
+          ss << "\t\t" << *it << "\n";
+        }
+      }
     }
     return ss.str();
   }
@@ -66,6 +89,11 @@ public:
     out << report.str();
     return out;
   }
+  bool operator==(const BidderReport& report) const
+  {
+    return bidder_ == report.bidder_;
+  }
+
 private:
   std::string bidder_;
   StringSet submissions_;
@@ -73,6 +101,8 @@ private:
   StringSet abortions_;
   StringSet conclusions_;
 };
+typedef BidderReport::Ptr BidderReportPtr;
+typedef BidderReport::ConstPtr BidderReportConstPtr;
 }
 }
 }
