@@ -3,10 +3,10 @@
 #include "talmech/auction/auctioneer_robot.h"
 #include "talmech/auction/bidder_agent.h"
 #include "talmech/auction/bidder_robot.h"
-#include "talmech/discrete_skill.h"
-#include "talmech/continuous_skill.h"
+#include "talmech/discrete_feature.h"
+#include "talmech/continuous_feature.h"
 #include "talmech/utility/basic/distance_utility.h"
-#include "talmech/utility/basic/skill_utility.h"
+#include "talmech/utility/basic/feature_utility.h"
 
 namespace talmech
 {
@@ -15,6 +15,12 @@ namespace nodes
 AgentNode::AgentNode(const ros::NodeHandlePtr& nh, const ros::Rate& rate)
     : ROSNode::ROSNode(nh, rate)
 {
+}
+
+AgentNode::~AgentNode()
+{
+  task_sub_.shutdown();
+  pose_sub_.shutdown();
 }
 
 void AgentNode::readParameters()
@@ -79,74 +85,75 @@ void AgentNode::readParameters()
       ROS_INFO_STREAM("   ~/utility/expression: " << utility);
     }
   }
-  pnh = ros::NodeHandle("~/skills");
+  pnh = ros::NodeHandle("~/features");
   int size;
   pnh.param("size", size, 0);
-  ROS_INFO_STREAM("   ~/skills/size: " << size);
+  ROS_INFO_STREAM("   ~/features/size: " << size);
   for (int i(0); i < size; i++)
   {
     std::stringstream ss;
-    ss << "skill" << i << "/";
+    ss << "feature" << i << "/";
     std::string resource_id;
     pnh.param(ss.str() + "resource", resource_id, std::string(""));
-    ROS_INFO_STREAM("   ~/skills/skill" << i << "/resource: " << resource_id);
+    ROS_INFO_STREAM("   ~/features/feature" << i << "/resource: " << resource_id);
     ResourcePtr resource(new Resource(resource_id));
     int type;
     pnh.param(ss.str() + "type", type, 0);
-    ROS_INFO_STREAM("   ~/skills/skill" << i << "/type: " << type);
-    SkillPtr skill;
+    ROS_INFO_STREAM("   ~/features/feature" << i << "/type: " << type);
+    FeaturePtr feature;
     if (type == 0)
     {
-      skill.reset(new Skill(resource));
+      feature.reset(new Feature(resource));
     }
     else if (type == 1)
     {
       int level;
       pnh.param(ss.str() + "level", level, 0);
-      ROS_INFO_STREAM("   ~/skills/skill" << i << "/level: " << level);
-      skill.reset(new DiscreteSkill(resource, level));
+      ROS_INFO_STREAM("   ~/features/feature" << i << "/level: " << level);
+      feature.reset(new DiscreteFeature(resource, level));
     }
     else if (type == 2)
     {
       double level;
       pnh.param(ss.str() + "level", level, 0.0);
-      ROS_INFO_STREAM("   ~/skills/skill" << i << "/level: " << level);
-      skill.reset(new ContinuousSkill(resource, level));
+      ROS_INFO_STREAM("   ~/features/feature" << i << "/level: " << level);
+      feature.reset(new ContinuousFeature(resource, level));
     }
     else
     {
-      throw Exception("Invalid type of skill.");
+      throw Exception("Invalid type of feature.");
     }
-    agent_->addSkill(skill);
+    agent_->addFeature(feature);
   }
   utility::UtilityComponentPtr component(
-      agent_->getUtilityComponent("SkillUtility"));
+      agent_->getUtilityComponent("FeatureUtility"));
   if (component)
   {
-    utility::basic::SkillUtilityPtr skill_component(
-        boost::dynamic_pointer_cast<utility::basic::SkillUtility>(
+    utility::basic::FeatureUtilityPtr feature_component(
+        boost::dynamic_pointer_cast<utility::basic::FeatureUtility>(
             component));
-    if (skill_component)
+    if (feature_component)
     {
-      ROS_INFO("Initializing the SkillUtility component...");
+      ROS_INFO("Initializing the FeatureUtility component...");
       std::list<double> correction_factors;
       int size;
       pnh.param("size", size, 0);
       for (int i(0); i < size; i++)
       {
         std::stringstream ss;
-        ss << "skill" << i << "/";
+        ss << "feature" << i << "/";
         double correction_factor;
-        pnh.param(ss.str() + "utility/skill", correction_factor, 1.0);
-        ROS_INFO_STREAM("   ~/skills/skill"
-                        << i << "/utility/skill: " << correction_factor);
+        pnh.param(ss.str() + "utility/feature", correction_factor, 1.0);
+        ROS_INFO_STREAM("   ~/features/feature"
+                        << i << "/utility/feature: " << correction_factor);
         correction_factors.push_back(correction_factor);
       }
-      skill_component->init(*agent_, correction_factors);
+      feature_component->init(*agent_, correction_factors);
     }
   }
   if (agent_type == "robot")
   {
+    pose_sub_ = nh_->subscribe("pose", 1, &AgentNode::poseCallback, this);
     component = agent_->getUtilityComponent("DistanceUtility");
     if (component)
     {
@@ -166,6 +173,12 @@ void AgentNode::readParameters()
       }
     }
   }
+}
+
+void AgentNode::poseCallback(const geometry_msgs::Pose &pose)
+{
+  talmech::RobotPtr robot(boost::dynamic_pointer_cast<Robot>(agent_));
+  robot->setPose(pose);
 }
 }
 }

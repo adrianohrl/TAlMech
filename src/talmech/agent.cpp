@@ -4,7 +4,7 @@
 namespace talmech
 {
 Agent::Agent(const std::string &id, const utility::UtilityPtr &utility, const RolePtr &role)
-  : id_(id), utility_(utility), role_(role), skills_(SkillsPtr(new Skills()))
+  : id_(id), utility_(utility), role_(role), features_(FeaturesPtr(new Features()))
 {
   if (id_.empty())
   {

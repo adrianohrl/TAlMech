@@ -1,12 +1,12 @@
 #include "talmech/exception.h"
 #include "talmech/task.h"
-#include "talmech/continuous_skill.h"
-#include "talmech/discrete_skill.h"
+#include "talmech/continuous_feature.h"
+#include "talmech/discrete_feature.h"
 
 namespace talmech
 {
-Task::Task(const std::string& id, const Path& waypoints, const Skills& skills)
-    : id_(id), waypoints_(new Path(waypoints)), skills_(skills)
+Task::Task(const std::string& id, const Path& waypoints, const Features& features)
+    : id_(id), waypoints_(new Path(waypoints)), features_(features)
 {
   if (id_.empty())
   {
@@ -16,7 +16,7 @@ Task::Task(const std::string& id, const Path& waypoints, const Skills& skills)
 
 Task::Task(const Task& task)
     : id_(task.id_), waypoints_(new nav_msgs::Path(*task.waypoints_)),
-      skills_(task.skills_)
+      features_(task.features_)
 {
 }
 
@@ -27,27 +27,27 @@ Task::Task(const talmech_msgs::Task& msg)
   {
     throw Exception("The task id must not be empty.");
   }
-  for (std::size_t i(0); i < msg.skills.size(); i++)
+  for (std::size_t i(0); i < msg.features.size(); i++)
   {
-    talmech_msgs::Skill skill_msg(msg.skills[i]);
-    SkillPtr skill;
-    if (skill_msg.type == 0)
+    talmech_msgs::Feature feature_msg(msg.features[i]);
+    FeaturePtr feature;
+    if (feature_msg.type == 0)
     {
-      skill.reset(new Skill(skill_msg));
+      feature.reset(new Feature(feature_msg));
     }
-    else if (skill_msg.type == 1)
+    else if (feature_msg.type == 1)
     {
-      skill.reset(new DiscreteSkill(skill_msg));
+      feature.reset(new DiscreteFeature(feature_msg));
     }
-    else if (skill_msg.type == 2)
+    else if (feature_msg.type == 2)
     {
-      skill.reset(new ContinuousSkill(skill_msg));
+      feature.reset(new ContinuousFeature(feature_msg));
     }
     else
     {
-      throw Exception("Invalid Skill ROS message type.");
+      throw Exception("Invalid Feature ROS message type.");
     }
-    skills_.push_back(skill);
+    features_.push_back(feature);
   }
 }
 }

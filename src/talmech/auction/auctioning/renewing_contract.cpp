@@ -34,6 +34,7 @@ bool RenewingContract::postProcess()
 {
   if (auction_->hasAborted() && auction_->isReauctionAllowed())
   {
+    ROS_WARN_STREAM("[RenewingContract::postProcess] reauctioning " << *auction_ << "...");
     auction_->restart();
   }
   return MachineState::postProcess();

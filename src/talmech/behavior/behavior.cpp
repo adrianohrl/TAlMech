@@ -19,7 +19,7 @@ Behavior::Behavior(const std::string &id, const TaskPtr &task, const std::string
 }
 
 Behavior::Behavior(const talmech_msgs::Behavior &msg)
-  : id_(msg.id), agent_id_(msg.agent_id), task_(new Task(msg.task))
+  : id_(msg.id), agent_id_(msg.agent), task_(new Task(msg.task))
 {
 }
 }

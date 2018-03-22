@@ -30,6 +30,7 @@ bool MachineState::postProcess()
 
 void MachineState::reset()
 {
+  ROS_FATAL_STREAM("[MachineState::reset] reseting " << *this << "...");
   pre_processed_ = false;
   processed_ = false;
   post_processed_ = false;

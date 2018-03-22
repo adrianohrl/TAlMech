@@ -41,7 +41,11 @@ public:
   Auction(const Auction& auction);
   virtual ~Auction() {}
   virtual void start();
-  virtual void clear() { bids_.clear(); }
+  virtual void clear()
+  {
+    ROS_FATAL_STREAM("[Auction::clear] Clearing auction " << *this << "...");
+    bids_.clear();
+  }
   virtual void submit(const Bid& bid);
   virtual void close();
   virtual void selectWinner();

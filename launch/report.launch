@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <node name="report_node" pkg="talmech" type="report_node" output="screen" launch-prefix="valgrind">
+  <node name="report_node" pkg="talmech" type="report_node" output="screen">
     <param name="report_rate" type="double" value="0.025" />
   </node>
 </launch>

@@ -2,9 +2,9 @@
 #include <ros/console.h>
 #include "talmech/utility/basic/basic_utility_factory.h"
 #include "talmech/utility/basic/distance_utility.h"
-#include "talmech/utility/basic/skill_utility.h"
-#include "talmech/continuous_skill.h"
-#include "talmech/discrete_skill.h"
+#include "talmech/utility/basic/feature_utility.h"
+#include "talmech/continuous_feature.h"
+#include "talmech/discrete_feature.h"
 
 using namespace talmech;
 using namespace talmech::utility;

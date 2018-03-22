@@ -16,19 +16,15 @@ void MachineController::process()
           "The initial state was not defined during initialization.");
     }
   }
-  if (!current_->isPreProcessed())
+  if (!current_->isPreProcessed() && !current_->preProcess())
   {
-    current_->preProcess();
+    return;
   }
-  else if (!current_->isProcessed())
+  if (!current_->isProcessed() && !current_->process())
   {
-    current_->process();
+    return;
   }
-  else if (!current_->isPostProcessed())
-  {
-    current_->postProcess();
-  }
-  else
+  if (!current_->isPostProcessed() && current_->postProcess())
   {
     std::string previous(current_->str());
     setCurrentState(current_->getNext());

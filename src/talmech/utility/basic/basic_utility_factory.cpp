@@ -1,6 +1,6 @@
 #include "talmech/utility/basic/basic_utility_factory.h"
 #include "talmech/utility/basic/distance_utility.h"
-#include "talmech/utility/basic/skill_utility.h"
+#include "talmech/utility/basic/feature_utility.h"
 
 namespace talmech
 {
@@ -20,9 +20,9 @@ BasicUtilityFactory::getComponent(const std::string& expression,
   {
     utility.reset(new DistanceUtility(component));
   }
-  else if (SkillUtility::hasBeenRequested(expression))
+  else if (FeatureUtility::hasBeenRequested(expression))
   {
-    utility.reset(new SkillUtility(component));
+    utility.reset(new FeatureUtility(component));
   }
   return utility;
 }

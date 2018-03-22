@@ -18,6 +18,7 @@ public:
            const std::string& agent_id, const MotivationComponentPtr motivation);
   Behavior(const talmech_msgs::Behavior& msg);
   virtual ~Behavior() {}
+  virtual void process() = 0;
   std::string getId() const { return id_; }
   TaskPtr getTask() const { return task_; }
   bool isActive() const { return motivation_ ? motivation_->isActive() : false; }
@@ -34,13 +35,13 @@ public:
     msg.timestamp = ros::Time::now();
     msg.id = id_;
     msg.task = task_->toMsg();
-    msg.agent_id = agent_id_;
+    msg.agent = agent_id_;
     return msg;
   }
   virtual void operator=(const talmech_msgs::Behavior& msg)
   {
     id_ = msg.id;
-    agent_id_ = msg.agent_id;
+    agent_id_ = msg.agent;
     *task_ = msg.task;
   }
   virtual bool operator==(const Behavior& behavior) const

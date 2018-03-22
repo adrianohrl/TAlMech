@@ -5,7 +5,7 @@
 #include <boost/shared_ptr.hpp>
 #include "to_msg.h"
 #include <talmech_msgs/Task.h>
-#include "skill.h"
+#include "feature.h"
 
 namespace talmech
 {
@@ -18,28 +18,28 @@ typedef boost::shared_ptr<const Waypoint> WaypointConstPtr;
 typedef std::vector<Waypoint> Waypoints;
 typedef Waypoints::iterator WaypointsIt;
 typedef Waypoints::const_iterator WaypointsConstIt;
-typedef std::list<SkillPtr> Skills;
-typedef boost::shared_ptr<Skills> SkillsPtr;
-typedef boost::shared_ptr<const Skills> SkillsConstPtr;
-typedef Skills::iterator SkillsIt;
-typedef Skills::const_iterator SkillsConstIt;
+typedef std::list<FeaturePtr> Features;
+typedef boost::shared_ptr<Features> FeaturesPtr;
+typedef boost::shared_ptr<const Features> FeaturesConstPtr;
+typedef Features::iterator FeaturesIt;
+typedef Features::const_iterator FeaturesConstIt;
 class Task : public ToMsg<talmech_msgs::Task>
 {
 public:
   typedef boost::shared_ptr<Task> Ptr;
   typedef boost::shared_ptr<const Task> ConstPtr;
-  Task(const std::string& id, const Path& waypoints = Path(), const Skills& skills = Skills());
+  Task(const std::string& id, const Path& waypoints = Path(), const Features& features = Features());
   Task(const Task& task);
   Task(const talmech_msgs::Task& msg);
   virtual ~Task() {}
   std::string getId() const { return id_; }
-  Skills getSkills() const { return skills_; }
-  bool emptySkills() const { return skills_.empty(); }
-  std::size_t sizeSkills() const { return skills_.size(); }
-  SkillsIt beginSkills() { return skills_.begin(); }
-  SkillsConstIt beginSkills() const { return skills_.begin(); }
-  SkillsIt endSkills() { return skills_.end(); }
-  SkillsConstIt endSkills() const { return skills_.end(); }
+  Features getFeatures() const { return features_; }
+  bool emptyFeatures() const { return features_.empty(); }
+  std::size_t sizeFeatures() const { return features_.size(); }
+  FeaturesIt beginFeatures() { return features_.begin(); }
+  FeaturesConstIt beginFeatures() const { return features_.begin(); }
+  FeaturesIt endFeatures() { return features_.end(); }
+  FeaturesConstIt endFeatures() const { return features_.end(); }
   PathPtr getWaypoints() const { return waypoints_; }
   bool emptyWaypoints() const { return waypoints_->poses.empty(); }
   std::size_t sizeWaypoints() const { return waypoints_->poses.size(); }
@@ -51,9 +51,9 @@ public:
   {
     waypoints_->poses.push_back(waypoint);
   }
-  void addSkill(const SkillPtr& skill)
+  void addFeature(const FeaturePtr& feature)
   {
-    skills_.push_back(skill);
+    features_.push_back(feature);
   }
   std::string str() const { return id_; }
   const char* c_str() const { return str().c_str(); }
@@ -69,10 +69,10 @@ public:
     talmech_msgs::Task msg;
     msg.id = id_;
     msg.waypoints = *waypoints_;
-    for (SkillsConstIt it(skills_.begin()); it != skills_.end(); it++)
+    for (FeaturesConstIt it(features_.begin()); it != features_.end(); it++)
     {
-      SkillPtr skill(*it);
-      msg.skills.push_back(skill->toMsg());
+      FeaturePtr feature(*it);
+      msg.features.push_back(feature->toMsg());
     }
     return msg;
   }
@@ -80,22 +80,22 @@ public:
   {
     id_ = task.id_;
     *waypoints_ = *task.waypoints_;
-    skills_ = task.skills_;
+    features_ = task.features_;
   }
   virtual void operator=(const talmech_msgs::Task& msg)
   {
     id_ = msg.id;
     *waypoints_ = msg.waypoints;
-    skills_.clear();
-    for (std::size_t i(0); i < msg.skills.size(); i++)
+    features_.clear();
+    for (std::size_t i(0); i < msg.features.size(); i++)
     {
-      SkillPtr skill(new Skill(msg.skills[i]));
-      skills_.push_back(skill);
+      FeaturePtr feature(new Feature(msg.features[i]));
+      features_.push_back(feature);
     }
   }
 private:
   std::string id_;
-  Skills skills_;
+  Features features_;
   PathPtr waypoints_;
 };
 template <class T> struct EvaluateTaskPtr

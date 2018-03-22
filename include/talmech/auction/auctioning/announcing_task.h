@@ -18,7 +18,7 @@ public:
   AnnouncingTask(const AuctioningControllerPtr& controller);
   virtual ~AnnouncingTask() { publisher_ = NULL; }
   virtual bool preProcess();
-  virtual bool process();
+  virtual bool process();  
   virtual int getNext() const { return states::AwaitingAuctionDeadline; }
   void registerAnnouncementPublisher(ros::Publisher* publisher)
   {

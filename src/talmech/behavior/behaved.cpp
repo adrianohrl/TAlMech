@@ -27,13 +27,21 @@ void Behaved::process()
   {
     active_behavior_.reset();
   }
-  for (BehaviorsIt it(behaviors_.begin()); it != behaviors_.end(); it++)
+  if (!active_behavior_)
   {
-    BehaviorPtr behavior(*it);
-    if (behavior->isActive())
+    for (BehaviorsIt it(behaviors_.begin()); it != behaviors_.end(); it++)
     {
-      active_behavior_ = behavior;
+      BehaviorPtr behavior(*it);
+      if (behavior->isActive())
+      {
+        active_behavior_ = behavior;
+        break;
+      }
     }
+  }
+  if (active_behavior_)
+  {
+    active_behavior_->process();
   }
 }
 }

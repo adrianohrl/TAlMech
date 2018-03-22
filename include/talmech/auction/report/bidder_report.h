@@ -48,36 +48,36 @@ public:
     std::stringstream ss;
     ss << "Bidder: " << bidder_ << "\n";
     ss << "\tSubmissions: " << submissions_.size() << "\n";
-    for (StringSetConstIt it(submissions_.begin()); it != submissions_.end();
+    /*for (StringSetConstIt it(submissions_.begin()); it != submissions_.end();
          it++)
     {
       ss << "\t\t" << *it << "\n";
-    }
+    }*/
     if (!submissions_.empty())
     {
       ss << "\tContracts: " << contracts_.size() << " ("
          << (contracts_.size() / (double)submissions_.size() * 100) << "%)\n";
-      for (StringSetConstIt it(contracts_.begin()); it != contracts_.end();
+      /*for (StringSetConstIt it(contracts_.begin()); it != contracts_.end();
            it++)
       {
         ss << "\t\t" << *it << "\n";
-      }
+      }*/
       if (!contracts_.empty())
       {
         ss << "\tAbortions: " << abortions_.size() << " ("
            << (abortions_.size() / (double)contracts_.size() * 100) << "%)\n";
-        for (StringSetConstIt it(abortions_.begin()); it != abortions_.end();
+        /*for (StringSetConstIt it(abortions_.begin()); it != abortions_.end();
              it++)
         {
           ss << "\t\t" << *it << "\n";
-        }
+        }*/
         ss << "\tConclusions: " << conclusions_.size() << " ("
            << (conclusions_.size() / (double)contracts_.size() * 100) << "%)\n";
-        for (StringSetConstIt it(conclusions_.begin());
+        /*for (StringSetConstIt it(conclusions_.begin());
              it != conclusions_.end(); it++)
         {
           ss << "\t\t" << *it << "\n";
-        }
+        }*/
       }
     }
     return ss.str();

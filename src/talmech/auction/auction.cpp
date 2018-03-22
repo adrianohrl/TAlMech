@@ -64,6 +64,8 @@ void Auction::submit(const Bid& bid)
       {
         return;
       }
+      ROS_INFO_STREAM("Erasing " << bid.getBidder() << "'s bid for " << id_
+                                   << "...");
       bids_.erase(it);
       break;
     }
@@ -150,6 +152,7 @@ void Auction::restart()
   ROS_INFO_STREAM("Restarting " << id_ << "...");
   // what about the reserve price, it is not the same thing
   start_timestamp_ = ros::Time::now();
+  ROS_ERROR_STREAM("[Auction::restart] clearing bids...");
   bids_.clear();
   close_timestamp_ = ros::Time();
   winner_.clear();
@@ -209,6 +212,7 @@ void Auction::operator=(const talmech_msgs::Auction& msg)
   renewal_deadline_ = !close_timestamp_.isZero()
                           ? close_timestamp_ + renewal_rate_.expectedCycleTime()
                           : ros::Time();
+  ROS_ERROR_STREAM("[Auction::operator=] clearing bids...");
   bids_.clear();
   winner_.clear();
   sorted_insertion_ = true;

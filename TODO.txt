@@ -1,13 +1,3 @@
-(auctioneer) auction abort
-(auctioneer) auction cancel
-(auctioneer) auction conclude
-(bidder) task abort
-(bidder) task conclude
+(behavior monitor) criar uma especie de matriz dinâmica dos agentes: (tempo versus comportamento)
 
-(auctioneer) reset reserve price evaluate when restarting auction
 
-(utility) read parameters
-(utility) initialization
-
-(random generator)
-(task generator)

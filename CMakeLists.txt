@@ -48,8 +48,8 @@ set(CPP_FILES
   src/talmech/behavior/behaved.cpp
   src/talmech/behavior/behavior.cpp
   src/talmech/behavior/temporal_buffer.cpp
-  src/talmech/continuous_skill.cpp
-  src/talmech/discrete_skill.cpp
+  src/talmech/continuous_feature.cpp
+  src/talmech/discrete_feature.cpp
   src/talmech/exception.cpp
   src/talmech/machine_controller.cpp
   src/talmech/machine_state.cpp
@@ -60,7 +60,7 @@ set(CPP_FILES
   src/talmech/task.cpp
   src/talmech/utility/basic/basic_utility_factory.cpp
   src/talmech/utility/basic/distance_utility.cpp
-  src/talmech/utility/basic/skill_utility.cpp
+  src/talmech/utility/basic/feature_utility.cpp
   src/talmech/utility/utility_factory.cpp
 )
 
@@ -96,9 +96,9 @@ set(H_FILES
   include/talmech/behavior/motivation_decorator.h
   include/talmech/behavior/temporal_buffer.h
   include/talmech/comparator.h
-  include/talmech/continuous_skill.h
+  include/talmech/continuous_feature.h
   include/talmech/controller.h
-  include/talmech/discrete_skill.h
+  include/talmech/discrete_feature.h
   include/talmech/exception.h
   include/talmech/machine_controller.h
   include/talmech/machine_state.h
@@ -106,13 +106,13 @@ set(H_FILES
   include/talmech/resource.h
   include/talmech/robot.h
   include/talmech/role.h
-  include/talmech/skill.h
+  include/talmech/feature.h
   include/talmech/task.h
   include/talmech/to_msg.h
   include/talmech/utility/basic/basic_utility.h
   include/talmech/utility/basic/basic_utility_factory.h
   include/talmech/utility/basic/distance_utility.h
-  include/talmech/utility/basic/skill_utility.h
+  include/talmech/utility/basic/feature_utility.h
   include/talmech/utility/utility.h
   include/talmech/utility/utility_component.h
   include/talmech/utility/utility_decorator.h
