@@ -8,6 +8,11 @@ Changelog for package talmech
 * created package
 * Contributors: adrianohrl
 
+Forthcoming
+-----------
+* changed skill for feature
+* Contributors: adrianohrl
+
 0.0.13 (2018-02-23)
 -------------------
 * first test of report
