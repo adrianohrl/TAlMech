@@ -1,0 +1,9 @@
+string id
+string auctioneer
+talmech_msgs/Task task
+float64 reserve_price
+time start_timestamp
+duration expected_duration
+time expected_close_timestamp
+float64 expected_renewal_rate
+

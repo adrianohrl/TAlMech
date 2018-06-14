@@ -1,3 +1,0 @@
-(behavior monitor) criar uma especie de matriz dinâmica dos agentes: (tempo versus comportamento)
-
-
